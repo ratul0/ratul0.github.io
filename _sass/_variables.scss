@@ -37,10 +37,10 @@ $avatar: "https://raw.githubusercontent.com/ratul0/ratul0.github.io/master/image
 
 
 // Font stacks
-$helvetica: "Indie Flower", Helvetica, Arial, sans-serif;
-$helveticaNeue: "Helvetica Neue", Helvetica, Arial, sans-serif;
-$raleway: "Indie Flower","Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
-$georgia: "Indie Flower",Georgia, serif;
+$helvetica: "Roboto", Helvetica, Arial, sans-serif;
+$helveticaNeue: "Roboto","Helvetica Neue", Helvetica, Arial, sans-serif;
+$raleway: "Raleway", "Helvetica Neue", Helvetica, Arial, sans-serif;
+$georgia: "Roboto",Georgia, serif;
 
 // Mobile breakpoints
 @mixin mobile {

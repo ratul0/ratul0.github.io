@@ -18,7 +18,7 @@ Co-Founder, <a href="https://infancyit.com/" target="_blank">InfancyIT</a>
 
 ## Skills
 
-* **Languages** - `Java` / `PHP` / `Javascript` / `HTML` / `CSS`
+* **Languages** - `Java` / `PHP` / `Javascript` / `HTML` / `CSS` / `MySQL`
 * **Backend Frameworks** - `Laravel` / `Spring Boot` / `Express.js`
 * **Frontend Frameworks** - `Reactjs` / `Vuejs`
 * **IDE/Editors** - `PhpStorm` / `WebStorm` / `Spring Tool Suite` / `VS Code` / `Sublime`

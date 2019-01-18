@@ -14,7 +14,7 @@ Will write something soon..
 
 ## Roles
 
-Co-Founder, <a href="https://infancyit.com/" target="_blank">InfancyIT</a>
+Co-Founder, <a href="https://infancyit.com/" target="_blank" rel="noreferrer">InfancyIT</a>
 
 ## Skills
 

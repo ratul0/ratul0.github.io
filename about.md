@@ -16,11 +16,11 @@ I am currently pursuing my master's degree in Software System Science at Otto-Fr
 
 ## Experience
 
-### Software Engineer at *InfancyIT*
+#### Software Engineer at *InfancyIT*
 
-### Software Engineer at *Vivacom Solutions Ltd*
+#### Software Engineer at *Vivacom Solutions Ltd*
 
-### Junior Software Engineer at *InfancyIT*
+#### Junior Software Engineer at *InfancyIT*
 
 ## Skills
 

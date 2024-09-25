@@ -22,4 +22,3 @@ This project is open source and available under the [MIT License](LICENSE).
 Feel free to reach out to me:
 
 - Email: ratulcse27@gmail.com
-- LinkedIn: [Your LinkedIn Profile]

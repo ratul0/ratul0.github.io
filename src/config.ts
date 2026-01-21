@@ -2,7 +2,10 @@ export const siteConfig = {
   name: "Md Yousuf Ali Khan",
   title: "Full Stack Software Engineer",
   description: "Full Stack Software Engineer with 7 years of experience in logistics, healthcare, and e-commerce",
-  accentColor: "#0284c7",
+  accentColor: "#0f4c5c",
+  // Add your profile image URL here (relative to /public folder or absolute URL)
+  // Example: "/profile.jpg" or "https://example.com/profile.jpg"
+  profileImage: "", // Leave empty to use placeholder
   social: {
     email: "ratulcse27@gmail.com",
     linkedin: "https://www.linkedin.com/in/ratul20/",

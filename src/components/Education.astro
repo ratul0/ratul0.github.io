@@ -1,54 +1,48 @@
 ---
 import { siteConfig } from "../config";
+
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 ---
 
 {
   hasEducation && (
-    <section id="education" class="p-8 sm:p-12 md:p-16 lg:p-24">
-      <div>
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-          <div class="lg:col-span-4">
-            <h2 class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900">
-              Education
-            </h2>
-            <div
-              class="w-[75px] h-[5px] mt-2 rounded-full"
-              style={`background-color: ${siteConfig.accentColor}`}
-            />
+    <section id="education" class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16">
+      <!-- Section number -->
+      <span class="section-number top-8 right-8 md:top-12 md:right-16">05</span>
+
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+          <!-- Left column - Sticky header -->
+          <div class="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
+            <div class="space-y-4">
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                Education
+              </h2>
+              <div class="h-1 w-24 bg-[var(--theme-accent)]"></div>
+            </div>
           </div>
 
+          <!-- Right column - Education list -->
           <div class="lg:col-span-8">
             <div class="space-y-8">
-              {siteConfig.education.map((edu) => (
-                <div class="bg-white rounded-lg shadow-sm border border-gray-100 p-4 sm:p-5 md:p-6 hover:shadow-md transition-shadow duration-300">
-                  <div class="flex flex-col sm:flex-row sm:items-start sm:justify-between mb-4">
-                    <div>
-                      <h3 class="text-lg sm:text-xl font-semibold text-gray-900">
-                        {edu.degree}
-                      </h3>
-                      <p
-                        class="text-base sm:text-lg"
-                        style={`color: ${siteConfig.accentColor}`}
-                      >
-                        {edu.school}
-                      </p>
-                    </div>
-                    <span class="text-xs sm:text-sm text-gray-500 mt-2 sm:mt-0">
+              {siteConfig.education.map((edu, index) => (
+                <div>
+                  <div class="space-y-2">
+                    <h3 class="text-xl md:text-2xl font-semibold text-[var(--theme-accent)]">
+                      {edu.school}
+                    </h3>
+                    <p class="text-base md:text-lg text-[var(--theme-text-primary)]">
+                      {edu.degree}
+                    </p>
+                    <p class="text-xs font-light uppercase tracking-widest text-[var(--theme-text-secondary)]">
                       {edu.dateRange}
-                    </span>
+                    </p>
                   </div>
 
-                  <ul class="space-y-2">
-                    {edu.achievements.map((achievement) => (
-                      <li class="flex items-start">
-                        <span class="inline-block w-1.5 h-1.5 rounded-full bg-gray-400 mt-2 mr-3 flex-shrink-0" />
-                        <span class="text-sm sm:text-base text-gray-600">
-                          {achievement}
-                        </span>
-                      </li>
-                    ))}
-                  </ul>
+                  <!-- Separator (not after last item) -->
+                  {index < siteConfig.education.length - 1 && (
+                    <hr class="mt-8 border-t border-[var(--theme-border)]" />
+                  )}
                 </div>
               ))}
             </div>

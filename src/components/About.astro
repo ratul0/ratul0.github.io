@@ -1,37 +1,97 @@
 ---
 import { siteConfig } from "../config";
+
+// Group skills by category
+const backendSkills = siteConfig.skills.filter((s) =>
+  ["Spring Boot", "Kafka", "PostgreSQL", "Laravel", "Mockito", "Jest"].includes(
+    s,
+  ),
+);
+
+const frontendSkills = siteConfig.skills.filter((s) =>
+  ["TypeScript", "Angular", "NextJs", "Tanstack Start"].includes(s),
+);
+
+const toolsSkills = siteConfig.skills.filter((s) =>
+  ["Docker", "AWS", "CI/CD"].includes(s),
+);
 ---
 
-<section id="about" class="p-8 sm:p-12 md:p-16 lg:p-24">
-  <div>
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-8 lg:gap-16 items-start">
-      <div class="lg:col-span-4">
-        <h2
-          class="text-3xl sm:text-4xl md:text-5xl xl:text-7xl font-bold text-gray-900"
-        >
-          About Me
-        </h2>
-        <div
-          class="w-[75px] h-[5px] mt-2 rounded-full"
-          style={`background-color: ${siteConfig.accentColor}`}
-        >
+<section id="about" class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16">
+  <!-- Section number -->
+  <span class="section-number top-8 right-8 md:top-12 md:right-16">02</span>
+
+  <div class="max-w-6xl mx-auto">
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
+      <!-- Left column - Sticky header -->
+      <div class="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
+        <div class="space-y-4">
+          <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+            About
+          </h2>
+          <div class="h-1 w-24 bg-[var(--theme-accent)]"></div>
         </div>
       </div>
 
-      <div class="lg:col-span-8 space-y-8">
-        <p class="text-lg sm:text-xl md:text-2xl leading-relaxed text-gray-600">
-          {siteConfig.aboutMe}
-        </p>
+      <!-- Right column - Content -->
+      <div class="lg:col-span-8 space-y-12">
+        <!-- Bio -->
+        <div class="space-y-4">
+          <p
+            class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-light"
+          >
+            {siteConfig.aboutMe}
+          </p>
+        </div>
 
-        <div class="pt-4">
-          <div class="flex flex-wrap gap-3">
-            {
-              siteConfig.skills.map((skill) => (
-                <span class="px-3 sm:px-4 py-1.5 sm:py-2 bg-gray-100 text-gray-800 rounded-full text-sm sm:text-base md:text-lg font-medium hover:bg-gray-200 transition-colors duration-200">
-                  {skill}
-                </span>
-              ))
-            }
+        <!-- Skills grouped by category -->
+        <div class="space-y-10 pt-4">
+          <!-- Backend -->
+          <div>
+            <p
+              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
+            >
+              Backend
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {
+                backendSkills.map((skill) => (
+                  <span class="skill-pill">{skill}</span>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Frontend -->
+          <div>
+            <p
+              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
+            >
+              Frontend
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {
+                frontendSkills.map((skill) => (
+                  <span class="skill-pill">{skill}</span>
+                ))
+              }
+            </div>
+          </div>
+
+          <!-- Tools & Infrastructure -->
+          <div>
+            <p
+              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
+            >
+              Tools & Infrastructure
+            </p>
+            <div class="flex flex-wrap gap-2">
+              {
+                toolsSkills.map((skill) => (
+                  <span class="skill-pill">{skill}</span>
+                ))
+              }
+            </div>
           </div>
         </div>
       </div>

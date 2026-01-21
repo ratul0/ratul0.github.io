@@ -1,92 +1,51 @@
 export const siteConfig = {
-  name: "Ryan Fitzgerald",
-  title: "Senior Software Engineer",
-  description: "Portfolio website of Ryan Fitzgerald",
-  accentColor: "#1d4ed8",
+  name: "Md Yousuf Ali Khan",
+  title: "Full Stack Software Engineer",
+  description: "Full Stack Software Engineer with 7 years of experience in logistics, healthcare, and e-commerce",
+  accentColor: "#0284c7",
   social: {
-    email: "your-email@example.com",
-    linkedin: "https://linkedin.com/in/yourprofile",
-    twitter: "https://x.com/rfitzio",
-    github: "https://github.com/RyanFitzgerald",
+    email: "ratulcse27@gmail.com",
+    linkedin: "https://www.linkedin.com/in/ratul20/",
   },
   aboutMe:
-    "Lorem ipsum dolor sit amet, consectetur adipisicing elit. Rem quos asperiores nihil consequatur tempore cupiditate architecto natus commodi corrupti quas quasi facere est, dignissimos odit nam veniam sapiente ut, vitae eligendi ipsum dolor, nostrum ullam impedit! Corrupti ratione mollitia temporibus necessitatibus, consectetur reiciendis recusandae id, dolorum quaerat, vero pariatur. Ratione!",
-  skills: ["Javascript", "React", "Node.js", "Python", "AWS", "Docker"],
-  projects: [
-    {
-      name: "AI Dev Roundup Newsletter",
-      description:
-        "One concise email. Five minutes. Every Tuesday. Essential AI news & trends, production-ready libraries, powerful AI tools, and real-world code examples",
-      link: "https://aidevroundup.com/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
-    },
-    {
-      name: "Chrome Extension Mastery: Build Full-Stack Extensions with React & Node.js",
-      description:
-        "Master the art of building production-ready, full-stack Chrome Extensions using modern web technologies and best practices",
-      link: "https://fullstackextensions.com/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
-    },
-    {
-      name: "ExtensionKit",
-      description:
-        "Kit to jump-start your Chrome extension projects with a variety of battle-tested starter templates & examples",
-      link: "https://extensionkit.io/?ref=devportfolio",
-      skills: ["React", "Node.js", "AWS"],
-    },
+    "I am a Full Stack Software Engineer with seven years of experience across logistics, healthcare, and e-commerce. I specialize in turning complex business needs into clean, scalable code by ensuring technical implementations directly reflect and solve core stakeholder challenges. I am deeply passionate about problem-solving and focus on listening to what users actually need to build systems that solve real-world problems.",
+  skills: ["Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Angular", "NextJs", "Tanstack Start", "Laravel", "Docker", "AWS", "CI/CD","Mockito","Jest"
   ],
+  projects: [],
   experience: [
     {
-      company: "Tech Company",
-      title: "Senior Software Engineer",
-      dateRange: "Jan 2022 - Present",
+      company: "Kuehne+Nagel",
+      title: "Software Engineer",
+      dateRange: "July 2022 - Present",
       bullets: [
-        "Led development of microservices architecture serving 1M+ users",
-        "Reduced API response times by 40% through optimization",
-        "Mentored team of 5 junior developers",
+        "Spearheaded the end-to-end migration of a legacy pharmaceutical monitoring system to a unified web dashboard, replacing manual Excel workflows and significantly reducing monitoring gaps for high-value cargo.",
+        "Engineered a full-stack, event-driven architecture using Spring Boot, Kafka, and Angular to process high-velocity shipment data, providing 24/7 real-time tracking and streamlined workflows for the \"Air Logistics\" module.",
+        "Architected modular components for future global expansion into Sea and Road logistics while improving current operational efficiency, enabling operators to manage shipments end-to-end within the new software.",
       ],
     },
     {
-      company: "Startup Inc",
-      title: "Full Stack Developer",
-      dateRange: "Jun 2020 - Dec 2021",
+      company: "Method Park by UL",
+      title: "Software Engineer",
+      dateRange: "August 2019 - July 2022",
       bullets: [
-        "Built and launched MVP product from scratch using React and Node.js",
-        "Implemented CI/CD pipeline reducing deployment time by 60%",
-        "Collaborated with product team to define technical requirements",
-      ],
-    },
-    {
-      company: "Digital Agency",
-      title: "Frontend Developer",
-      dateRange: "Aug 2018 - May 2020",
-      bullets: [
-        "Developed responsive web applications for 20+ clients",
-        "Improved site performance scores by 35% on average",
-        "Introduced modern JavaScript frameworks to legacy codebases",
+        "Architected and developed an AI-integrated web platform using Angular and Laravel to assist orthopedic surgeons in analyzing X-ray reports.",
+        "Reduced diagnostic analysis time by implementing features that allowed doctors to highlight and annotate specific report sections based on AI-driven anomaly detection.",
+        "Enhanced clinical decision-making by building a system that flags missed details in reports, ensuring higher accuracy in post-operative recovery monitoring.",
       ],
     },
   ],
   education: [
     {
-      school: "University Name",
-      degree: "Bachelor of Science in Computer Science",
-      dateRange: "2014 - 2018",
-      achievements: [
-        "Graduated Magna Cum Laude with 3.8 GPA",
-        "Dean's List all semesters",
-        "President of Computer Science Club",
-      ],
+      school: "Otto-Friedrich-Universität Bamberg",
+      degree: "Master's degree - M.Sc. Software System Science",
+      dateRange: "April 2019 - June 2022",
+      achievements: [],
     },
     {
-      school: "Online Platform",
-      degree: "Full Stack Development Certificate",
-      dateRange: "2019",
-      achievements: [
-        "Completed 500+ hours of coursework",
-        "Built 10+ portfolio projects",
-        "Specialized in React and Node.js",
-      ],
+      school: "Shahjalal University of Science and Technology",
+      degree: "Bachelor of Engineering - Computer Engineering",
+      dateRange: "January 2011 - June 2015",
+      achievements: [],
     },
   ],
 };

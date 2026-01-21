@@ -5,6 +5,13 @@ import { siteConfig } from "../config";
 const getCurrentYear = new Date().getFullYear();
 const startYear = 2019; // From your experience: August 2019 - July 2022 was your first role
 const yearsOfExperience = getCurrentYear - startYear;
+
+const status = {
+  availability: "Open to opportunities",
+  experience: `${yearsOfExperience}+ years`,
+  location: "Remote / Worldwide",
+  response_time: "<24 hours",
+};
 ---
 
 <footer
@@ -17,7 +24,9 @@ const yearsOfExperience = getCurrentYear - startYear;
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
       <!-- Left: CTA Section -->
       <div class="lg:col-span-7 space-y-8">
-        <p class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[var(--theme-text-primary)] leading-tight mb-6">
+        <p
+          class="text-2xl md:text-3xl lg:text-4xl font-semibold text-[var(--theme-text-primary)] leading-tight mb-6"
+        >
           Let's build something.
         </p>
 
@@ -26,7 +35,9 @@ const yearsOfExperience = getCurrentYear - startYear;
           class="email-link group inline-flex items-center gap-3"
         >
           <span class="relative">
-            <span class="text-base md:text-lg text-[var(--theme-accent)]">{siteConfig.social.email}</span>
+            <span class="text-base md:text-lg text-[var(--theme-accent)]"
+              >{siteConfig.social.email}</span
+            >
             <span class="email-underline"></span>
           </span>
           <svg
@@ -41,10 +52,10 @@ const yearsOfExperience = getCurrentYear - startYear;
             stroke-linejoin="round"
             class="arrow-icon transition-transform duration-300"
           >
-            <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-            <path d="M5 12l14 0" />
-            <path d="M13 18l6 -6" />
-            <path d="M13 6l6 6" />
+            <path stroke="none" d="M0 0h24v24H0z" fill="none"></path>
+            <path d="M5 12l14 0"></path>
+            <path d="M13 18l6 -6"></path>
+            <path d="M13 6l6 6"></path>
           </svg>
         </a>
       </div>
@@ -62,26 +73,30 @@ const yearsOfExperience = getCurrentYear - startYear;
           </div>
 
           <div class="panel-content font-mono text-sm">
-            <div class="status-line">
-              <span class="key">"availability"</span>
-              <span class="colon">:</span>
-              <span class="value string">"Open to opportunities"</span>
-            </div>
-            <div class="status-line">
-              <span class="key">"experience"</span>
-              <span class="colon">:</span>
-              <span class="value number">"{yearsOfExperience}+ years"</span>
-            </div>
-            <div class="status-line">
-              <span class="key">"location"</span>
-              <span class="colon">:</span>
-              <span class="value string">"Remote / Worldwide"</span>
-            </div>
-            <div class="status-line">
-              <span class="key">"response_time"</span>
-              <span class="colon">:</span>
-              <span class="value string">"&lt;24 hours"</span>
-            </div>
+            <span class="text-[var(--theme-text-secondary)]">{"{"}</span>
+            {
+              Object.entries(status).map(([key, value], index) => (
+                <div class="status-line pl-4">
+                  <span class="key">"{key}"</span>
+                  <span class="colon">:</span>
+                  <span
+                    class:list={[
+                      "value",
+                      typeof value === "number" ||
+                      (typeof value === "string" && value.match(/^\d/))
+                        ? "number"
+                        : "string",
+                    ]}
+                  >
+                    "{value}"
+                  </span>
+                  {index < Object.keys(status).length - 1 && (
+                    <span class="text-[var(--theme-text-secondary)]">,</span>
+                  )}
+                </div>
+              ))
+            }
+            <span class="text-[var(--theme-text-secondary)]">{"}"}</span>
           </div>
         </div>
 
@@ -152,11 +167,16 @@ const yearsOfExperience = getCurrentYear - startYear;
     <!-- Bottom bar with terminal command -->
     <div class="mt-16 pt-8 border-t border-[var(--theme-border)]">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
-        <p class="text-xs font-mono text-[var(--theme-text-secondary)] opacity-50">
-          © {getCurrentYear} {siteConfig.name}. All systems operational.
+        <p
+          class="text-xs font-mono text-[var(--theme-text-secondary)] opacity-50"
+        >
+          © {getCurrentYear}
+          {siteConfig.name}.
         </p>
 
-        <div class="flex items-center gap-2 text-xs font-mono text-[var(--theme-text-secondary)] opacity-40">
+        <div
+          class="flex items-center gap-2 text-xs font-mono text-[var(--theme-text-secondary)] opacity-40"
+        >
           <span class="status-indicator"></span>
           <span>Build v1.0.0 :: stable</span>
         </div>
@@ -172,8 +192,20 @@ const yearsOfExperience = getCurrentYear - startYear;
       linear-gradient(var(--theme-border) 1px, transparent 1px),
       linear-gradient(90deg, var(--theme-border) 1px, transparent 1px);
     background-size: 20px 20px;
-    mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
-    -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
+    mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
+    -webkit-mask-image: linear-gradient(
+      to bottom,
+      transparent,
+      black 10%,
+      black 90%,
+      transparent
+    );
   }
 
   /* Email link styling */
@@ -268,7 +300,8 @@ const yearsOfExperience = getCurrentYear - startYear;
   .status-line {
     display: flex;
     gap: 6px;
-    padding: 4px 0;
+    padding-top: 4px;
+    padding-bottom: 4px;
     line-height: 1.6;
   }
 
@@ -306,7 +339,7 @@ const yearsOfExperience = getCurrentYear - startYear;
     padding: 10px 14px;
     border: 1px solid var(--theme-border);
     border-radius: 6px;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 12px;
     color: var(--theme-text-secondary);
     text-decoration: none;
@@ -355,7 +388,8 @@ const yearsOfExperience = getCurrentYear - startYear;
   }
 
   @keyframes statusPulse {
-    0%, 100% {
+    0%,
+    100% {
       opacity: 1;
       transform: scale(1);
     }
@@ -368,7 +402,7 @@ const yearsOfExperience = getCurrentYear - startYear;
   /* Section number styling (kept for consistency) */
   .section-number {
     position: absolute;
-    font-family: 'IBM Plex Mono', monospace;
+    font-family: "IBM Plex Mono", monospace;
     font-size: 4rem;
     font-weight: 700;
     color: var(--theme-text-secondary);

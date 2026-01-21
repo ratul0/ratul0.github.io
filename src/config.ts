@@ -5,14 +5,14 @@ export const siteConfig = {
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)
   // Example: "/profile.jpg" or "https://example.com/profile.jpg"
-  profileImage: "", // Leave empty to use placeholder
+  profileImage: "/profile.jpg", // Leave empty to use placeholder
   social: {
     email: "ratulcse27@gmail.com",
     linkedin: "https://www.linkedin.com/in/ratul20/",
   },
   aboutMe:
     "I am a Full Stack Software Engineer with seven years of experience across logistics, healthcare, and e-commerce. I specialize in turning complex business needs into clean, scalable code by ensuring technical implementations directly reflect and solve core stakeholder challenges. I am deeply passionate about problem-solving and focus on listening to what users actually need to build systems that solve real-world problems.",
-  skills: ["Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Angular", "NextJs", "Tanstack Start", "Laravel", "Docker", "AWS", "CI/CD","Mockito","Jest"
+  skills: ["Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Angular", "NextJs", "Tanstack Start", "Jest", "Laravel", "Docker", "AWS", "CI/CD", "Mockito"
   ],
   projects: [],
   experience: [

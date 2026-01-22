@@ -1,5 +1,5 @@
 export const siteConfig = {
-  name: "Md Yousuf Ali Khan",
+  name: "Yousuf Khan",
   title: "Full Stack Software Engineer",
   description: "Full Stack Software Engineer with 7 years of experience in logistics, healthcare, and e-commerce",
   accentColor: "#0f4c5c",

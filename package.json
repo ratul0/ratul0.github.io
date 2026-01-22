@@ -10,8 +10,10 @@
   },
   "dependencies": {
     "@fontsource/ibm-plex-mono": "^5.2.7",
+    "@iconify-json/simple-icons": "^1.2.67",
     "@tailwindcss/vite": "^4.1.11",
     "astro": "^5.12.3",
+    "astro-icon": "^1.1.5",
     "tailwindcss": "^4.1.11"
   }
 }

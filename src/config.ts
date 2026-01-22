@@ -5,7 +5,7 @@ export const siteConfig = {
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)
   // Example: "/profile.jpg" or "https://example.com/profile.jpg"
-  profileImage: "/profile.jpg", // Leave empty to use placeholder
+  profileImage: "/profile.webp", // Leave empty to use placeholder
   social: {
     email: "ratulcse27@gmail.com",
     linkedin: "https://www.linkedin.com/in/ratul20/",

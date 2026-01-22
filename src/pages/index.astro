@@ -98,12 +98,11 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
   const themeToggle = document.getElementById("theme-toggle");
   const body = document.body;
 
-  // Check for saved theme preference or default to light mode
+  // Check for saved theme preference or default to dark mode
   const savedTheme = localStorage.getItem("theme");
-  const prefersDark = window.matchMedia("(prefers-color-scheme: dark)").matches;
 
-  // Apply theme on load
-  if (savedTheme === "dark" || (!savedTheme && prefersDark)) {
+  // Apply theme on load - default to dark mode unless user explicitly chose light
+  if (savedTheme !== "light") {
     body.classList.add("dark");
   }
 

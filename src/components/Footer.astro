@@ -72,11 +72,11 @@ const status = {
             <span class="panel-title">status.json</span>
           </div>
 
-          <div class="panel-content font-mono text-sm">
+          <div class="panel-content font-mono text-xs md:text-sm">
             <span class="text-[var(--theme-text-secondary)]">{"{"}</span>
             {
               Object.entries(status).map(([key, value], index) => (
-                <div class="status-line pl-4">
+                <div class="status-line pl-2 md:pl-4">
                   <span class="key">"{key}"</span>
                   <span class="colon">:</span>
                   <span
@@ -299,6 +299,7 @@ const status = {
 
   .status-line {
     display: flex;
+    flex-wrap: wrap;
     gap: 6px;
     padding-top: 4px;
     padding-bottom: 4px;

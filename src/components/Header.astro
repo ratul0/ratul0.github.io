@@ -5,6 +5,7 @@ import { Icon } from "astro-icon/components";
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
+const hasReferences = siteConfig.references && siteConfig.references.length > 0;
 ---
 
 <!-- Compact Terminal-style Header -->
@@ -41,6 +42,11 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
       {
         hasEducation && (
           <a href="#education" data-nav="education" class="nav-pill">[> education]</a>
+        )
+      }
+      {
+        hasReferences && (
+          <a href="#references" data-nav="references" class="nav-pill">[> references]</a>
         )
       }
     </nav>
@@ -119,6 +125,11 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     {
       hasEducation && (
         <a href="#education" data-nav="education" class="nav-pill">[> education]</a>
+      )
+    }
+    {
+       hasReferences && (
+        <a href="#references" data-nav="references" class="nav-pill">[> references]</a>
       )
     }
   </nav>
@@ -553,8 +564,7 @@ const hasEducation = siteConfig.education && siteConfig.education.length > 0;
     }
   });
 
-  // Active section highlighting
-  const sections = ['about', 'projects', 'experience', 'education'];
+  const sections = ['about', 'projects', 'experience', 'education', 'references'];
   const navLinks = document.querySelectorAll('[data-nav]');
 
   const observerOptions = {

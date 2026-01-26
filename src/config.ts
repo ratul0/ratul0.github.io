@@ -11,7 +11,7 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/ratul20/",
   },
   aboutMe:
-    "I am a results-driven Full Stack Software Engineer with 8+ years of experience who thrives at the intersection of technical excellence and strategic delivery. At Kuehne+Nagel, I didn't just write code—I partnered with project managers and product owners to architect solutions, define realistic delivery plans, and ensure features actually moved the needle for the business. Now I am ready to leverage my hands-on technical expertise and stakeholder collaboration skills to lead software initiatives as an Engineering Project Manager. Core skills include Spring Boot, Angular, React, AWS, Docker, Kafka, and Agile methodologies.",
+    "Nine years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
   skills: [
     "Java",
     "Kotlin",

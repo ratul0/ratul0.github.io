@@ -29,7 +29,7 @@ export const siteConfig = {
     "Docker",
     "Kafka",
     "Mockito",
-    "NextJs",
+    "NextJS",
     "Jest",
     "CI/CD",
   ],

@@ -3,15 +3,32 @@ import { siteConfig } from "../config";
 
 // Group skills by category
 const backendSkills = siteConfig.skills.filter((s) =>
-  ["Spring Boot", "Kafka", "PostgreSQL", "Laravel", "Mockito"].includes(s),
+  [
+    "Java",
+    "Kotlin",
+    "Spring Boot",
+    "Laravel",
+    "PostgreSQL",
+    "GraphQL",
+    "Kafka",
+    "Mockito",
+  ].includes(s),
 );
 
 const frontendSkills = siteConfig.skills.filter((s) =>
-  ["TypeScript", "Angular", "NextJs", "Tanstack Start", "Jest"].includes(s),
+  [
+    "JavaScript",
+    "TypeScript",
+    "Angular",
+    "React",
+    "NextJs",
+    "Tanstack Start",
+    "Jest",
+  ].includes(s),
 );
 
 const toolsSkills = siteConfig.skills.filter((s) =>
-  ["Docker", "AWS", "CI/CD"].includes(s),
+  ["Docker", "AWS", "Git", "CI/CD"].includes(s),
 );
 ---
 

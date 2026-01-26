@@ -1,7 +1,7 @@
 export const siteConfig = {
   name: "Yousuf Khan",
   title: "Full Stack Software Engineer",
-  description: "Full Stack Software Engineer with 7 years of experience in logistics, healthcare, and e-commerce",
+  description: "Full Stack Software Engineer with 9+ years of experience in logistics, healthcare, and e-commerce",
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)
   // Example: "/profile.jpg" or "https://example.com/profile.jpg"
@@ -11,18 +11,43 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/ratul20/",
   },
   aboutMe:
-    "I am a Full Stack Software Engineer with seven years of experience across logistics, healthcare, and e-commerce. I specialize in turning complex business needs into clean, scalable code by ensuring technical implementations directly reflect and solve core stakeholder challenges. I am deeply passionate about problem-solving and focus on listening to what users actually need to build systems that solve real-world problems.",
-  skills: ["Spring Boot", "Kafka", "PostgreSQL", "TypeScript", "Angular", "NextJs", "Tanstack Start", "Jest", "Laravel", "Docker", "AWS", "CI/CD", "Mockito"
+    "I am a results-driven Full Stack Software Engineer with 8+ years of experience who thrives at the intersection of technical excellence and strategic delivery. At Kuehne+Nagel, I didn't just write code—I partnered with project managers and product owners to architect solutions, define realistic delivery plans, and ensure features actually moved the needle for the business. Now I am ready to leverage my hands-on technical expertise and stakeholder collaboration skills to lead software initiatives as an Engineering Project Manager. Core skills include Spring Boot, Angular, React, AWS, Docker, Kafka, and Agile methodologies.",
+  skills: [
+    "Java",
+    "Kotlin",
+    "Spring Boot",
+    "JavaScript",
+    "TypeScript",
+    "Angular",
+    "React",
+    "Tanstack Start",
+    "Laravel",
+    "PostgreSQL",
+    "GraphQL",
+    "Git",
+    "AWS",
+    "Docker",
+    "Kafka",
+    "Mockito",
+    "NextJs",
+    "Jest",
+    "CI/CD",
+  ],
+  languages: [
+    { name: "English", level: 5 },
+    { name: "Bangla", level: 5 },
+    { name: "German", level: 3 },
   ],
   projects: [],
   experience: [
     {
       company: "Kuehne+Nagel",
-      title: "Software Engineer",
+      title: "Senior Software Engineer",
       dateRange: "July 2022 - Present",
+      location: "Hamburg, Germany",
       bullets: [
         "Spearheaded the end-to-end migration of a legacy pharmaceutical monitoring system to a unified web dashboard, replacing manual Excel workflows and significantly reducing monitoring gaps for high-value cargo.",
-        "Engineered a full-stack, event-driven architecture using Spring Boot, Kafka, and Angular to process high-velocity shipment data, providing 24/7 real-time tracking and streamlined workflows for the \"Air Logistics\" module.",
+        'Engineered a full-stack, event-driven architecture using Spring Boot, Kafka, and Angular to process high-velocity shipment data, providing 24/7 real-time tracking and streamlined workflows for the "Air Logistics" module.',
         "Architected modular components for future global expansion into Sea and Road logistics while improving current operational efficiency, enabling operators to manage shipments end-to-end within the new software.",
       ],
     },
@@ -30,10 +55,35 @@ export const siteConfig = {
       company: "Method Park by UL",
       title: "Software Engineer",
       dateRange: "August 2019 - July 2022",
+      location: "Erlangen, Germany",
       bullets: [
-        "Architected and developed an AI-integrated web platform using Angular and Laravel to assist orthopedic surgeons in analyzing X-ray reports.",
+        "Developed an AI-integrated web platform using Angular to assist orthopedic surgeons in analyzing X-ray reports.",
         "Reduced diagnostic analysis time by implementing features that allowed doctors to highlight and annotate specific report sections based on AI-driven anomaly detection.",
         "Enhanced clinical decision-making by building a system that flags missed details in reports, ensuring higher accuracy in post-operative recovery monitoring.",
+      ],
+    },
+    {
+      company: "InfancyIT",
+      title: "Software Engineer",
+      dateRange: "October 2017 - April 2019",
+      location: "Sylhet, Bangladesh",
+      bullets: [
+        "Translated complex stakeholder requirements into actionable technical roadmaps for a high-traffic food delivery platform, aligning business objectives with engineering execution to ensure consistent delivery of high-priority milestones.",
+        "Engineered a scalable REST API infrastructure capable of sustaining 10,000+ daily requests, prioritizing system reliability and low-latency performance during periods of rapid user acquisition.",
+        "Orchestrated the simultaneous development of dual full-stack projects—leveraging Laravel/Vue.js and Express.js/React.js ecosystems—balancing divergent feature priorities while maintaining rigorous architectural integrity and code quality.",
+        "Partnered with a five-person engineering team to deploy critical system optimizations, directly contributing to a 20% increase in annual revenue by enhancing platform efficiency and user conversion rates.",
+      ],
+    },
+    {
+      company: "Vivacom solutions ltd",
+      title: "Software Engineer",
+      dateRange: "October 2016 – September 2017",
+      location: "Dhaka, Bangladesh",
+      bullets: [
+        "Architected and deployed a mission-critical Content Management System (CMS) for a leading telecommunications provider in Somalia, facilitating high-availability content delivery for a subscriber base of several million users.",
+        "Engineered a decoupled microservices ecosystem using Spring Boot for a mobile banking platform, enabling independent service scalability and significantly reducing deployment lead times through optimized CI/CD workflows.",
+        "Standardized the development lifecycle by implementing Docker containerization across multiple internal projects, ensuring environment parity and streamlining cross-functional collaboration between engineering teams.",
+        "Collaborated within a high-performance team of five engineers to deliver secure, modular financial software, prioritizing clean-code architecture and future-proof design patterns to ensure long-term system maintainability.",
       ],
     },
   ],
@@ -49,6 +99,15 @@ export const siteConfig = {
       degree: "Bachelor of Engineering - Computer Engineering",
       dateRange: "January 2011 - June 2015",
       achievements: [],
+    },
+  ],
+  references: [
+    {
+      name: "Christian Lederer",
+      position: "Head of Medical Applications",
+      linkedin: "https://www.linkedin.com/in/christian-lederer-65a6a8192/",
+      quote:
+        "Yousuf is an exceptionally clever and intelligent hard-working guy with a broad background in web technologies, He's thankful and non-demanding, He is a great plus for any development team. I am thankful for the time I could spend with him and I'd hire him again any time.",
     },
   ],
 };

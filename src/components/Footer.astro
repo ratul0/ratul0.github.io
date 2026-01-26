@@ -118,6 +118,20 @@ const status = {
             )
           }
           {
+            siteConfig.social?.resume && (
+              <a
+                href={siteConfig.social.resume}
+                target="_blank"
+                rel="noopener noreferrer"
+                class="social-item"
+              >
+                <Icon name="simple-icons:readdotcv" width="16" height="16" />
+                <span>Resume</span>
+                <span class="arrow">→</span>
+              </a>
+            )
+          }
+          {
             siteConfig.social?.github && (
               <a
                 href={siteConfig.social.github}

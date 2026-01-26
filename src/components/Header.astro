@@ -87,6 +87,19 @@ const hasReferences = siteConfig.references && siteConfig.references.length > 0;
         <Icon name="simple-icons:medium" width="14" height="14" />
       </a>
       {
+        siteConfig.social?.resume && (
+          <a
+            href={siteConfig.social.resume}
+            target="_blank"
+            rel="noopener noreferrer"
+            aria-label="Resume"
+            class="social-link"
+          >
+            <Icon name="simple-icons:readdotcv" width="14" height="14" />
+          </a>
+        )
+      }
+      {
         siteConfig.social?.github && (
           <a
             href={siteConfig.social.github}

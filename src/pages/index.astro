@@ -86,7 +86,7 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
@@ -106,7 +106,7 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
         viewBox="0 0 24 24"
         fill="none"
         stroke="currentColor"
-        stroke-width="2"
+        stroke-width="1.5"
         stroke-linecap="round"
         stroke-linejoin="round"
       >
@@ -116,76 +116,42 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
   </body>
 </html>
 
-<style>
-  /* Add smooth scroll behavior */
-  html {
-    scroll-behavior: smooth;
-  }
-</style>
-
 <script>
-  // Theme toggle functionality with localStorage persistence
+  // Theme toggle with localStorage persistence
   const themeToggle = document.getElementById("theme-toggle");
   const body = document.body;
 
-  // Check for saved theme preference or default to dark mode
+  // Default to dark mode unless user explicitly chose light
   const savedTheme = localStorage.getItem("theme");
-
-  // Apply theme on load - default to dark mode unless user explicitly chose light
   if (savedTheme !== "light") {
     body.classList.add("dark");
   }
 
-  // Toggle theme on button click
   themeToggle?.addEventListener("click", () => {
     body.classList.toggle("dark");
     const isDark = body.classList.contains("dark");
     localStorage.setItem("theme", isDark ? "dark" : "light");
+  });
 
-    // Update nav colors when theme changes
-    const navPill = document.getElementById("nav-pill");
-    const scrollY = window.scrollY;
-
-    if (navPill) {
-      const bgOpacity = scrollY > 50 ? 0.85 : 0.6;
-      if (isDark) {
-        navPill.style.background = `rgba(13, 17, 23, ${bgOpacity})`;
-        navPill.style.borderColor = "var(--color-dark-border)";
-      } else {
-        navPill.style.background = `rgba(248, 246, 243, ${bgOpacity})`;
-        navPill.style.borderColor = "var(--color-warm-border)";
-      }
+  // Scroll reveal system using IntersectionObserver
+  const revealObserver = new IntersectionObserver(
+    (entries) => {
+      entries.forEach((entry) => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add("visible");
+          revealObserver.unobserve(entry.target);
+        }
+      });
+    },
+    {
+      root: null,
+      rootMargin: "0px 0px -60px 0px",
+      threshold: 0.05,
     }
-  });
+  );
 
-  // Intersection Observer for scroll reveal animations
-  const observerOptions = {
-    root: null,
-    rootMargin: "0px",
-    threshold: 0.1,
-  };
-
-  const observer = new IntersectionObserver((entries) => {
-    entries.forEach((entry) => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add("reveal");
-        observer.unobserve(entry.target);
-      }
-    });
-  }, observerOptions);
-
-  // Observe all sections for animation
-  document.addEventListener("astro:page-load", () => {
-    const sections = document.querySelectorAll("section");
-    sections.forEach((section) => {
-      observer.observe(section);
-    });
-  });
-
-  // Also observe on initial load
-  const sections = document.querySelectorAll("section");
-  sections.forEach((section, index) => {
-    // Add staggered delays based on section index
-    section.style.setProperty("--reveal-delay", `${index * 0.1}s`);
+  // Observe only unrevealed elements
+  document.querySelectorAll(".scroll-reveal:not(.visible)").forEach((el) => {
+    revealObserver.observe(el);
   });
 </script>

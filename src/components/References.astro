@@ -6,7 +6,7 @@ const hasReferences = siteConfig.references && siteConfig.references.length > 0;
 
 {
   hasReferences && (
-    <section id="references" class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16">
+    <section id="references" class="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
       <!-- Section number -->
       <span class="section-number top-8 left-8 md:top-12 md:left-16">05</span>
 
@@ -14,50 +14,57 @@ const hasReferences = siteConfig.references && siteConfig.references.length > 0;
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <!-- Left column - Sticky header -->
           <div class="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
-            <div class="space-y-4">
+            <div class="space-y-4 scroll-reveal">
               <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 References
               </h2>
-              <div class="h-1 w-24 bg-[var(--theme-accent)]"></div>
+              <div class="accent-line animate h-3"></div>
             </div>
           </div>
 
-          <!-- Right column - References list -->
+          <!-- Right column - Pull quote cards -->
           <div class="lg:col-span-8">
-            <div class="space-y-16">
+            <div class="space-y-12">
               {siteConfig.references.map((ref, index) => (
-                <div class="relative group">
-                   <div class="space-y-6 relative z-10">
-                    <div class="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
-                         <div>
-                            <h3 class="text-xl md:text-2xl font-semibold text-[var(--theme-accent)]">
+                <div class="scroll-reveal" data-delay={String(Math.min(index + 1, 3))}>
+                  <div class="bezel">
+                    <div class="bezel-inner p-6 md:p-8 relative overflow-visible">
+                      <!-- Giant quotation mark -->
+                      <span class="quote-mark" aria-hidden="true">&ldquo;</span>
+
+                      <!-- Quote -->
+                      <blockquote class="relative z-10 text-lg md:text-xl text-[var(--theme-text-secondary)] leading-relaxed italic pl-1 pt-6 md:pt-4">
+                        {ref.quote}
+                      </blockquote>
+
+                      <!-- Attribution -->
+                      <div class="relative z-10 mt-6 pt-4 border-t border-[var(--theme-border)] flex flex-col sm:flex-row sm:items-center sm:justify-between gap-2">
+                        <div>
+                          <p class="text-base font-semibold text-[var(--theme-accent)]">
                             {ref.name}
-                            </h3>
-                             <p class="text-base md:text-lg text-[var(--theme-text-primary)]">
+                          </p>
+                          <p class="text-sm text-[var(--theme-text-primary)]">
                             {ref.position}
-                            </p>
-                         </div>
+                          </p>
+                        </div>
                         {ref.linkedin && (
-                            <a
+                          <a
                             href={ref.linkedin}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="inline-flex items-center text-sm font-medium text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] transition-colors"
-                            >
-                            LinkedIn ↗
-                            </a>
+                            class="group inline-flex items-center gap-2 text-xs font-medium text-[var(--theme-text-secondary)] transition-colors duration-500 ease-expo hover:text-[var(--theme-accent)]"
+                          >
+                            <span>LinkedIn</span>
+                            <span class="arrow-badge w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                              <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                                <path d="M1 7L7 1M7 1H3M7 1V5" />
+                              </svg>
+                            </span>
+                          </a>
                         )}
+                      </div>
                     </div>
-                    
-                    
-                    <blockquote class="relative pl-6 border-l-4 border-[var(--theme-accent)] italic text-lg md:text-xl text-[var(--theme-text-secondary)] leading-relaxed">
-                       "{ref.quote}"
-                    </blockquote>
                   </div>
-                   <!-- Separator (not after last item) -->
-                  {index < siteConfig.references.length - 1 && (
-                    <hr class="mt-16 border-t border-[var(--theme-border)]" />
-                  )}
                 </div>
               ))}
             </div>
@@ -67,3 +74,19 @@ const hasReferences = siteConfig.references && siteConfig.references.length > 0;
     </section>
   )
 }
+
+<style>
+  .quote-mark {
+    position: absolute;
+    top: -8px;
+    left: 12px;
+    font-size: 6rem;
+    line-height: 1;
+    font-weight: 700;
+    color: var(--theme-accent);
+    opacity: 0.12;
+    pointer-events: none;
+    font-style: normal;
+    transition: color 0.5s var(--ease-out-expo);
+  }
+</style>

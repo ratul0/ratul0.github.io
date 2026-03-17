@@ -2,107 +2,90 @@
 import { siteConfig } from "../config";
 
 const currentRole = siteConfig.experience?.[0];
+const nameParts = siteConfig.name.split(" ");
+const firstName = nameParts[0];
+const lastName = nameParts.slice(1).join(" ");
 ---
 
-<div id="hero" class="relative min-h-screen flex items-center overflow-hidden">
+<div id="hero" class="relative min-h-[100dvh] flex items-center overflow-hidden">
   <!-- Background textures -->
   <div class="absolute inset-0 scanlines"></div>
-  <div class="film-grain"></div>
 
   <!-- Section number -->
   <span class="section-number top-20 left-8 md:top-24 md:left-16">01</span>
 
   <!-- Main content -->
-  <div
-    class="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-32"
-  >
+  <div class="relative z-10 w-full max-w-6xl mx-auto px-6 md:px-12 lg:px-16 pt-24 md:pt-32">
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16 items-center">
       <!-- Left column - Text content -->
-      <div class="lg:col-span-8 space-y-6 md:space-y-8">
-        <!-- Greeting -->
-        <p
-          class="reveal text-sm md:text-base font-light uppercase tracking-[0.2em] text-[var(--theme-text-secondary)]"
-        >
-          Hello, I'm
-        </p>
+      <div class="lg:col-span-7 space-y-6 md:space-y-8">
+        <!-- Eyebrow tag -->
+        <div class="scroll-reveal">
+          <span class="eyebrow">{siteConfig.title}</span>
+        </div>
 
-        <!-- Name -->
-        <h1 class="reveal reveal-delay-1 relative">
-          <span
-            class="block text-5xl sm:text-6xl md:text-7xl lg:text-8xl font-bold leading-[0.9] tracking-tight"
-          >
-            {siteConfig.name}
+        <!-- Name - split into two staggered lines -->
+        <h1 class="scroll-reveal" data-delay="1">
+          <span class="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold uppercase tracking-tight leading-[0.9]">
+            {firstName}
           </span>
-          <!-- Animated accent line -->
-          <div class="accent-line animate mt-6 h-4"></div>
+          <span class="block text-5xl sm:text-6xl md:text-7xl lg:text-[5.5rem] font-bold uppercase tracking-tight leading-[0.9] text-[var(--theme-accent)] ml-8 md:ml-16 mt-1">
+            {lastName}
+          </span>
+          <!-- Accent line -->
+          <div class="accent-line animate mt-6 h-3"></div>
         </h1>
 
-        <!-- Title -->
-        <p
-          class="reveal reveal-delay-2 text-xl md:text-2xl lg:text-3xl font-semibold text-[var(--theme-accent)]"
-        >
-          {siteConfig.title}
-        </p>
-
         <!-- Description -->
-        <p
-          class="reveal reveal-delay-3 max-w-2xl text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-normal"
-        >
-          Building systems that solve real problems in logistics, healthcare,
-          and e-commerce.
+        <p class="scroll-reveal max-w-xl text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-normal" data-delay="2">
+          Building systems that solve real problems in logistics, healthcare, and e-commerce.
         </p>
 
         <!-- Current work indicator -->
-        {
-          currentRole && (
-            <div class="reveal reveal-delay-5 pt-8">
-              <a
-                href="#experience"
-                class="inline-flex items-center gap-2 text-xs md:text-sm font-light uppercase tracking-widest text-[var(--theme-text-secondary)] hover:text-[var(--theme-accent)] transition-colors duration-200"
-              >
-                <span>currently working at {currentRole.company}</span>
-                <span class="block-cursor" />
-              </a>
-            </div>
-          )
-        }
+        {currentRole && (
+          <div class="scroll-reveal pt-4" data-delay="3">
+            <a
+              href="#experience"
+              class="group inline-flex items-center gap-3 text-xs md:text-sm font-light uppercase tracking-widest text-[var(--theme-text-secondary)] transition-colors duration-500 ease-expo"
+            >
+              <span class="group-hover:text-[var(--theme-accent)] transition-colors duration-500 ease-expo">
+                currently @ {currentRole.company}
+              </span>
+              <span class="block-cursor"></span>
+            </a>
+          </div>
+        )}
       </div>
 
-      <!-- Right column - Profile image -->
-      <div
-        class="lg:col-span-4 flex justify-center lg:justify-end reveal reveal-delay-2"
-      >
+      <!-- Right column - Profile image in Double-Bezel frame -->
+      <div class="lg:col-span-5 flex justify-center lg:justify-end scroll-reveal" data-delay="2">
         <div class="profile-image-container">
           <div class="profile-image-frame">
-            {
-              siteConfig.profileImage ? (
-                <img
-                  src={siteConfig.profileImage}
-                  alt={siteConfig.name}
-                  class="w-48 h-48 md:w-56 md:h-56 object-cover"
-                />
-              ) : (
-                <div class="profile-image-placeholder">
-                  <svg
-                    xmlns="http://www.w3.org/2000/svg"
-                    viewBox="0 0 24 24"
-                    fill="none"
-                    stroke="currentColor"
-                    stroke-width="1"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                  >
-                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
-                    <circle cx="12" cy="8" r="4" />
-                    <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
-                  </svg>
-                  <span class="text-xs uppercase tracking-wider mt-2">
-                    Add your image
-                  </span>
-                  <span class="text-[10px] opacity-60 mt-1">See config.ts</span>
-                </div>
-              )
-            }
+            {siteConfig.profileImage ? (
+              <img
+                src={siteConfig.profileImage}
+                alt={siteConfig.name}
+                class="w-52 h-52 md:w-64 md:h-64 object-cover"
+              />
+            ) : (
+              <div class="profile-image-placeholder">
+                <svg
+                  xmlns="http://www.w3.org/2000/svg"
+                  viewBox="0 0 24 24"
+                  fill="none"
+                  stroke="currentColor"
+                  stroke-width="1"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                >
+                  <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                  <circle cx="12" cy="8" r="4" />
+                  <path d="M6 21v-2a4 4 0 0 1 4 -4h4a4 4 0 0 1 4 4v2" />
+                </svg>
+                <span class="text-xs uppercase tracking-wider mt-2">Add your image</span>
+                <span class="text-[10px] opacity-60 mt-1">See config.ts</span>
+              </div>
+            )}
           </div>
         </div>
       </div>
@@ -110,21 +93,10 @@ const currentRole = siteConfig.experience?.[0];
   </div>
 
   <!-- Scroll indicator -->
-  <div
-    class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--theme-text-secondary)] opacity-60"
-  >
-    <span class="text-xs uppercase tracking-widest">scroll</span>
-    <svg
-      class="w-4 h-4 animate-bounce"
-      fill="none"
-      stroke="currentColor"
-      viewBox="0 0 24 24"
-    >
-      <path
-        stroke-linecap="round"
-        stroke-linejoin="round"
-        stroke-width="2"
-        d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
+  <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--theme-text-secondary)] opacity-50">
+    <span class="text-[10px] uppercase tracking-[0.25em] font-medium">scroll</span>
+    <svg class="w-3.5 h-3.5 animate-bounce" fill="none" stroke="currentColor" viewBox="0 0 24 24">
+      <path stroke-linecap="round" stroke-linejoin="round" stroke-width="1.5" d="M19 14l-7 7m0 0l-7-7m7 7V3"></path>
     </svg>
   </div>
 </div>

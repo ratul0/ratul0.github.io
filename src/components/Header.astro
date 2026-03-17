@@ -6,585 +6,449 @@ const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 const hasReferences = siteConfig.references && siteConfig.references.length > 0;
+
+// Social links defined once, rendered in both desktop pill and mobile overlay
+const socialLinks = [
+  siteConfig.social?.email && { href: `mailto:${siteConfig.social.email}`, label: "Email", icon: "simple-icons:gmail" },
+  siteConfig.social?.linkedin && { href: siteConfig.social.linkedin, label: "LinkedIn", icon: "simple-icons:linkedin", external: true },
+  siteConfig.social?.medium && { href: siteConfig.social.medium, label: "Medium", icon: "simple-icons:medium", external: true },
+  siteConfig.social?.resume && { href: siteConfig.social.resume, label: "Resume", icon: "simple-icons:readdotcv", external: true },
+  siteConfig.social?.github && { href: siteConfig.social.github, label: "GitHub", icon: "simple-icons:github", external: true },
+].filter(Boolean) as { href: string; label: string; icon: string; external?: boolean }[];
 ---
 
-<!-- Compact Terminal-style Header -->
-<header id="terminal-header" class="fixed top-0 left-0 right-0 z-50 terminal-header">
-  <!-- Single-row terminal strip -->
-  <div class="terminal-strip">
-    <!-- Window controls (traffic lights) -->
-    <div class="window-controls">
-      <span class="window-control close"></span>
-      <span class="window-control minimize"></span>
-      <span class="window-control maximize"></span>
-    </div>
+<!-- Floating Glass Pill Navigation -->
+<header class="fixed top-0 left-0 right-0 z-50 pointer-events-none">
+  <div class="flex justify-center pt-5 px-4">
+    <nav id="glass-pill" class="glass-pill pointer-events-auto">
+      <!-- Terminal prompt / logo -->
+      <button id="scroll-top-btn" class="prompt-link" aria-label="Scroll to top">
+        <span class="prompt-user">yousuf</span><span class="prompt-sep">@</span><span class="prompt-host">khan</span><span class="prompt-colon">:</span><span class="prompt-path">~</span>
+      </button>
 
-    <!-- Terminal prompt (click to scroll to top) -->
-    <button id="terminal-prompt" class="terminal-prompt" aria-label="Scroll to top">
-      <span class="prompt-user">yousuf@khan</span>
-      <span class="prompt-separator">:</span>
-      <span class="prompt-path">~</span>
-    </button>
+      <!-- Divider -->
+      <div class="pill-divider desktop-only"></div>
 
-    <!-- Navigation pills -->
-    <nav id="terminal-nav" class="terminal-nav">
-      <a href="#about" data-nav="about" class="nav-pill">[> about]</a>
-      {
-        hasProjects && (
-          <a href="#projects" data-nav="projects" class="nav-pill">[> projects]</a>
-        )
-      }
-      {
-        hasExperience && (
-          <a href="#experience" data-nav="experience" class="nav-pill">[> experience]</a>
-        )
-      }
-      {
-        hasEducation && (
-          <a href="#education" data-nav="education" class="nav-pill">[> education]</a>
-        )
-      }
-      {
-        hasReferences && (
-          <a href="#references" data-nav="references" class="nav-pill">[> references]</a>
-        )
-      }
+      <!-- Desktop navigation links -->
+      <div class="desktop-nav">
+        <a href="#about" data-nav="about" class="pill-link">about</a>
+        {hasProjects && <a href="#projects" data-nav="projects" class="pill-link">projects</a>}
+        {hasExperience && <a href="#experience" data-nav="experience" class="pill-link">experience</a>}
+        {hasEducation && <a href="#education" data-nav="education" class="pill-link">education</a>}
+        {hasReferences && <a href="#references" data-nav="references" class="pill-link">references</a>}
+      </div>
+
+      <!-- Divider -->
+      <div class="pill-divider desktop-only"></div>
+
+      <!-- Social icons (desktop) -->
+      <div class="pill-socials desktop-only">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            aria-label={link.label}
+            class="pill-social-icon"
+          >
+            <Icon name={link.icon} width="13" height="13" />
+          </a>
+        ))}
+      </div>
+
+      <!-- Mobile hamburger -->
+      <button id="hamburger-btn" class="hamburger" aria-label="Toggle menu">
+        <span class="hamburger-line"></span>
+        <span class="hamburger-line"></span>
+      </button>
     </nav>
-
-    <!-- Social icons -->
-    <div class="social-links">
-      {
-        siteConfig.social?.email && (
-          <a
-            href={`mailto:${siteConfig.social.email}`}
-            aria-label="Email"
-            class="social-link"
-          >
-            <Icon name="simple-icons:gmail" width="14" height="14" />
-          </a>
-        )
-      }
-      {
-        siteConfig.social?.linkedin && (
-          <a
-            href={siteConfig.social.linkedin}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="LinkedIn"
-            class="social-link"
-          >
-            <Icon name="simple-icons:linkedin" width="14" height="14" />
-          </a>
-        )
-      }
-      <a
-        href="https://medium.com/@rats"
-        target="_blank"
-        rel="noopener noreferrer"
-        aria-label="Medium"
-        class="social-link"
-      >
-        <Icon name="simple-icons:medium" width="14" height="14" />
-      </a>
-      {
-        siteConfig.social?.resume && (
-          <a
-            href={siteConfig.social.resume}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="Resume"
-            class="social-link"
-          >
-            <Icon name="simple-icons:readdotcv" width="14" height="14" />
-          </a>
-        )
-      }
-      {
-        siteConfig.social?.github && (
-          <a
-            href={siteConfig.social.github}
-            target="_blank"
-            rel="noopener noreferrer"
-            aria-label="GitHub"
-            class="social-link"
-          >
-            <Icon name="simple-icons:github" width="14" height="14" />
-          </a>
-        )
-      }
-    </div>
-
-    <!-- Mobile menu toggle -->
-    <button id="terminal-menu-toggle" class="menu-toggle" aria-label="Toggle menu">
-      <span class="toggle-bracket">[</span>
-      <span class="toggle-text">MENU</span>
-      <span class="toggle-bracket">]</span>
-    </button>
   </div>
 
-  <!-- Mobile dropdown navigation -->
-  <nav id="mobile-nav" class="mobile-nav">
-    <a href="#about" data-nav="about" class="nav-pill">[> about]</a>
-    {
-      hasProjects && (
-        <a href="#projects" data-nav="projects" class="nav-pill">[> projects]</a>
-      )
-    }
-    {
-      hasExperience && (
-        <a href="#experience" data-nav="experience" class="nav-pill">[> experience]</a>
-      )
-    }
-    {
-      hasEducation && (
-        <a href="#education" data-nav="education" class="nav-pill">[> education]</a>
-      )
-    }
-    {
-       hasReferences && (
-        <a href="#references" data-nav="references" class="nav-pill">[> references]</a>
-      )
-    }
-  </nav>
+  <!-- Mobile full-screen overlay -->
+  <div id="mobile-overlay" class="mobile-overlay">
+    <nav class="overlay-content">
+      <a href="#about" class="overlay-link" style="--i: 0">about</a>
+      {hasProjects && <a href="#projects" class="overlay-link" style="--i: 1">projects</a>}
+      {hasExperience && <a href="#experience" class="overlay-link" style="--i: 1">experience</a>}
+      {hasEducation && <a href="#education" class="overlay-link" style="--i: 2">education</a>}
+      {hasReferences && <a href="#references" class="overlay-link" style="--i: 3">references</a>}
 
-  <!-- Scroll progress bar -->
-  <div id="terminal-progress" class="terminal-progress">
-    <div class="progress-cursor"></div>
-    <div class="progress-bar"></div>
+      <!-- Social icons in overlay -->
+      <div class="overlay-socials" style="--i: 4">
+        {socialLinks.map((link) => (
+          <a
+            href={link.href}
+            target={link.external ? "_blank" : undefined}
+            rel={link.external ? "noopener noreferrer" : undefined}
+            aria-label={link.label}
+            class="overlay-social-icon"
+          >
+            <Icon name={link.icon} width="20" height="20" />
+          </a>
+        ))}
+      </div>
+    </nav>
   </div>
 </header>
 
 <style>
-  /* Terminal Header Base */
-  .terminal-header {
-    background: transparent;
-    transition: all 0.3s ease;
-  }
-
-  /* Single-row terminal strip (~45px height) */
-  .terminal-strip {
+  /* ═══ GLASS PILL ═══ */
+  .glass-pill {
     display: flex;
     align-items: center;
-    gap: 16px;
+    gap: 14px;
     padding: 8px 20px;
-    background: rgba(248, 246, 243, 0.95);
-    border-bottom: 1px solid var(--color-warm-border);
-    backdrop-filter: blur(8px);
-    transition: all 0.3s ease;
-    height: 45px;
+    border-radius: 9999px;
+    background: rgba(250, 248, 245, 0.72);
+    border: 1px solid rgba(232, 228, 223, 0.6);
+    backdrop-filter: blur(20px);
+    -webkit-backdrop-filter: blur(20px);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.03),
+      0 1px 2px rgba(0, 0, 0, 0.02);
+    transition:
+      background 0.7s var(--ease-out-expo),
+      box-shadow 0.7s var(--ease-out-expo),
+      border-color 0.7s var(--ease-out-expo);
   }
 
-  body.dark .terminal-strip {
-    background: rgba(13, 17, 23, 0.95);
-    border-bottom-color: var(--color-dark-border);
+  body.dark .glass-pill {
+    background: rgba(6, 6, 9, 0.72);
+    border-color: rgba(30, 36, 48, 0.8);
+    box-shadow:
+      0 4px 24px rgba(0, 0, 0, 0.2),
+      0 1px 2px rgba(0, 0, 0, 0.1);
   }
 
-  /* Window Controls (Traffic Lights) */
-  .window-controls {
-    display: flex;
-    gap: 8px;
-    flex-shrink: 0;
+  .glass-pill.scrolled {
+    background: rgba(250, 248, 245, 0.92);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.06);
   }
 
-  .window-control {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    transition: all 0.2s ease;
+  body.dark .glass-pill.scrolled {
+    background: rgba(6, 6, 9, 0.92);
+    box-shadow: 0 8px 32px rgba(0, 0, 0, 0.35);
   }
 
-  .window-control.close {
-    background: #ff5f57;
-    border: 1px solid #e0443e;
-  }
-
-  .window-control.minimize {
-    background: #febc2e;
-    border: 1px solid #d89e24;
-  }
-
-  .window-control.maximize {
-    background: #28c840;
-    border: 1px solid #1aab29;
-  }
-
-  .window-control:hover {
-    filter: brightness(1.1);
-  }
-
-  /* Terminal Prompt (clickable to scroll to top) */
-  .terminal-prompt {
+  /* ═══ PROMPT / LOGO ═══ */
+  .prompt-link {
     display: flex;
     align-items: center;
-    gap: 3px;
+    gap: 0;
     font-family: 'IBM Plex Mono', monospace;
     font-size: 12px;
     font-weight: 500;
-    color: var(--color-warm-text-primary);
-    letter-spacing: -0.3px;
-    flex-shrink: 0;
-    white-space: nowrap;
-    background: transparent;
+    background: none;
     border: none;
     padding: 0;
     cursor: pointer;
-    transition: opacity 0.2s ease;
-  }
-
-  body.dark .terminal-prompt {
-    color: var(--color-dark-text-primary);
-  }
-
-  .terminal-prompt:hover {
-    opacity: 0.7;
-  }
-
-  .prompt-user {
-    color: var(--color-deep-teal);
-    font-weight: 600;
-  }
-
-  body.dark .prompt-user {
-    color: var(--color-dark-teal);
-  }
-
-  .prompt-separator {
-    color: var(--color-warm-text-secondary);
-  }
-
-  body.dark .prompt-separator {
-    color: var(--color-dark-text-secondary);
-  }
-
-  .prompt-path {
-    color: var(--color-deep-teal);
-    font-weight: 500;
-  }
-
-  body.dark .prompt-path {
-    color: var(--color-dark-teal);
-  }
-
-  /* Navigation Pills (inline) */
-  .terminal-nav {
-    display: flex;
-    align-items: center;
-    gap: 6px;
-    flex: 1;
-    justify-content: center;
-  }
-
-  .nav-pill {
-    display: inline-flex;
-    align-items: center;
-    padding: 4px 10px;
-    background: transparent;
-    border: 1px solid var(--color-warm-border);
-    border-radius: 3px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    color: var(--color-warm-text-secondary);
-    text-decoration: none;
     white-space: nowrap;
-    transition: all 0.2s ease;
-    cursor: pointer;
-    letter-spacing: -0.2px;
-  }
-
-  body.dark .nav-pill {
-    border-color: var(--color-dark-border);
-    color: var(--color-dark-text-secondary);
-  }
-
-  .nav-pill:hover {
-    border-color: var(--color-deep-teal);
-    background: rgba(15, 76, 92, 0.05);
-    transform: translateY(-1px);
-  }
-
-  body.dark .nav-pill:hover {
-    border-color: var(--color-dark-teal);
-    background: rgba(88, 166, 184, 0.1);
-  }
-
-  .nav-pill.active {
-    border-color: var(--color-deep-teal);
-    background: rgba(15, 76, 92, 0.1);
-    color: var(--color-deep-teal);
-    font-weight: 600;
-  }
-
-  body.dark .nav-pill.active {
-    border-color: var(--color-dark-teal);
-    background: rgba(88, 166, 184, 0.15);
-    color: var(--color-dark-teal);
-  }
-
-  /* Social Icons */
-  .social-links {
-    display: flex;
-    align-items: center;
-    gap: 8px;
+    transition: opacity 0.4s var(--ease-out-expo);
     flex-shrink: 0;
   }
 
-  .social-link {
+  .prompt-link:hover {
+    opacity: 0.65;
+  }
+
+  .prompt-user {
+    color: var(--theme-accent);
+    font-weight: 600;
+  }
+
+  .prompt-sep,
+  .prompt-colon {
+    color: var(--theme-text-secondary);
+  }
+
+  .prompt-host {
+    color: var(--theme-accent);
+  }
+
+  .prompt-path {
+    color: var(--theme-text-secondary);
+    font-weight: 500;
+  }
+
+  /* ═══ PILL DIVIDER ═══ */
+  .pill-divider {
+    width: 1px;
+    height: 16px;
+    background: var(--theme-border);
+    flex-shrink: 0;
+    transition: background-color 0.3s ease;
+  }
+
+  /* ═══ DESKTOP NAV LINKS ═══ */
+  .desktop-nav {
+    display: flex;
+    align-items: center;
+    gap: 4px;
+  }
+
+  .pill-link {
+    display: inline-flex;
+    align-items: center;
+    padding: 4px 10px;
+    border-radius: 9999px;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    color: var(--theme-text-secondary);
+    text-decoration: none;
+    white-space: nowrap;
+    transition:
+      color 0.4s var(--ease-out-expo),
+      background-color 0.4s var(--ease-out-expo);
+    letter-spacing: 0.01em;
+  }
+
+  .pill-link:hover {
+    color: var(--theme-accent);
+    background: rgba(15, 76, 92, 0.06);
+  }
+
+  body.dark .pill-link:hover {
+    background: rgba(92, 188, 208, 0.08);
+  }
+
+  .pill-link.active {
+    color: var(--theme-accent);
+    background: rgba(15, 76, 92, 0.1);
+    font-weight: 600;
+  }
+
+  body.dark .pill-link.active {
+    background: rgba(92, 188, 208, 0.12);
+  }
+
+  /* ═══ SOCIAL ICONS ═══ */
+  .pill-socials {
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+
+  .pill-social-icon {
     display: flex;
     align-items: center;
     justify-content: center;
     width: 28px;
     height: 28px;
-    border: 1px solid var(--color-warm-border);
-    border-radius: 4px;
-    color: var(--color-warm-text-secondary);
-    transition: all 0.2s ease;
+    border-radius: 50%;
+    color: var(--theme-text-secondary);
+    transition:
+      color 0.4s var(--ease-out-expo),
+      background-color 0.4s var(--ease-out-expo),
+      transform 0.4s var(--ease-out-expo);
   }
 
-  body.dark .social-link {
-    border-color: var(--color-dark-border);
-    color: var(--color-dark-text-secondary);
+  .pill-social-icon:hover {
+    color: var(--theme-accent);
+    background: rgba(15, 76, 92, 0.06);
+    transform: scale(1.1);
   }
 
-  .social-link:hover {
-    border-color: var(--color-deep-teal);
-    color: var(--color-deep-teal);
+  body.dark .pill-social-icon:hover {
+    background: rgba(92, 188, 208, 0.08);
   }
 
-  body.dark .social-link:hover {
-    border-color: var(--color-dark-teal);
-    color: var(--color-dark-teal);
-  }
-
-  /* Mobile Menu Toggle */
-  .menu-toggle {
+  /* ═══ HAMBURGER ═══ */
+  .hamburger {
     display: none;
-    flex-direction: row;
+    flex-direction: column;
+    justify-content: center;
     align-items: center;
-    gap: 2px;
-    padding: 5px 10px;
+    gap: 5px;
+    width: 32px;
+    height: 32px;
     background: transparent;
-    border: 1px solid var(--color-warm-border);
-    border-radius: 4px;
+    border: none;
     cursor: pointer;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 10px;
-    font-weight: 600;
-    color: var(--color-warm-text-primary);
-    transition: all 0.2s ease;
+    padding: 0;
     flex-shrink: 0;
   }
 
-  body.dark .menu-toggle {
-    border-color: var(--color-dark-border);
-    color: var(--color-dark-text-primary);
+  .hamburger-line {
+    display: block;
+    width: 16px;
+    height: 1.5px;
+    background: var(--theme-text-primary);
+    border-radius: 1px;
+    transition: transform 0.5s var(--ease-out-expo);
+    transform-origin: center;
   }
 
-  .menu-toggle:hover {
-    border-color: var(--color-deep-teal);
-    color: var(--color-deep-teal);
-    background: rgba(15, 76, 92, 0.05);
+  .hamburger.active .hamburger-line:first-child {
+    transform: translateY(3.25px) rotate(45deg);
   }
 
-  body.dark .menu-toggle:hover {
-    border-color: var(--color-dark-teal);
-    color: var(--color-dark-teal);
-    background: rgba(88, 166, 184, 0.1);
+  .hamburger.active .hamburger-line:last-child {
+    transform: translateY(-3.25px) rotate(-45deg);
   }
 
-  .toggle-bracket {
-    color: var(--color-warm-text-secondary);
+  /* ═══ MOBILE OVERLAY ═══ */
+  .mobile-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: -1;
+    background: rgba(250, 248, 245, 0.94);
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.5s var(--ease-out-expo);
   }
 
-  body.dark .toggle-bracket {
-    color: var(--color-dark-text-secondary);
+  body.dark .mobile-overlay {
+    background: rgba(6, 6, 9, 0.94);
   }
 
-  /* Mobile Navigation (dropdown) */
-  .mobile-nav {
-    display: none;
-    flex-direction: column;
-    gap: 8px;
-    padding: 16px 20px;
-    background: rgba(248, 246, 243, 0.98);
-    border-bottom: 1px solid var(--color-warm-border);
-    backdrop-filter: blur(8px);
+  .mobile-overlay.active {
+    opacity: 1;
+    pointer-events: all;
+    z-index: 40;
+    backdrop-filter: blur(32px);
+    -webkit-backdrop-filter: blur(32px);
   }
 
-  body.dark .mobile-nav {
-    background: rgba(13, 17, 23, 0.98);
-    border-bottom-color: var(--color-dark-border);
-  }
-
-  .mobile-nav.active {
+  .overlay-content {
     display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100%;
+    gap: 24px;
+    padding: 80px 24px;
   }
 
-  /* Mobile Responsive */
+  .overlay-link {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 28px;
+    font-weight: 600;
+    color: var(--theme-text-primary);
+    text-decoration: none;
+    letter-spacing: -0.02em;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo),
+      color 0.3s ease;
+    transition-delay: calc(var(--i) * 80ms + 150ms);
+  }
+
+  .mobile-overlay.active .overlay-link {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .overlay-link:hover {
+    color: var(--theme-accent);
+  }
+
+  .overlay-socials {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    margin-top: 16px;
+    opacity: 0;
+    transform: translateY(20px);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      transform 0.5s var(--ease-out-expo);
+    transition-delay: calc(var(--i) * 80ms + 150ms);
+  }
+
+  .mobile-overlay.active .overlay-socials {
+    opacity: 1;
+    transform: translateY(0);
+  }
+
+  .overlay-social-icon {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    border: 1px solid var(--theme-border);
+    color: var(--theme-text-secondary);
+    transition:
+      color 0.4s var(--ease-out-expo),
+      border-color 0.4s var(--ease-out-expo),
+      transform 0.4s var(--ease-out-expo);
+  }
+
+  .overlay-social-icon:hover {
+    color: var(--theme-accent);
+    border-color: var(--theme-accent);
+    transform: scale(1.1);
+  }
+
+  /* ═══ RESPONSIVE ═══ */
   @media (max-width: 768px) {
-    .terminal-strip {
-      gap: 12px;
+    .glass-pill {
+      gap: 10px;
       padding: 8px 16px;
     }
 
-    .terminal-nav {
+    .desktop-nav,
+    .desktop-only {
       display: none;
     }
 
-    .social-links {
-      gap: 6px;
-    }
-
-    .social-link {
-      width: 30px;
-      height: 30px;
-    }
-
-    .menu-toggle {
+    .hamburger {
       display: flex;
     }
-  }
-
-  /* Scroll Progress Bar (2px at bottom) */
-  .terminal-progress {
-    position: absolute;
-    bottom: 0;
-    left: 0;
-    right: 0;
-    height: 2px;
-    background: var(--color-warm-border);
-    overflow: hidden;
-  }
-
-  body.dark .terminal-progress {
-    background: var(--color-dark-border);
-  }
-
-  .progress-cursor {
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 16px;
-    height: 100%;
-    background: var(--color-deep-teal);
-    animation: cursorPulse 0.8s ease-in-out infinite;
-  }
-
-  body.dark .progress-cursor {
-    background: var(--color-dark-teal);
-  }
-
-  .progress-bar {
-    height: 100%;
-    background: linear-gradient(
-      90deg,
-      var(--color-deep-teal) 0%,
-      rgba(15, 76, 92, 0.6) 100%
-    );
-    width: 0%;
-    transition: width 0.1s ease-out;
-  }
-
-  body.dark .progress-bar {
-    background: linear-gradient(
-      90deg,
-      var(--color-dark-teal) 0%,
-      rgba(88, 166, 184, 0.6) 100%
-    );
-  }
-
-  @keyframes cursorPulse {
-    0%, 100% { opacity: 1; }
-    50% { opacity: 0.6; }
-  }
-
-  /* Header background on scroll */
-  .terminal-header.scrolled .terminal-strip {
-    background: rgba(248, 246, 243, 0.98);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.05);
-  }
-
-  body.dark .terminal-header.scrolled .terminal-strip {
-    background: rgba(13, 17, 23, 0.98);
-    box-shadow: 0 2px 20px rgba(0, 0, 0, 0.2);
-  }
-
-  .terminal-header.scrolled .mobile-nav {
-    background: rgba(248, 246, 243, 0.98);
-  }
-
-  body.dark .terminal-header.scrolled .mobile-nav {
-    background: rgba(13, 17, 23, 0.98);
   }
 </style>
 
 <script>
-  // Terminal prompt click to scroll to top
-  const terminalPrompt = document.getElementById('terminal-prompt');
-  terminalPrompt?.addEventListener('click', () => {
+  const glassPill = document.getElementById('glass-pill');
+  const scrollTopBtn = document.getElementById('scroll-top-btn');
+  const hamburgerBtn = document.getElementById('hamburger-btn');
+  const mobileOverlay = document.getElementById('mobile-overlay');
+
+  // Scroll to top
+  scrollTopBtn?.addEventListener('click', () => {
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Mobile menu toggle
-  const menuToggle = document.getElementById('terminal-menu-toggle');
-  const mobileNav = document.getElementById('mobile-nav');
-
-  menuToggle?.addEventListener('click', () => {
-    mobileNav.classList.toggle('active');
+  // Hamburger toggle
+  hamburgerBtn?.addEventListener('click', () => {
+    hamburgerBtn.classList.toggle('active');
+    mobileOverlay?.classList.toggle('active');
+    document.body.style.overflow = mobileOverlay?.classList.contains('active') ? 'hidden' : '';
   });
 
-  // Close mobile menu when clicking a link
-  const allNavLinks = document.querySelectorAll('.nav-pill');
-  allNavLinks.forEach(link => {
+  // Close overlay on link click
+  const overlayLinks = document.querySelectorAll('.overlay-link');
+  overlayLinks.forEach(link => {
     link.addEventListener('click', () => {
-      if (window.innerWidth <= 768) {
-        mobileNav.classList.remove('active');
-      }
+      hamburgerBtn?.classList.remove('active');
+      mobileOverlay?.classList.remove('active');
+      document.body.style.overflow = '';
     });
   });
 
-  // Scroll progress and header state
+  // Scroll state for glass pill (passive for performance)
   let ticking = false;
-
   window.addEventListener('scroll', () => {
     if (!ticking) {
       window.requestAnimationFrame(() => {
-        const scrollY = window.scrollY;
-        const header = document.getElementById('terminal-header');
-        const progressBar = document.querySelector('.progress-bar');
-        const progressCursor = document.querySelector('.progress-cursor');
-
-        // Update header scrolled state
-        if (scrollY > 50) {
-          header?.classList.add('scrolled');
+        if (window.scrollY > 50) {
+          glassPill?.classList.add('scrolled');
         } else {
-          header?.classList.remove('scrolled');
+          glassPill?.classList.remove('scrolled');
         }
-
-        // Update scroll progress
-        const docHeight = document.documentElement.scrollHeight - window.innerHeight;
-        const progress = (scrollY / docHeight) * 100;
-        if (progressBar) {
-          progressBar.style.width = `${Math.min(progress, 100)}%`;
-        }
-        if (progressCursor) {
-          progressCursor.style.left = `${Math.min(progress, 100)}%`;
-        }
-
         ticking = false;
       });
       ticking = true;
     }
-  });
+  }, { passive: true });
 
+  // Active section observer
   const sections = ['about', 'projects', 'experience', 'education', 'references'];
   const navLinks = document.querySelectorAll('[data-nav]');
-
-  const observerOptions = {
-    root: null,
-    rootMargin: '-50% 0px -50% 0px',
-    threshold: 0,
-  };
 
   const sectionObserver = new IntersectionObserver((entries) => {
     entries.forEach((entry) => {
@@ -599,7 +463,11 @@ const hasReferences = siteConfig.references && siteConfig.references.length > 0;
         });
       }
     });
-  }, observerOptions);
+  }, {
+    root: null,
+    rootMargin: '-50% 0px -50% 0px',
+    threshold: 0,
+  });
 
   sections.forEach((section) => {
     const element = document.getElementById(section);

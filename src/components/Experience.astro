@@ -6,7 +6,7 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 
 {
   hasExperience && (
-    <section id="experience" class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16">
+    <section id="experience" class="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
       <!-- Section number -->
       <span class="section-number top-8 left-8 md:top-12 md:left-16">03</span>
 
@@ -14,29 +14,27 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
         <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
           <!-- Left column - Sticky header -->
           <div class="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
-            <div class="space-y-4">
+            <div class="space-y-4 scroll-reveal">
               <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
                 Experience
               </h2>
-              <div class="h-1 w-24 bg-[var(--theme-accent)]"></div>
+              <div class="accent-line animate h-3"></div>
             </div>
           </div>
 
-          <!-- Right column - Timeline -->
+          <!-- Right column - Z-Axis Cascade Cards -->
           <div class="lg:col-span-8">
-            <div class="relative">
-              <!-- Vertical timeline line -->
-              <div class="absolute left-0 top-0 bottom-0 w-px bg-[var(--theme-accent)] opacity-30"></div>
-
-              <div class="space-y-12">
-                {siteConfig.experience.map((exp, index) => (
-                  <div class="relative pl-8 md:pl-12 group">
-                    <!-- Timeline dot -->
-                    <div class="absolute left-0 top-2 w-2 h-2 -translate-x-1/2 bg-[var(--theme-accent)] rotate-45"></div>
-
-                    <!-- Content -->
-                    <div class="space-y-3">
-                      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-2">
+            <div class="space-y-6">
+              {siteConfig.experience.map((exp, index) => (
+                <div
+                  class="exp-card-wrapper scroll-reveal"
+                  data-delay={String(Math.min(index + 1, 4))}
+                  style={`--rotation: ${index % 2 === 0 ? '-0.4deg' : '0.3deg'}`}
+                >
+                  <div class="bezel exp-card">
+                    <div class="bezel-inner p-6 md:p-8">
+                      <!-- Header -->
+                      <div class="flex flex-col md:flex-row md:items-start md:justify-between gap-3 mb-5">
                         <div>
                           <h3 class="text-xl md:text-2xl font-semibold text-[var(--theme-accent)]">
                             {exp.company}
@@ -44,37 +42,37 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                           <p class="text-base md:text-lg text-[var(--theme-text-primary)] mt-1">
                             {exp.title}
                           </p>
+                          {exp.location && (
+                            <p class="text-xs text-[var(--theme-text-secondary)] mt-1 uppercase tracking-wider">
+                              {exp.location}
+                            </p>
+                          )}
                         </div>
-                        <div class="flex items-center gap-3">
+                        <div class="flex items-center gap-3 flex-shrink-0">
                           <span class="text-xs font-light uppercase tracking-widest text-[var(--theme-text-secondary)]">
                             {exp.dateRange}
                           </span>
                           {index === 0 && (
-                            <span class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-accent)] border border-[var(--theme-accent)] px-2 py-0.5 rounded">
+                            <span class="eyebrow text-[var(--theme-accent)] border-[var(--theme-accent)]" style="font-size: 9px; padding: 3px 10px;">
                               Current
                             </span>
                           )}
                         </div>
                       </div>
 
-                      <!-- Terminal-style bullets -->
-                      <ul class="space-y-2 pt-2">
+                      <!-- Bullets -->
+                      <ul class="space-y-3">
                         {exp.bullets.map((bullet) => (
                           <li class="flex items-start gap-3 text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed">
-                            <span class="text-[var(--theme-accent)] font-light mt-1">&gt;</span>
+                            <span class="text-[var(--theme-accent)] font-light mt-0.5 flex-shrink-0">&gt;</span>
                             <span>{bullet}</span>
                           </li>
                         ))}
                       </ul>
                     </div>
-
-                    <!-- Separator (not after last item) -->
-                    {index < siteConfig.experience.length - 1 && (
-                      <hr class="mt-8 border-t border-[var(--theme-border)]" />
-                    )}
                   </div>
-                ))}
-              </div>
+                </div>
+              ))}
             </div>
           </div>
         </div>
@@ -82,3 +80,31 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
     </section>
   )
 }
+
+<style>
+  /* Z-Axis Cascade: slight rotation + lift on hover */
+  .exp-card-wrapper {
+    transition: transform 0.7s var(--ease-out-expo);
+  }
+
+  .exp-card {
+    transform: rotate(var(--rotation, 0deg));
+    transition: all 0.7s var(--ease-out-expo);
+  }
+
+  .exp-card:hover {
+    transform: rotate(0deg) translateY(-4px);
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.08);
+  }
+
+  body.dark .exp-card:hover {
+    box-shadow: 0 16px 48px rgba(0, 0, 0, 0.35);
+  }
+
+  /* Remove rotation on mobile for touch-friendliness */
+  @media (max-width: 768px) {
+    .exp-card {
+      transform: rotate(0deg);
+    }
+  }
+</style>

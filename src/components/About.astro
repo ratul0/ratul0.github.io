@@ -1,38 +1,28 @@
 ---
 import { siteConfig } from "../config";
 
-// Group skills by category
 const backendSkills = siteConfig.skills.filter((s) =>
-  [
-    "Java",
-    "Kotlin",
-    "Spring Boot",
-    "Laravel",
-    "PostgreSQL",
-    "GraphQL",
-    "Kafka",
-    "Mockito",
-  ].includes(s),
+  ["Java", "Kotlin", "Spring Boot", "Laravel", "PostgreSQL", "GraphQL", "Kafka", "Mockito"].includes(s)
 );
 
 const frontendSkills = siteConfig.skills.filter((s) =>
-  [
-    "JavaScript",
-    "TypeScript",
-    "Angular",
-    "React",
-    "NextJS",
-    "Tanstack Start",
-    "Jest",
-  ].includes(s),
+  ["JavaScript", "TypeScript", "Angular", "React", "NextJS", "Tanstack Start", "Jest"].includes(s)
 );
 
 const toolsSkills = siteConfig.skills.filter((s) =>
-  ["Docker", "AWS", "Git", "CI/CD"].includes(s),
+  ["Docker", "AWS", "Git", "CI/CD"].includes(s)
 );
+
+const skillCategories = [
+  { label: "Backend", skills: backendSkills, span: "md:col-span-2" },
+  { label: "Frontend", skills: frontendSkills, span: "" },
+  { label: "Tools & Infra", skills: toolsSkills, span: "" },
+];
+
+const hasLanguages = siteConfig.languages && siteConfig.languages.length > 0;
 ---
 
-<section id="about" class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16">
+<section id="about" class="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
   <!-- Section number -->
   <span class="section-number top-8 right-8 md:top-12 md:right-16">02</span>
 
@@ -40,76 +30,72 @@ const toolsSkills = siteConfig.skills.filter((s) =>
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
       <!-- Left column - Sticky header -->
       <div class="lg:col-span-4 lg:sticky lg:top-32 lg:self-start">
-        <div class="space-y-4">
+        <div class="space-y-4 scroll-reveal">
           <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
             About
           </h2>
-          <div class="h-1 w-24 bg-[var(--theme-accent)]"></div>
+          <div class="accent-line animate h-3"></div>
         </div>
       </div>
 
       <!-- Right column - Content -->
       <div class="lg:col-span-8 space-y-12">
         <!-- Bio -->
-        <div class="space-y-4">
-          <p
-            class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-light"
-          >
+        <div class="scroll-reveal">
+          <p class="text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-light">
             {siteConfig.aboutMe}
           </p>
         </div>
 
-        <!-- Skills grouped by category -->
-        <div class="space-y-10 pt-4">
-          <!-- Backend -->
-          <div>
-            <p
-              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
-            >
-              Backend
-            </p>
-            <div class="flex flex-wrap gap-2">
-              {
-                backendSkills.map((skill) => (
-                  <span class="skill-pill">{skill}</span>
-                ))
-              }
+        <!-- Skills in Bento Grid -->
+        <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
+          {skillCategories.map((cat, i) => (
+            <div class={`bezel scroll-reveal ${cat.span}`} data-delay={String(i + 1)}>
+              <div class="bezel-inner p-5 md:p-6">
+                <p class="eyebrow mb-4">{cat.label}</p>
+                <div class="flex flex-wrap gap-2">
+                  {cat.skills.map((skill) => (
+                    <span class="skill-pill">{skill}</span>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
+          ))}
 
-          <!-- Frontend -->
-          <div>
-            <p
-              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
-            >
-              Frontend
-            </p>
-            <div class="flex flex-wrap gap-2">
-              {
-                frontendSkills.map((skill) => (
-                  <span class="skill-pill">{skill}</span>
-                ))
-              }
+          <!-- Languages -->
+          {hasLanguages && (
+            <div class="bezel md:col-span-2 scroll-reveal" data-delay="4">
+              <div class="bezel-inner p-5 md:p-6">
+                <p class="eyebrow mb-4">Languages</p>
+                <div class="flex flex-wrap gap-6">
+                  {siteConfig.languages.map((lang) => (
+                    <div class="flex items-center gap-3">
+                      <span class="text-sm text-[var(--theme-text-primary)] font-medium">{lang.name}</span>
+                      <div class="flex gap-1.5">
+                        {[1, 2, 3, 4, 5].map((level) => (
+                          <span
+                            class="lang-dot"
+                            style={`background: ${level <= lang.level ? 'var(--theme-accent)' : 'var(--theme-border)'}`}
+                          />
+                        ))}
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              </div>
             </div>
-          </div>
-
-          <!-- Tools & Infrastructure -->
-          <div>
-            <p
-              class="text-xs font-semibold uppercase tracking-widest text-[var(--theme-text-secondary)] mb-4"
-            >
-              Tools & Infrastructure
-            </p>
-            <div class="flex flex-wrap gap-2">
-              {
-                toolsSkills.map((skill) => (
-                  <span class="skill-pill">{skill}</span>
-                ))
-              }
-            </div>
-          </div>
+          )}
         </div>
       </div>
     </div>
   </div>
 </section>
+
+<style>
+  .lang-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+    transition: background-color 0.5s var(--ease-out-expo);
+  }
+</style>

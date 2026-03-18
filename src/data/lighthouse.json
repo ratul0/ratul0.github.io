@@ -1,4 +1,9 @@
 {
-  "fetchedAt": "2026-03-18T00:00:00Z",
-  "scores": { "performance": 96, "accessibility": 100, "bestPractices": 95, "seo": 100 }
+  "fetchedAt": "2026-03-18T14:47:10Z",
+  "scores": {
+    "performance": 100,
+    "accessibility": 100,
+    "bestPractices": 100,
+    "seo": 100
+  }
 }

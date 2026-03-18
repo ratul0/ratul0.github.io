@@ -25,8 +25,14 @@ jobs:
 
       - name: Fetch PageSpeed Insights scores
         id: psi
+        env:
+          PSI_API_KEY: ${{ secrets.PSI_API_KEY }}
         run: |
-          RESPONSE=$(curl -sSf "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop") || {
+          URL="https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop"
+          if [ -n "$PSI_API_KEY" ]; then
+            URL="${URL}&key=${PSI_API_KEY}"
+          fi
+          RESPONSE=$(curl -sSf "$URL") || {
             echo "PSI request failed"
             echo "valid=false" >> "$GITHUB_OUTPUT"
             exit 0

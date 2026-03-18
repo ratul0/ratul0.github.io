@@ -1,6 +1,6 @@
 export const siteConfig = {
   name: "Yousuf Khan",
-  title: "Senior Full Stack Software Engineer",
+  title: "Senior Software Engineer",
   description: "Full Stack Software Engineer with 9+ years of experience in logistics, healthcare, and e-commerce",
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)

@@ -422,6 +422,24 @@ body.dark .profile-image-frame:hover {
 
 
 /* ═══════════════════════════════════════
+   SECTION LINK (subtle outbound link in sticky headers)
+   ═══════════════════════════════════════ */
+
+.section-link {
+  display: inline-block;
+  margin-top: 0.5rem;
+  font-size: 13px;
+  color: var(--theme-text-secondary);
+  text-decoration: none;
+  transition: color 0.3s ease;
+}
+
+.section-link:hover {
+  color: var(--theme-accent);
+}
+
+
+/* ═══════════════════════════════════════
    THEME TOGGLE BUTTON
    ═══════════════════════════════════════ */
 

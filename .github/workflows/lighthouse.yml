@@ -1,0 +1,73 @@
+name: Update Lighthouse Scores
+
+on:
+  workflow_run:
+    workflows: ["Deploy to GitHub Pages"]
+    types: [completed]
+
+permissions:
+  contents: write
+
+jobs:
+  lighthouse:
+    runs-on: ubuntu-latest
+    if: ${{ github.event.workflow_run.conclusion == 'success' }}
+
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          ref: main
+
+      - name: Wait for Pages propagation
+        run: sleep 30
+
+      - name: Fetch PageSpeed Insights scores
+        id: psi
+        run: |
+          RESPONSE=$(curl -sf "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop") || {
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+            exit 0
+          }
+
+          read -r PERF A11Y BP SEO < <(echo "$RESPONSE" | jq -r '
+            .lighthouseResult.categories |
+            [.performance.score, .accessibility.score, .["best-practices"].score, .seo.score] |
+            map(. * 100 | round) | @tsv')
+
+          echo "perf=$PERF" >> "$GITHUB_OUTPUT"
+          echo "a11y=$A11Y" >> "$GITHUB_OUTPUT"
+          echo "bp=$BP" >> "$GITHUB_OUTPUT"
+          echo "seo=$SEO" >> "$GITHUB_OUTPUT"
+
+          if [ "$PERF" = "null" ] || [ "$A11Y" = "null" ] || [ "$BP" = "null" ] || [ "$SEO" = "null" ]; then
+            echo "valid=false" >> "$GITHUB_OUTPUT"
+          else
+            echo "valid=true" >> "$GITHUB_OUTPUT"
+          fi
+
+      - name: Update lighthouse.json
+        if: steps.psi.outputs.valid == 'true'
+        env:
+          PERF_SCORE: ${{ steps.psi.outputs.perf }}
+          A11Y_SCORE: ${{ steps.psi.outputs.a11y }}
+          BP_SCORE: ${{ steps.psi.outputs.bp }}
+          SEO_SCORE: ${{ steps.psi.outputs.seo }}
+        run: |
+          jq -n \
+            --argjson p "$PERF_SCORE" \
+            --argjson a "$A11Y_SCORE" \
+            --argjson b "$BP_SCORE" \
+            --argjson s "$SEO_SCORE" \
+            '{fetchedAt: (now | strftime("%Y-%m-%dT%H:%M:%SZ")), scores: {performance:$p, accessibility:$a, bestPractices:$b, seo:$s}}' \
+            > src/data/lighthouse.json
+
+      - name: Commit and push
+        if: steps.psi.outputs.valid == 'true'
+        run: |
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add src/data/lighthouse.json
+          git diff --staged --quiet && echo "No changes" && exit 0
+          git commit -m "chore: update lighthouse scores [skip ci]"
+          git push

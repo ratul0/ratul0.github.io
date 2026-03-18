@@ -70,11 +70,17 @@ const footerSocials = [
                   <span class="key">"{key}"</span>
                   <span class="colon">:</span>
                   <span class="value">"{value}"</span>
-                  {index < Object.keys(status).length - 1 && (
-                    <span class="text-[var(--theme-text-secondary)]">,</span>
-                  )}
+                  {index < Object.keys(status).length - 1
+                    ? <span class="text-[var(--theme-text-secondary)]">,</span>
+                    : <span id="trailing-comma" class="text-[var(--theme-text-secondary)]" hidden>,</span>
+                  }
                 </div>
               ))}
+              <div id="visits-line" class="status-line pl-2 md:pl-4" hidden>
+                <span class="key">"site_visits"</span>
+                <span class="colon">:</span>
+                <span class="value" id="visits-value">"0"</span>
+              </div>
               <span class="text-[var(--theme-text-secondary)]">{"}"}</span>
             </div>
           </div>
@@ -249,3 +255,18 @@ const footerSocials = [
     50% { opacity: 0.5; transform: scale(0.9); }
   }
 </style>
+
+<script>
+  try {
+    const res = await fetch("https://api.counterapi.dev/v1/ratul0-github-io/visitors/up");
+    if (!res.ok) throw new Error();
+    const count = Number((await res.json()).count);
+    if (!Number.isFinite(count)) throw new Error();
+
+    document.getElementById("visits-value")!.textContent = `"${count.toLocaleString()}"`;
+    document.getElementById("visits-line")!.hidden = false;
+    document.getElementById("trailing-comma")!.hidden = false;
+  } catch {
+    // API down → visits row stays hidden, panel unchanged
+  }
+</script>

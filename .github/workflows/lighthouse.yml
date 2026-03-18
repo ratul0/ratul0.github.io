@@ -9,7 +9,6 @@ env:
 
 permissions:
   contents: write
-  actions: read
 
 concurrency:
   group: lighthouse
@@ -24,41 +23,7 @@ jobs:
         with:
           ref: main
 
-      - name: Check for new deploy since last audit
-        id: check
-        env:
-          GH_TOKEN: ${{ github.token }}
-          EVENT_NAME: ${{ github.event_name }}
-          REPO: ${{ github.repository }}
-        run: |
-          if [ "$EVENT_NAME" = "workflow_dispatch" ]; then
-            echo "Manual trigger — skipping deploy check"
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-
-          LAST_DEPLOY=$(gh run list --repo "$REPO" --workflow deploy.yml --branch main --status success --limit 1 --json updatedAt --jq '.[0].updatedAt')
-
-          if [ ! -f src/data/lighthouse.json ]; then
-            echo "lighthouse.json missing — running audit"
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-            exit 0
-          fi
-          FETCHED_AT=$(jq -r '.fetchedAt' src/data/lighthouse.json)
-
-          if [ -z "$LAST_DEPLOY" ]; then
-            echo "No successful deploys found, skipping"
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-          elif [[ "$LAST_DEPLOY" > "$FETCHED_AT" ]]; then
-            echo "New deploy found ($LAST_DEPLOY > $FETCHED_AT), running audit"
-            echo "should_run=true" >> "$GITHUB_OUTPUT"
-          else
-            echo "No new deploy since last audit ($LAST_DEPLOY <= $FETCHED_AT), skipping"
-            echo "should_run=false" >> "$GITHUB_OUTPUT"
-          fi
-
       - name: Fetch PageSpeed Insights scores
-        if: steps.check.outputs.should_run == 'true'
         id: psi
         run: |
           RESPONSE=$(curl -sf "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop") || {

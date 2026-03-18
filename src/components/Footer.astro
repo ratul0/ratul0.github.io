@@ -7,10 +7,9 @@ const startYear = 2017;
 const yearsOfExperience = getCurrentYear - startYear;
 
 const status = {
-  availability: "Open to opportunities",
+  availability: "open to opportunities",
   experience: `${yearsOfExperience}+ years`,
-  location: "Remote / Germany",
-  response_time: "<24 hours",
+  base: "Bremen, DE",
 };
 
 // Social links for footer nav (filter to external links only)
@@ -25,34 +24,34 @@ const footerSocials = [
   <!-- Grid background -->
   <div class="footer-grid absolute inset-0 opacity-[0.02]"></div>
 
-  <div class="max-w-6xl mx-auto relative">
-    <div class="grid grid-cols-1 lg:grid-cols-12 gap-12 lg:gap-16">
-      <!-- Left: CTA Section -->
-      <div class="lg:col-span-7 space-y-8 scroll-reveal">
-        <p class="text-xl md:text-2xl lg:text-3xl font-semibold text-[var(--theme-text-primary)] leading-tight whitespace-nowrap">
-          From concept to deployment
-        </p>
+  <div class="max-w-6xl mx-auto relative space-y-12">
 
-        <!-- Button-in-Button CTA -->
-        <a
-          href={`mailto:${siteConfig.social.email}`}
-          class="group inline-flex items-center gap-0 rounded-full border border-[var(--theme-border)] pl-6 pr-1.5 py-1.5 transition-colors duration-500 ease-expo hover:border-[var(--theme-accent)]"
-        >
-          <span class="text-sm md:text-base text-[var(--theme-accent)] font-medium pr-3">
-            {siteConfig.social.email}
-          </span>
-          <span class="arrow-badge w-8 h-8 group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
-            <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-              <path d="M2 10L10 2M10 2H4M10 2V8" />
-            </svg>
-          </span>
-        </a>
-      </div>
+    <!-- Zone 1 — Contact Strip -->
+    <div class="scroll-reveal">
+      <a
+        href={`mailto:${siteConfig.social.email}`}
+        class="contact-strip group bezel-sm"
+      >
+        <div class="bezel-inner">
+          <div class="contact-strip-inner">
+            <span class="contact-prompt">$ connect</span>
+            <span class="contact-email">{siteConfig.social.email}</span>
+            <span class="arrow-badge w-8 h-8 group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                <path d="M2 10L10 2M10 2H4M10 2V8" />
+              </svg>
+            </span>
+          </div>
+        </div>
+      </a>
+    </div>
 
-      <!-- Right: Status Panel -->
-      <div class="lg:col-span-5 scroll-reveal" data-delay="1">
-        <!-- Double-Bezel status panel -->
-        <div class="bezel mb-4">
+    <!-- Zone 2 — Status Panel + Social Grid -->
+    <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
+
+      <!-- Left: Status Panel (col-span-7) -->
+      <div class="lg:col-span-7 scroll-reveal" data-delay="1">
+        <div class="bezel">
           <div class="bezel-inner">
             <div class="panel-header">
               <span class="panel-dots">
@@ -63,10 +62,10 @@ const footerSocials = [
               <span class="panel-title">status.json</span>
             </div>
 
-            <div class="panel-content font-mono text-xs md:text-sm">
+            <div class="panel-content font-mono text-xs md:text-sm" id="status-panel">
               <span class="text-[var(--theme-text-secondary)]">{"{"}</span>
               {Object.entries(status).map(([key, value], index) => (
-                <div class="status-line pl-2 md:pl-4">
+                <div class="status-line status-animate pl-2 md:pl-4" style={`--line-index: ${index}`}>
                   <span class="key">"{key}"</span>
                   <span class="colon">:</span>
                   <span class="value">"{value}"</span>
@@ -76,7 +75,7 @@ const footerSocials = [
                   }
                 </div>
               ))}
-              <div id="visits-line" class="status-line pl-2 md:pl-4" hidden>
+              <div id="visits-line" class="status-line status-animate pl-2 md:pl-4" style={`--line-index: ${Object.keys(status).length}`} hidden>
                 <span class="key">"site_visits"</span>
                 <span class="colon">:</span>
                 <span class="value" id="visits-value">"0"</span>
@@ -85,29 +84,33 @@ const footerSocials = [
             </div>
           </div>
         </div>
+      </div>
 
-        <!-- Social links -->
-        <nav class="social-nav">
-          {footerSocials.map((link) => (
-            <a href={link.href} target="_blank" rel="noopener noreferrer" class="social-item group">
-              <Icon name={link.icon} width="16" height="16" />
-              <span>{link.label}</span>
-              <span class="arrow arrow-badge w-5 h-5 group-hover:translate-x-0.5 group-hover:-translate-y-px">
-                <svg width="8" height="8" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                  <path d="M1 7L7 1M7 1H3M7 1V5" />
-                </svg>
-              </span>
-            </a>
-          ))}
-        </nav>
+      <!-- Right: Social Grid (col-span-5) -->
+      <div class="lg:col-span-5 scroll-reveal" data-delay="2">
+        <div class="bezel h-full">
+          <div class="bezel-inner h-full">
+            <nav class="social-grid h-full">
+              {footerSocials.map((link) => (
+                <a href={link.href} target="_blank" rel="noopener noreferrer" class="social-cell group">
+                  <Icon name={link.icon} class="social-cell-icon" width="20" height="20" />
+                  <span class="social-cell-label">{link.label}</span>
+                </a>
+              ))}
+            </nav>
+          </div>
+        </div>
       </div>
     </div>
 
-    <!-- Bottom bar -->
-    <div class="mt-16 pt-8 border-t border-[var(--theme-border)]">
+    <!-- Zone 3 — Footer Bar -->
+    <div class="pt-8 border-t border-[var(--theme-border)]">
       <div class="flex flex-col md:flex-row items-center justify-between gap-4">
         <p class="text-xs font-mono text-[var(--theme-text-secondary)] opacity-50">
           &copy; {getCurrentYear} {siteConfig.name}.
+        </p>
+        <p class="text-xs font-mono text-[var(--theme-text-secondary)] opacity-50">
+          Built with Astro + Tailwind
         </p>
       </div>
     </div>
@@ -124,7 +127,63 @@ const footerSocials = [
     -webkit-mask-image: linear-gradient(to bottom, transparent, black 10%, black 90%, transparent);
   }
 
-  /* Panel styling */
+  /* ═══════════════════════════════════════
+     ZONE 1 — CONTACT STRIP
+     ═══════════════════════════════════════ */
+
+  .contact-strip {
+    display: block;
+    text-decoration: none;
+    transition:
+      border-color 0.5s var(--ease-out-expo),
+      box-shadow 0.5s var(--ease-out-expo);
+  }
+
+  .contact-strip-inner {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 14px 16px;
+  }
+
+  .contact-prompt {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 11px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.05em;
+    color: var(--theme-text-secondary);
+    opacity: 0.6;
+    flex-shrink: 0;
+  }
+
+  .contact-email {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--theme-accent);
+    transition: transform 0.5s var(--ease-out-expo);
+  }
+
+  @media (min-width: 768px) {
+    .contact-email {
+      font-size: 1.125rem;
+    }
+  }
+
+  .contact-strip:hover .contact-email {
+    transform: translateX(2px);
+  }
+
+  .contact-strip-inner .arrow-badge {
+    margin-left: auto;
+    flex-shrink: 0;
+  }
+
+  /* ═══════════════════════════════════════
+     STATUS PANEL
+     ═══════════════════════════════════════ */
+
   .panel-header {
     display: flex;
     align-items: center;
@@ -170,77 +229,122 @@ const footerSocials = [
     gap: 6px;
     padding-top: 4px;
     padding-bottom: 4px;
+    padding-right: 8px;
     line-height: 1.6;
+    border-radius: 4px;
+    transition:
+      background-color 0.3s ease,
+      padding-left 0.3s ease;
   }
 
-  .key { color: var(--theme-accent); }
+  .status-line:hover {
+    background: rgba(15, 76, 92, 0.04);
+  }
+
+  body.dark .status-line:hover {
+    background: rgba(92, 188, 208, 0.06);
+  }
+
+  .status-line:hover .key {
+    color: var(--theme-accent);
+    filter: brightness(1.15);
+  }
+
+  .key { color: var(--theme-accent); transition: filter 0.3s ease; }
   .colon { color: var(--theme-text-secondary); }
   .value { color: var(--theme-text-secondary); }
 
-  /* Social nav */
-  .social-nav {
-    display: flex;
-    flex-direction: column;
-    gap: 8px;
-  }
+  /* ═══════════════════════════════════════
+     STATUS LINE STAGGERED REVEAL
+     ═══════════════════════════════════════ */
 
-  .social-item {
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding: 10px 14px;
-    border: 1px solid var(--theme-border);
-    border-radius: 10px;
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 12px;
-    color: var(--theme-text-secondary);
-    text-decoration: none;
-    transition:
-      border-color 0.5s var(--ease-out-expo),
-      color 0.5s var(--ease-out-expo),
-      background-color 0.5s var(--ease-out-expo);
-  }
-
-  .social-item svg:first-child {
-    flex-shrink: 0;
-    transition: transform 0.5s var(--ease-out-expo);
-  }
-
-  .social-item .arrow {
-    margin-left: auto;
+  .status-animate {
     opacity: 0;
     transform: translateX(-8px);
     transition:
       opacity 0.5s var(--ease-out-expo),
       transform 0.5s var(--ease-out-expo),
-      background-color 0.5s var(--ease-out-expo),
-      color 0.5s var(--ease-out-expo);
+      background-color 0.3s ease,
+      padding-left 0.3s ease;
+    transition-delay: calc(var(--line-index, 0) * 120ms);
   }
 
-  .social-item:hover {
-    border-color: var(--theme-accent);
-    color: var(--theme-accent);
-    background: rgba(15, 76, 92, 0.03);
-  }
-
-  body.dark .social-item:hover {
-    background: rgba(92, 188, 208, 0.06);
-  }
-
-  .social-item:hover svg:first-child {
-    transform: scale(1.1);
-  }
-
-  .social-item:hover .arrow {
+  .status-animate.revealed {
     opacity: 1;
     transform: translateX(0);
   }
 
-  /* Status pulse */
+  @media (prefers-reduced-motion: reduce) {
+    .status-animate {
+      opacity: 1;
+      transform: none;
+      transition-delay: 0s;
+    }
+  }
 
+  /* ═══════════════════════════════════════
+     ZONE 2 — SOCIAL GRID
+     ═══════════════════════════════════════ */
+
+  .social-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+  }
+
+  .social-cell {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    padding: 24px 12px;
+    text-decoration: none;
+    color: var(--theme-text-secondary);
+    position: relative;
+    transition:
+      background-color 0.4s var(--ease-out-expo),
+      color 0.4s var(--ease-out-expo);
+  }
+
+  /* 1px grid lines between cells */
+  .social-cell:not(:last-child) {
+    border-right: 1px solid var(--theme-border);
+  }
+
+  .social-cell-icon {
+    flex-shrink: 0;
+    transition: transform 0.4s var(--ease-out-expo);
+  }
+
+  .social-cell:hover {
+    background: rgba(15, 76, 92, 0.04);
+    color: var(--theme-accent);
+  }
+
+  body.dark .social-cell:hover {
+    background: rgba(92, 188, 208, 0.06);
+  }
+
+  .social-cell:hover .social-cell-icon {
+    transform: scale(1.15);
+  }
+
+  .social-cell-label {
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    font-weight: 500;
+    text-transform: uppercase;
+    letter-spacing: 0.1em;
+    transition: color 0.4s var(--ease-out-expo);
+  }
+
+  .social-cell:hover .social-cell-label {
+    color: var(--theme-accent);
+  }
 </style>
 
 <script>
+  // Visitor counter
   try {
     const res = await fetch("https://api.counterapi.dev/v1/ratul0-github-io/visitors/up");
     if (!res.ok) throw new Error();
@@ -253,4 +357,33 @@ const footerSocials = [
   } catch {
     // API down → visits row stays hidden, panel unchanged
   }
+
+  // Status line staggered reveal
+  function initStatusReveal() {
+    const panel = document.getElementById("status-panel");
+    if (!panel) return;
+
+    const lines = panel.querySelectorAll<HTMLElement>(".status-animate");
+
+    // Respect prefers-reduced-motion
+    if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
+      lines.forEach((line) => line.classList.add("revealed"));
+      return;
+    }
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          lines.forEach((line) => line.classList.add("revealed"));
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    observer.observe(panel);
+  }
+
+  initStatusReveal();
+  document.addEventListener("astro:after-swap", initStatusReveal);
 </script>

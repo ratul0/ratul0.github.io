@@ -1,6 +1,5 @@
 ---
 import { siteConfig } from "../config";
-import { Icon } from "astro-icon/components";
 
 const getCurrentYear = new Date().getFullYear();
 const startYear = 2017;
@@ -12,12 +11,35 @@ const status = {
   base: "Bremen, DE",
 };
 
-// Social links for footer nav (filter to external links only)
-const footerSocials = [
-  siteConfig.social?.linkedin && { href: siteConfig.social.linkedin, label: "LinkedIn", icon: "simple-icons:linkedin" },
-  siteConfig.social?.resume && { href: siteConfig.social.resume, label: "Resume", icon: "simple-icons:readdotcv" },
-  siteConfig.social?.github && { href: siteConfig.social.github, label: "GitHub", icon: "simple-icons:github" },
-].filter(Boolean) as { href: string; label: string; icon: string }[];
+// Lighthouse data
+let lhScores: Record<string, number> | null = null;
+try {
+  const data = await import("../data/lighthouse.json");
+  if (data.scores) lhScores = data.scores;
+} catch { /* gauges won't render */ }
+
+const MINI_R = 16;
+
+function getColor(score: number): string {
+  if (score >= 90) return "#0cce6b";
+  if (score >= 50) return "#ffa400";
+  return "#ff4e42";
+}
+
+const hasLighthouse = lhScores && Object.values(lhScores).some((v: number) => v > 0);
+
+const miniGauges = hasLighthouse
+  ? [
+      { key: "performance", label: "Perf" },
+      { key: "accessibility", label: "A11y" },
+      { key: "bestPractices", label: "Best P." },
+      { key: "seo", label: "SEO" },
+    ].map((cat, i) => {
+      const score = lhScores![cat.key] ?? 0;
+      const color = getColor(score);
+      return { ...cat, score, color, index: i };
+    })
+  : [];
 ---
 
 <footer class="relative py-24 md:py-32 px-6 md:px-12 lg:px-16 border-t border-[var(--theme-border)] overflow-hidden">
@@ -26,27 +48,7 @@ const footerSocials = [
 
   <div class="max-w-6xl mx-auto relative space-y-12">
 
-    <!-- Zone 1 — Contact Strip -->
-    <div class="scroll-reveal">
-      <a
-        href={`mailto:${siteConfig.social.email}`}
-        class="contact-strip group bezel-sm"
-      >
-        <div class="bezel-inner">
-          <div class="contact-strip-inner">
-            <span class="contact-prompt">$ connect</span>
-            <span class="contact-email">{siteConfig.social.email}</span>
-            <span class="arrow-badge w-8 h-8 group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
-              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
-                <path d="M2 10L10 2M10 2H4M10 2V8" />
-              </svg>
-            </span>
-          </div>
-        </div>
-      </a>
-    </div>
-
-    <!-- Zone 2 — Status Panel + Social Grid -->
+    <!-- Zone 1 — Status Panel + Lighthouse -->
     <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 lg:gap-8">
 
       <!-- Left: Status Panel (col-span-7) -->
@@ -86,21 +88,84 @@ const footerSocials = [
         </div>
       </div>
 
-      <!-- Right: Social Grid (col-span-5) -->
-      <div class="lg:col-span-5 scroll-reveal" data-delay="2">
-        <div class="bezel h-full">
-          <div class="bezel-inner h-full">
-            <nav class="social-grid h-full">
-              {footerSocials.map((link) => (
-                <a href={link.href} target="_blank" rel="noopener noreferrer" class="social-cell group">
-                  <Icon name={link.icon} class="social-cell-icon" width="20" height="20" />
-                  <span class="social-cell-label">{link.label}</span>
-                </a>
-              ))}
-            </nav>
+      <!-- Right: Lighthouse Gauges (col-span-5) -->
+      {hasLighthouse && (
+        <div class="lg:col-span-5 scroll-reveal" data-delay="2">
+          <div class="bezel h-full">
+            <div class="bezel-inner h-full">
+              <div class="lighthouse-compact" id="footer-gauges">
+                <div class="mini-gauge-row">
+                  {miniGauges.map((g) => (
+                    <div
+                      class="mini-gauge"
+                      data-score={g.score}
+                      data-color={g.color}
+                      data-index={g.index}
+                    >
+                      <svg
+                        class="mini-gauge-svg"
+                        viewBox="0 0 40 40"
+                        xmlns="http://www.w3.org/2000/svg"
+                      >
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r={MINI_R}
+                          fill="none"
+                          stroke="currentColor"
+                          stroke-width="3"
+                          class="mini-gauge-track"
+                        />
+                        <circle
+                          cx="20"
+                          cy="20"
+                          r={MINI_R}
+                          fill="none"
+                          stroke={g.color}
+                          stroke-width="3"
+                          stroke-linecap="round"
+                          class="mini-gauge-ring"
+                          transform="rotate(-90 20 20)"
+                        />
+                      </svg>
+                      <span class="mini-gauge-score">0</span>
+                      <span class="mini-gauge-label">{g.label}</span>
+                    </div>
+                  ))}
+                </div>
+              </div>
+            </div>
           </div>
+          <a
+            href="https://pagespeed.web.dev/analysis?url=https://ratul0.github.io&form_factor=desktop"
+            target="_blank"
+            rel="noopener noreferrer"
+            class="verify-link"
+          >
+            Verify lighthouse scores ↗
+          </a>
         </div>
-      </div>
+      )}
+    </div>
+
+    <!-- Zone 2 — Contact Strip -->
+    <div class="scroll-reveal" data-delay="3">
+      <a
+        href={`mailto:${siteConfig.social.email}`}
+        class="contact-rule group"
+      >
+        <span class="contact-rule-line"></span>
+        <span class="contact-rule-email">
+          {siteConfig.social.email}
+          <span class="arrow-badge w-6 h-6 ml-2 group-hover:translate-x-0.5 group-hover:-translate-y-px group-hover:scale-105">
+            <svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="2" y="4" width="20" height="16" rx="2" />
+              <path d="M22 7l-10 7L2 7" />
+            </svg>
+          </span>
+        </span>
+        <span class="contact-rule-line"></span>
+      </a>
     </div>
 
     <!-- Zone 3 — Footer Bar -->
@@ -128,56 +193,47 @@ const footerSocials = [
   }
 
   /* ═══════════════════════════════════════
-     ZONE 1 — CONTACT STRIP
+     ZONE 2 — CONTACT RULE
      ═══════════════════════════════════════ */
 
-  .contact-strip {
-    display: block;
-    text-decoration: none;
-    transition:
-      border-color 0.5s var(--ease-out-expo),
-      box-shadow 0.5s var(--ease-out-expo);
-  }
-
-  .contact-strip-inner {
+  .contact-rule {
     display: flex;
     align-items: center;
-    gap: 12px;
-    padding: 14px 16px;
+    gap: 20px;
+    text-decoration: none;
+    padding: 8px 0;
   }
 
-  .contact-prompt {
-    font-family: 'IBM Plex Mono', monospace;
-    font-size: 11px;
-    font-weight: 500;
-    text-transform: uppercase;
-    letter-spacing: 0.05em;
-    color: var(--theme-text-secondary);
-    opacity: 0.6;
-    flex-shrink: 0;
+  .contact-rule-line {
+    flex: 1;
+    height: 1px;
+    background: var(--theme-border);
+    min-width: 24px;
+    transition: background-color 0.5s var(--ease-out-expo);
   }
 
-  .contact-email {
-    font-family: 'IBM Plex Mono', monospace;
+  .contact-rule:hover .contact-rule-line {
+    background: var(--theme-accent);
+  }
+
+  .contact-rule-email {
     font-size: 1rem;
     font-weight: 500;
     color: var(--theme-accent);
+    display: inline-flex;
+    align-items: center;
+    flex-shrink: 0;
     transition: transform 0.5s var(--ease-out-expo);
   }
 
   @media (min-width: 768px) {
-    .contact-email {
+    .contact-rule-email {
       font-size: 1.125rem;
     }
   }
 
-  .contact-strip:hover .contact-email {
-    transform: translateX(2px);
-  }
-
-  .contact-strip-inner .arrow-badge {
-    margin-left: auto;
-    flex-shrink: 0;
+  .contact-rule:hover .contact-rule-email {
+    transform: translateY(-1px);
   }
 
   /* ═══════════════════════════════════════
@@ -188,7 +244,7 @@ const footerSocials = [
     display: flex;
     align-items: center;
     gap: 12px;
-    padding: 10px 14px;
+    padding: 8px 12px;
     border-bottom: 1px solid var(--theme-border);
     background: rgba(0, 0, 0, 0.02);
     transition: background-color 0.3s ease;
@@ -220,15 +276,15 @@ const footerSocials = [
   }
 
   .panel-content {
-    padding: 14px;
+    padding: 10px 12px;
   }
 
   .status-line {
     display: flex;
     flex-wrap: wrap;
     gap: 6px;
-    padding-top: 4px;
-    padding-bottom: 4px;
+    padding-top: 2px;
+    padding-bottom: 2px;
     padding-right: 8px;
     line-height: 1.6;
     border-radius: 4px;
@@ -283,64 +339,91 @@ const footerSocials = [
   }
 
   /* ═══════════════════════════════════════
-     ZONE 2 — SOCIAL GRID
+     MINI LIGHTHOUSE GAUGES
      ═══════════════════════════════════════ */
 
-  .social-grid {
-    display: grid;
-    grid-template-columns: repeat(3, 1fr);
+  .lighthouse-compact {
+    padding: 20px 16px;
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100%;
   }
 
-  .social-cell {
+  .mini-gauge-row {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 12px;
+    width: 100%;
+  }
+
+  .mini-gauge {
     display: flex;
     flex-direction: column;
     align-items: center;
-    justify-content: center;
     gap: 8px;
-    padding: 24px 12px;
-    text-decoration: none;
-    color: var(--theme-text-secondary);
     position: relative;
-    transition:
-      background-color 0.4s var(--ease-out-expo),
-      color 0.4s var(--ease-out-expo);
   }
 
-  /* 1px grid lines between cells */
-  .social-cell:not(:last-child) {
-    border-right: 1px solid var(--theme-border);
+  .mini-gauge-svg {
+    width: 72px;
+    height: 72px;
+    display: block;
   }
 
-  .social-cell-icon {
-    flex-shrink: 0;
-    transition: transform 0.4s var(--ease-out-expo);
+  .mini-gauge-track {
+    opacity: 0.15;
   }
 
-  .social-cell:hover {
-    background: rgba(15, 76, 92, 0.04);
-    color: var(--theme-accent);
+  .mini-gauge-ring {
+    stroke-dasharray: 100.53;
+    stroke-dashoffset: 100.53;
+    transition: none;
   }
 
-  body.dark .social-cell:hover {
-    background: rgba(92, 188, 208, 0.06);
+  .mini-gauge-score {
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    height: 72px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 18px;
+    font-weight: 700;
+    font-family: "IBM Plex Mono", monospace;
+    color: var(--theme-text-primary);
   }
 
-  .social-cell:hover .social-cell-icon {
-    transform: scale(1.15);
-  }
-
-  .social-cell-label {
+  .mini-gauge-label {
     font-family: 'IBM Plex Mono', monospace;
     font-size: 10px;
     font-weight: 500;
     text-transform: uppercase;
-    letter-spacing: 0.1em;
-    transition: color 0.4s var(--ease-out-expo);
+    letter-spacing: 0.08em;
+    color: var(--theme-text-secondary);
+    text-align: center;
   }
 
-  .social-cell:hover .social-cell-label {
+  .verify-link {
+    display: block;
+    text-align: right;
+    font-family: 'IBM Plex Mono', monospace;
+    font-size: 10px;
+    color: var(--theme-text-secondary);
+    opacity: 0.4;
+    text-decoration: none;
+    margin-top: 8px;
+    transition: opacity 0.3s ease, color 0.3s ease;
+  }
+
+  .verify-link:hover {
+    opacity: 1;
     color: var(--theme-accent);
   }
+
 </style>
 
 <script>
@@ -365,7 +448,6 @@ const footerSocials = [
 
     const lines = panel.querySelectorAll<HTMLElement>(".status-animate");
 
-    // Respect prefers-reduced-motion
     if (window.matchMedia("(prefers-reduced-motion: reduce)").matches) {
       lines.forEach((line) => line.classList.add("revealed"));
       return;
@@ -386,4 +468,72 @@ const footerSocials = [
 
   initStatusReveal();
   document.addEventListener("astro:after-swap", initStatusReveal);
+
+  // Mini lighthouse gauge animation
+  let gaugeObserver: IntersectionObserver | null = null;
+
+  function animateFooterGauges() {
+    if (gaugeObserver) {
+      gaugeObserver.disconnect();
+      gaugeObserver = null;
+    }
+
+    const container = document.getElementById("footer-gauges");
+    if (!container) return;
+
+    const gauges = container.querySelectorAll<HTMLElement>(".mini-gauge");
+    const circumference = 100.53;
+
+    const observer = new IntersectionObserver(
+      (entries) => {
+        if (entries[0].isIntersecting) {
+          observer.disconnect();
+          gaugeObserver = null;
+
+          gauges.forEach((gauge) => {
+            const score = parseInt(gauge.dataset.score || "0", 10);
+            const color = gauge.dataset.color || "#0cce6b";
+            const index = parseInt(gauge.dataset.index || "0", 10);
+            const delay = index * 100;
+
+            const ring = gauge.querySelector<SVGCircleElement>(".mini-gauge-ring");
+            const scoreEl = gauge.querySelector<HTMLElement>(".mini-gauge-score");
+            if (!ring || !scoreEl) return;
+
+            const finalOffset = circumference * (1 - score / 100);
+
+            setTimeout(() => {
+              ring.style.stroke = color;
+              ring.style.transition = `stroke-dashoffset 0.9s cubic-bezier(0.32, 0.72, 0, 1)`;
+              ring.style.strokeDashoffset = `${finalOffset}`;
+
+              const duration = 900;
+              const start = performance.now();
+
+              function updateCount(now: number) {
+                const elapsed = now - start;
+                const progress = Math.min(elapsed / duration, 1);
+                const eased = 1 - Math.pow(1 - progress, 3);
+                const current = Math.round(eased * score);
+                scoreEl!.textContent = String(current);
+
+                if (progress < 1) {
+                  requestAnimationFrame(updateCount);
+                }
+              }
+
+              requestAnimationFrame(updateCount);
+            }, delay);
+          });
+        }
+      },
+      { threshold: 0.3 }
+    );
+
+    gaugeObserver = observer;
+    observer.observe(container);
+  }
+
+  animateFooterGauges();
+  document.addEventListener("astro:after-swap", animateFooterGauges);
 </script>

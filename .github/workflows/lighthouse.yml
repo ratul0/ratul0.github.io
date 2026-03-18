@@ -26,10 +26,12 @@ jobs:
       - name: Fetch PageSpeed Insights scores
         id: psi
         run: |
-          RESPONSE=$(curl -sf "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop") || {
+          RESPONSE=$(curl -sSf "https://www.googleapis.com/pagespeedonline/v5/runPagespeed?url=https://ratul0.github.io&category=PERFORMANCE&category=ACCESSIBILITY&category=BEST_PRACTICES&category=SEO&strategy=desktop") || {
+            echo "PSI request failed"
             echo "valid=false" >> "$GITHUB_OUTPUT"
             exit 0
           }
+          echo "PSI response received ($(echo "$RESPONSE" | wc -c) bytes)"
 
           read -r PERF A11Y BP SEO < <(echo "$RESPONSE" | jq -r '
             .lighthouseResult.categories |

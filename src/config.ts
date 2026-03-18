@@ -11,7 +11,7 @@ export const siteConfig = {
     linkedin: "https://www.linkedin.com/in/ratul20/",
     medium: "https://medium.com/@rats",
     resume: "https://rxresu.me/ratulcse27/yousufkhan",
-    github: "",
+    github: "https://github.com/ratul0",
   },
   aboutMe:
     "Nine years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",

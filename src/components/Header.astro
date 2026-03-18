@@ -6,6 +6,7 @@ const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 const hasReferences = siteConfig.references && siteConfig.references.length > 0;
+const hasGithub = !!siteConfig.social?.github;
 
 // Social links defined once, rendered in both desktop pill and mobile overlay
 const socialLinks = [
@@ -31,11 +32,12 @@ const socialLinks = [
 
       <!-- Desktop navigation links -->
       <div class="desktop-nav">
-        <a href="#about" data-nav="about" class="pill-link">about</a>
-        {hasProjects && <a href="#projects" data-nav="projects" class="pill-link">projects</a>}
-        {hasExperience && <a href="#experience" data-nav="experience" class="pill-link">experience</a>}
-        {hasEducation && <a href="#education" data-nav="education" class="pill-link">education</a>}
-        {hasReferences && <a href="#references" data-nav="references" class="pill-link">references</a>}
+        <a href="#about" data-nav="about" class="pill-link">About</a>
+        {hasProjects && <a href="#projects" data-nav="projects" class="pill-link">Projects</a>}
+        {hasExperience && <a href="#experience" data-nav="experience" class="pill-link">Experience</a>}
+        {hasEducation && <a href="#education" data-nav="education" class="pill-link">Education</a>}
+        {hasReferences && <a href="#references" data-nav="references" class="pill-link">References</a>}
+        {hasGithub && <a href="#github" data-nav="github" class="pill-link">Activity</a>}
       </div>
 
       <!-- Divider -->
@@ -67,14 +69,15 @@ const socialLinks = [
   <!-- Mobile full-screen overlay -->
   <div id="mobile-overlay" class="mobile-overlay">
     <nav class="overlay-content">
-      <a href="#about" class="overlay-link" style="--i: 0">about</a>
-      {hasProjects && <a href="#projects" class="overlay-link" style="--i: 1">projects</a>}
-      {hasExperience && <a href="#experience" class="overlay-link" style="--i: 1">experience</a>}
-      {hasEducation && <a href="#education" class="overlay-link" style="--i: 2">education</a>}
-      {hasReferences && <a href="#references" class="overlay-link" style="--i: 3">references</a>}
+      <a href="#about" class="overlay-link" style="--i: 0">About</a>
+      {hasProjects && <a href="#projects" class="overlay-link" style="--i: 1">Projects</a>}
+      {hasExperience && <a href="#experience" class="overlay-link" style="--i: 2">Experience</a>}
+      {hasEducation && <a href="#education" class="overlay-link" style="--i: 3">Education</a>}
+      {hasReferences && <a href="#references" class="overlay-link" style="--i: 4">References</a>}
+      {hasGithub && <a href="#github" class="overlay-link" style="--i: 5">Activity</a>}
 
       <!-- Social icons in overlay -->
-      <div class="overlay-socials" style="--i: 4">
+      <div class="overlay-socials" style="--i: 6">
         {socialLinks.map((link) => (
           <a
             href={link.href}
@@ -486,7 +489,7 @@ const socialLinks = [
   }, { passive: true });
 
   // Active section observer
-  const sections = ['about', 'projects', 'experience', 'education', 'references'];
+  const sections = ['about', 'projects', 'experience', 'education', 'references', 'github'];
   const navLinks = document.querySelectorAll('[data-nav]');
 
   const sectionObserver = new IntersectionObserver((entries) => {

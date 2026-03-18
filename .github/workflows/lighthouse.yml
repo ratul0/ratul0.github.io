@@ -2,8 +2,10 @@ name: Update Lighthouse Scores
 
 on:
   schedule:
-    - cron: '0 6 * * 1'   # Every Monday at 06:00 UTC
-  workflow_dispatch:        # Manual trigger from Actions UI
+    - cron: "0 6 * * 1" # Every Monday at 06:00 UTC
+  workflow_dispatch: # Manual trigger from Actions UI
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
 
 permissions:
   contents: write

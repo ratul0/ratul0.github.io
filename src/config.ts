@@ -104,6 +104,11 @@ export const siteConfig = {
       achievements: [],
     },
   ],
+  localPresence: {
+    timezone: "Europe/Berlin",
+    city: "Bremen",
+    availableHours: { start: 9, end: 18 },
+  },
   references: [
     {
       name: "Christian Lederer",

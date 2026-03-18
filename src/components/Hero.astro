@@ -2,6 +2,7 @@
 import { siteConfig } from "../config";
 
 const currentRole = siteConfig.experience?.[0];
+const { localPresence } = siteConfig;
 const nameParts = siteConfig.name.split(" ");
 const firstName = nameParts[0];
 const lastName = nameParts.slice(1).join(" ");
@@ -53,6 +54,25 @@ const lastName = nameParts.slice(1).join(" ");
             </a>
           </div>
         )}
+        <!-- Local time + availability -->
+        {localPresence && (
+          <div
+            class="scroll-reveal"
+            data-delay="4"
+            data-tz={localPresence.timezone}
+            data-city={localPresence.city}
+            data-start={localPresence.availableHours.start}
+            data-end={localPresence.availableHours.end}
+            id="local-presence"
+          >
+            <div class="inline-flex items-center gap-2 text-xs uppercase tracking-widest text-[var(--theme-text-secondary)]">
+              <span class="status-dot" id="status-dot"></span>
+              <span id="local-time"></span>
+              <span class="opacity-40">·</span>
+              <span id="availability-status"></span>
+            </div>
+          </div>
+        )}
       </div>
 
       <!-- Right column - Profile image in Double-Bezel frame -->
@@ -89,6 +109,67 @@ const lastName = nameParts.slice(1).join(" ");
       </div>
     </div>
   </div>
+
+  <script>
+    const container = document.getElementById("local-presence");
+    if (container) {
+      const tz = container.dataset.tz!;
+      const city = container.dataset.city!;
+      const start = Number(container.dataset.start);
+      const end = Number(container.dataset.end);
+
+      // Cache formatters — Intl.DateTimeFormat is expensive to construct
+      const timeFmt = new Intl.DateTimeFormat("en-GB", {
+        timeZone: tz,
+        hour: "2-digit",
+        minute: "2-digit",
+        hour12: false,
+      });
+      const hourFmt = new Intl.DateTimeFormat("en-GB", {
+        timeZone: tz,
+        hour: "numeric",
+        hour12: false,
+      });
+      const weekdayFmt = new Intl.DateTimeFormat("en-US", {
+        timeZone: tz,
+        weekday: "long",
+      });
+
+      const dayMap: Record<string, number> = {
+        Sunday: 0, Monday: 1, Tuesday: 2, Wednesday: 3,
+        Thursday: 4, Friday: 5, Saturday: 6,
+      };
+
+      // Cache DOM refs
+      const timeEl = document.getElementById("local-time")!;
+      const statusEl = document.getElementById("availability-status")!;
+      const dotEl = document.getElementById("status-dot")!;
+
+      function checkAvailability(
+        hour: number,
+        day: number,   // 0 = Sunday, 6 = Saturday
+      ): boolean {
+        const isWeekday = day >= 1 && day <= 5;
+        return isWeekday && hour >= start && hour < end;
+      }
+
+      function updatePresence() {
+        const now = new Date();
+        const timeStr = `${timeFmt.format(now)} ${city}`;
+        const hour = Number(hourFmt.format(now));
+        const day = dayMap[weekdayFmt.format(now)] ?? 0;
+        const isAvailable = checkAvailability(hour, day);
+        const statusText = isAvailable ? "likely available" : "likely offline";
+
+        if (timeEl.textContent !== timeStr) timeEl.textContent = timeStr;
+        if (statusEl.textContent !== statusText) statusEl.textContent = statusText;
+        dotEl.classList.toggle("available", isAvailable);
+      }
+
+      updatePresence();
+      setInterval(updatePresence, 60_000);
+    }
+  </script>
 
   <!-- Scroll indicator -->
   <div class="absolute bottom-8 left-1/2 -translate-x-1/2 flex flex-col items-center gap-2 text-[var(--theme-text-secondary)] opacity-50">

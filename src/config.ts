@@ -111,6 +111,13 @@ export const siteConfig = {
   },
   references: [
     {
+      name: "Daiany Palacios",
+      position: "Senior Platform Product Manager",
+      linkedin: "https://www.linkedin.com/in/daiany-palacios/",
+      quote:
+        "Yousuf is an excellent software engineer with strong skills across frontend, backend, infrastructure as code, CI/CD, and software delivery. He is able to take on complex technical challenges while keeping a strong balance between speed, quality, maintainability, and scalability. He thrives in problem-solving, quickly understands the bigger picture, and helps teams find practical solutions that match real business needs. Beyond his technical strengths, Yousuf is empathetic, reliable, respectful, and trusted by his team. He communicates well, supports collaboration between technical and business stakeholders, and consistently delivers on his commitments.",
+    },
+    {
       name: "Christian Lederer",
       position: "Head of Medical Applications",
       linkedin: "https://www.linkedin.com/in/christian-lederer-65a6a8192/",

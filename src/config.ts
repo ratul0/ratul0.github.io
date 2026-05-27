@@ -10,7 +10,7 @@ export const siteConfig = {
     email: "ratulcse27@gmail.com",
     linkedin: "https://www.linkedin.com/in/ratul20/",
     medium: "https://medium.com/@rats",
-    resume: "https://rxresu.me/ratulcse27/yousufkhan",
+    resume: "https://files.selleazyy.com/resume.pdf",
     github: "https://github.com/ratul0",
   },
   aboutMe:

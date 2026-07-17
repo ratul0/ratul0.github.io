@@ -59,40 +59,50 @@ const socialLinks = [
       </div>
 
       <!-- Mobile hamburger -->
-      <button id="hamburger-btn" class="hamburger" aria-label="Toggle menu">
+      <button
+        id="hamburger-btn"
+        class="hamburger"
+        aria-label="Toggle menu"
+        aria-expanded="false"
+        aria-controls="mobile-overlay"
+      >
         <span class="hamburger-line"></span>
         <span class="hamburger-line"></span>
       </button>
     </nav>
   </div>
-
-  <!-- Mobile full-screen overlay -->
-  <div id="mobile-overlay" class="mobile-overlay">
-    <nav class="overlay-content">
-      <a href="#about" class="overlay-link" style="--i: 0">About</a>
-      {hasProjects && <a href="#projects" class="overlay-link" style="--i: 1">Projects</a>}
-      {hasExperience && <a href="#experience" class="overlay-link" style="--i: 2">Experience</a>}
-      {hasEducation && <a href="#education" class="overlay-link" style="--i: 3">Education</a>}
-      {hasReferences && <a href="#references" class="overlay-link" style="--i: 4">References</a>}
-      {hasGithub && <a href="#github" class="overlay-link" style="--i: 5">Activity</a>}
-
-      <!-- Social icons in overlay -->
-      <div class="overlay-socials" style="--i: 6">
-        {socialLinks.map((link) => (
-          <a
-            href={link.href}
-            target={link.external ? "_blank" : undefined}
-            rel={link.external ? "noopener noreferrer" : undefined}
-            aria-label={link.label}
-            class="overlay-social-icon"
-          >
-            <Icon name={link.icon} width="20" height="20" />
-          </a>
-        ))}
-      </div>
-    </nav>
-  </div>
 </header>
+
+<!--
+  Must stay outside <header>: the header is transformed (show/hide on scroll),
+  which would make it the containing block for this fixed overlay and shrink it
+  to the header's own box instead of the viewport.
+-->
+<div id="mobile-overlay" class="mobile-overlay">
+  <nav class="overlay-content" aria-label="Mobile">
+    <a href="#about" class="overlay-link" style="--i: 0">About</a>
+    {hasProjects && <a href="#projects" class="overlay-link" style="--i: 1">Projects</a>}
+    {hasExperience && <a href="#experience" class="overlay-link" style="--i: 2">Experience</a>}
+    {hasEducation && <a href="#education" class="overlay-link" style="--i: 3">Education</a>}
+    {hasReferences && <a href="#references" class="overlay-link" style="--i: 4">References</a>}
+    {hasGithub && <a href="#github" class="overlay-link" style="--i: 5">Activity</a>}
+
+    <!-- Social icons in overlay -->
+    <div class="overlay-socials" style="--i: 6">
+      {socialLinks.map((link) => (
+        <a
+          href={link.href}
+          target={link.external ? "_blank" : undefined}
+          rel={link.external ? "noopener noreferrer" : undefined}
+          aria-label={link.label}
+          class="overlay-social-icon"
+        >
+          <Icon name={link.icon} width="20" height="20" />
+        </a>
+      ))}
+    </div>
+  </nav>
+</div>
 
 <style>
   /* ═══ HEADER SHOW/HIDE ═══ */
@@ -305,14 +315,18 @@ const socialLinks = [
   }
 
   /* ═══ MOBILE OVERLAY ═══ */
+  /* Sits below the pill (z-50) so the hamburger stays tappable while open. */
   .mobile-overlay {
     position: fixed;
     inset: 0;
-    z-index: -1;
+    z-index: 40;
     background: rgba(250, 248, 245, 0.94);
     opacity: 0;
+    visibility: hidden;
     pointer-events: none;
-    transition: opacity 0.5s var(--ease-out-expo);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      visibility 0s linear 0.5s;
   }
 
   body.dark .mobile-overlay {
@@ -321,10 +335,13 @@ const socialLinks = [
 
   .mobile-overlay.active {
     opacity: 1;
-    pointer-events: all;
-    z-index: 40;
+    visibility: visible;
+    pointer-events: auto;
     backdrop-filter: blur(32px);
     -webkit-backdrop-filter: blur(32px);
+    transition:
+      opacity 0.5s var(--ease-out-expo),
+      visibility 0s linear 0s;
   }
 
   .overlay-content {
@@ -332,7 +349,10 @@ const socialLinks = [
     flex-direction: column;
     align-items: center;
     justify-content: center;
-    height: 100%;
+    min-height: 100%;
+    /* Landscape phones are short enough to overflow the centred stack. */
+    max-height: 100%;
+    overflow-y: auto;
     gap: 24px;
     padding: 80px 24px;
   }
@@ -402,6 +422,32 @@ const socialLinks = [
   }
 
   /* ═══ RESPONSIVE ═══ */
+  /* Just above the mobile breakpoint the full pill barely clears its gutter —
+     tighten spacing until there is room for the default metrics. */
+  @media (min-width: 769px) and (max-width: 900px) {
+    .glass-pill {
+      gap: 8px;
+      padding: 8px 14px;
+    }
+
+    .desktop-nav {
+      gap: 2px;
+    }
+
+    .pill-link {
+      padding: 4px 7px;
+    }
+
+    .pill-socials {
+      gap: 4px;
+    }
+
+    .pill-social-icon {
+      width: 24px;
+      height: 24px;
+    }
+  }
+
   @media (max-width: 768px) {
     .glass-pill {
       gap: 10px;
@@ -430,21 +476,68 @@ const socialLinks = [
     window.scrollTo({ top: 0, behavior: 'smooth' });
   });
 
-  // Hamburger toggle
+  const isMenuOpen = () => mobileOverlay?.classList.contains('active') ?? false;
+
+  function openMenu() {
+    hamburgerBtn?.classList.add('active');
+    mobileOverlay?.classList.add('active');
+    hamburgerBtn?.setAttribute('aria-expanded', 'true');
+    document.body.style.overflow = 'hidden';
+  }
+
+  function closeMenu({ restoreFocus = false } = {}) {
+    hamburgerBtn?.classList.remove('active');
+    mobileOverlay?.classList.remove('active');
+    hamburgerBtn?.setAttribute('aria-expanded', 'false');
+    document.body.style.overflow = '';
+    if (restoreFocus) hamburgerBtn?.focus();
+  }
+
   hamburgerBtn?.addEventListener('click', () => {
-    hamburgerBtn.classList.toggle('active');
-    mobileOverlay?.classList.toggle('active');
-    document.body.style.overflow = mobileOverlay?.classList.contains('active') ? 'hidden' : '';
+    isMenuOpen() ? closeMenu() : openMenu();
   });
 
-  // Close overlay on link click
-  const overlayLinks = document.querySelectorAll('.overlay-link');
-  overlayLinks.forEach(link => {
-    link.addEventListener('click', () => {
-      hamburgerBtn?.classList.remove('active');
-      mobileOverlay?.classList.remove('active');
-      document.body.style.overflow = '';
-    });
+  // Every link closes the menu — section links and socials alike. Socials open a
+  // new tab, so without this the menu (and the body scroll lock) survive the trip.
+  mobileOverlay?.querySelectorAll('a').forEach(link => {
+    link.addEventListener('click', () => closeMenu());
+  });
+
+  document.addEventListener('keydown', (e) => {
+    if (!isMenuOpen()) return;
+
+    if (e.key === 'Escape') {
+      closeMenu({ restoreFocus: true });
+      return;
+    }
+
+    if (e.key !== 'Tab') return;
+
+    // Trap focus: the hamburger is the only control outside the overlay that
+    // stays reachable, so it bookends the loop as the close affordance.
+    const focusables = [
+      ...(mobileOverlay?.querySelectorAll('a') ?? []),
+      hamburgerBtn,
+    ].filter(Boolean);
+    if (!focusables.length) return;
+
+    const first = focusables[0];
+    const last = focusables[focusables.length - 1];
+    const active = document.activeElement;
+
+    if (e.shiftKey && (active === first || !focusables.includes(active))) {
+      e.preventDefault();
+      last.focus();
+    } else if (!e.shiftKey && active === last) {
+      e.preventDefault();
+      first.focus();
+    }
+  });
+
+  // Resizing past the breakpoint hides the hamburger; without this the overlay
+  // and scroll lock would be stranded with no way to dismiss them.
+  window.addEventListener('resize', () => {
+    if (isMenuOpen() && window.innerWidth > 768) closeMenu();
   });
 
   // Scroll direction tracking: hide on down, reveal on up

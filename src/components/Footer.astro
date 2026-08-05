@@ -73,15 +73,10 @@ const miniGauges = hasLighthouse
                   <span class="value">"{value}"</span>
                   {index < Object.keys(status).length - 1
                     ? <span class="text-[var(--theme-text-secondary)]">,</span>
-                    : <span id="trailing-comma" class="text-[var(--theme-text-secondary)]" hidden>,</span>
+                    : null
                   }
                 </div>
               ))}
-              <div id="visits-line" class="status-line status-animate pl-2 md:pl-4" style={`--line-index: ${Object.keys(status).length}`} hidden>
-                <span class="key">"site_visits"</span>
-                <span class="colon">:</span>
-                <span class="value" id="visits-value">"0"</span>
-              </div>
               <span class="text-[var(--theme-text-secondary)]">{"}"}</span>
             </div>
           </div>
@@ -427,20 +422,6 @@ const miniGauges = hasLighthouse
 </style>
 
 <script>
-  // Visitor counter
-  try {
-    const res = await fetch("https://api.counterapi.dev/v1/ratul0-github-io/visitors/up");
-    if (!res.ok) throw new Error();
-    const count = Number((await res.json()).count);
-    if (!Number.isFinite(count)) throw new Error();
-
-    document.getElementById("visits-value")!.textContent = `"${count.toLocaleString()}"`;
-    document.getElementById("visits-line")!.hidden = false;
-    document.getElementById("trailing-comma")!.hidden = false;
-  } catch {
-    // API down → visits row stays hidden, panel unchanged
-  }
-
   // Status line staggered reveal
   function initStatusReveal() {
     const panel = document.getElementById("status-panel");

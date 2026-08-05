@@ -115,6 +115,12 @@ export const siteConfig = {
       position:
         "Global Supply Chain & Logistics Leader | Process Transformation | AI Integration | Control Tower | Switzerland",
       linkedin: "https://www.linkedin.com/in/gricel-bernal/",
+      highlights: [
+        "technical expertise",
+        "broader business objectives",
+        "bridge business needs and technical execution",
+        "knowledgeable, dependable",
+      ],
       quote:
         "I worked closely with Yousuf for four years and came to appreciate not only his technical expertise but also his professionalism and collaborative approach. He has a strong ability to understand requirements, ask thoughtful questions, and deliver high-quality solutions that address both immediate needs and broader business objectives. One of the best examples of this was ASTRO, the TMS developed for my team, the HyperCare team. Yousuf was instrumental in turning business requirements into a reliable and effective solution. What stood out was his ability to fully understand what was being asked, seek clarification when needed, and then translate those requirements into well designed functionality. While many developers naturally focus on the technical implementation, Yousuf consistently took the time to understand the business need behind each request. This enabled him to identify dependencies, connections, and opportunities to enhance the solution in ways that added real value for users. ASTRO became an important part of our daily operations, and I believe much of its success comes from his ability to bridge business needs and technical execution, resulting in a solution that was truly fit for purpose. Yousuf is knowledgeable, dependable, and generous with his time and expertise, always willing to support colleagues and contribute to the success of the team. Just as importantly, he is approachable, respectful, and easy to work with. He combines technical skill with sound judgment and a genuine interest in understanding how technology can best support the people who use it. Working with him over the years has been a rewarding experience, and I have always valued his contributions, insights, and collaborative approach.",
     },
@@ -122,6 +128,11 @@ export const siteConfig = {
       name: "João Victor Nobrega",
       position: "Team Lead | Tech Lead | Senior Software Engineer",
       linkedin: "https://www.linkedin.com/in/jv-nobrega/",
+      highlights: [
+        "problem-solving skills",
+        "balance technical excellence with business needs",
+        "ownership, productivity, and team-first attitude",
+      ],
       quote:
         "I had the opportunity to work closely with Yousuf for nearly two years at Kuehne+Nagel, and I can honestly say he is one of the most reliable and capable engineers I have worked with. He has a strong technical foundation, excellent problem-solving skills, and a natural ability to balance technical excellence with business needs. Yousuf consistently brings critical thinking to discussions, asks the right questions, and focuses on delivering practical, high-quality solutions. What stands out most is his ownership, productivity, and team-first attitude. He is always willing to help others, share knowledge, and contribute to a positive working environment. His professionalism, collaboration skills, and commitment to delivering results make him someone every team would be fortunate to have. I highly recommend Yousuf and would be happy to work with him again in the future.",
     },
@@ -129,6 +140,12 @@ export const siteConfig = {
       name: "Daiany Palacios",
       position: "Senior Platform Product Manager",
       linkedin: "https://www.linkedin.com/in/daiany-palacios/",
+      highlights: [
+        "complex technical challenges",
+        "speed, quality, maintainability, and scalability",
+        "practical solutions that match real business needs",
+        "empathetic, reliable, respectful",
+      ],
       quote:
         "Yousuf is an excellent software engineer with strong skills across frontend, backend, infrastructure as code, CI/CD, and software delivery. He is able to take on complex technical challenges while keeping a strong balance between speed, quality, maintainability, and scalability. He thrives in problem-solving, quickly understands the bigger picture, and helps teams find practical solutions that match real business needs. Beyond his technical strengths, Yousuf is empathetic, reliable, respectful, and trusted by his team. He communicates well, supports collaboration between technical and business stakeholders, and consistently delivers on his commitments.",
     },
@@ -136,6 +153,11 @@ export const siteConfig = {
       name: "Christian Lederer",
       position: "Head of Medical Applications",
       linkedin: "https://www.linkedin.com/in/christian-lederer-65a6a8192/",
+      highlights: [
+        "broad background in web technologies",
+        "great plus for any development team",
+        "hire him again",
+      ],
       quote:
         "Yousuf is an exceptionally clever and intelligent hard-working guy with a broad background in web technologies, He's thankful and non-demanding, He is a great plus for any development team. I am thankful for the time I could spend with him and I'd hire him again any time.",
     },

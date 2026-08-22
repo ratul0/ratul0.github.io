@@ -80,5 +80,7 @@ test("custom 404 gives agents recovery links", async () => {
   assert.match(html, /404: Page not found/);
   assert.match(html, /https:\/\/ratul0\.github\.io\/sitemap\.xml/);
   assert.match(html, /https:\/\/ratul0\.github\.io\/llms\.txt/);
+  assert.match(html, /href="\/sitemap\.xml"/);
+  assert.match(html, /href="\/llms\.txt"/);
   assert.match(html, /name="robots" content="noindex, follow"/);
 });

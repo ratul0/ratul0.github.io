@@ -19,6 +19,68 @@ import "@fontsource/ibm-plex-mono/600.css";
 import "@fontsource/ibm-plex-mono/600-italic.css";
 import "@fontsource/ibm-plex-mono/700.css";
 import "@fontsource/ibm-plex-mono/700-italic.css";
+
+const canonicalUrl = "https://ratul0.github.io/";
+const identityGraph = {
+  "@context": "https://schema.org",
+  "@graph": [
+    {
+      "@type": "Person",
+      "@id": `${canonicalUrl}#yousuf-khan`,
+      name: siteConfig.name,
+      alternateName: "ratul0",
+      url: canonicalUrl,
+      image: `${canonicalUrl}profile.webp`,
+      jobTitle: siteConfig.title,
+      description: siteConfig.description,
+      email: `mailto:${siteConfig.social.email}`,
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: siteConfig.localPresence.city,
+        addressCountry: "DE",
+      },
+      sameAs: [
+        siteConfig.social.linkedin,
+        siteConfig.social.github,
+        siteConfig.social.medium,
+      ],
+      knowsAbout: siteConfig.skills,
+      alumniOf: siteConfig.education.map((entry) => ({
+        "@type": "EducationalOrganization",
+        name: entry.school,
+      })),
+    },
+    {
+      "@type": "Organization",
+      "@id": `${canonicalUrl}#professional-service`,
+      name: "Yousuf Khan Software Engineering",
+      url: canonicalUrl,
+      description: siteConfig.description,
+      founder: { "@id": `${canonicalUrl}#yousuf-khan` },
+      contactPoint: {
+        "@type": "ContactPoint",
+        email: siteConfig.social.email,
+        contactType: "professional inquiries",
+        availableLanguage: ["English", "Bangla", "German"],
+      },
+      address: {
+        "@type": "PostalAddress",
+        addressLocality: siteConfig.localPresence.city,
+        addressCountry: "DE",
+      },
+      sameAs: [siteConfig.social.linkedin, siteConfig.social.github],
+    },
+    {
+      "@type": "WebSite",
+      "@id": `${canonicalUrl}#website`,
+      name: "Yousuf Khan | ratul0",
+      alternateName: "ratul0 portfolio",
+      url: canonicalUrl,
+      inLanguage: "en",
+      about: { "@id": `${canonicalUrl}#yousuf-khan` },
+    },
+  ],
+};
 ---
 
 <html lang="en">
@@ -31,10 +93,16 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
     <meta name="viewport" content="width=device-width" />
     <meta name="generator" content={Astro.generator} />
     <meta name="description" content={siteConfig.description} />
-    <title>{siteConfig.name} - {siteConfig.title}</title>
+    <meta name="author" content={siteConfig.name} />
+    <meta name="application-name" content="Yousuf Khan | ratul0" />
+    <link rel="canonical" href={canonicalUrl} />
+    <link rel="alternate" type="text/markdown" href="/index.md" title="Markdown version" />
+    <link rel="sitemap" type="application/xml" href="/sitemap.xml" />
+    <title>{siteConfig.name} (ratul0) - {siteConfig.title}</title>
 
     <!-- Open Graph / Facebook -->
     <meta property="og:type" content="website" />
+    <meta property="og:site_name" content="Yousuf Khan | ratul0" />
     <meta property="og:url" content="https://ratul0.github.io/" />
     <meta
       property="og:title"
@@ -57,6 +125,7 @@ import "@fontsource/ibm-plex-mono/700-italic.css";
       name="twitter:image"
       content="https://ratul0.github.io/og.png"
     />
+    <script type="application/ld+json" set:html={JSON.stringify(identityGraph)}></script>
   </head>
   <body class="antialiased">
     <!-- Film grain overlay (global) -->

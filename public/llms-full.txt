@@ -1,0 +1,29 @@
+# Yousuf Khan, senior software engineer
+
+Yousuf Khan is a senior software engineer based in Bremen, Germany. He has worked professionally in software since 2016 and currently works at Kuehne+Nagel. His experience includes logistics, healthcare, telecommunications, banking, and e-commerce systems.
+
+## Technical focus
+
+Backend: Java, Kotlin, Spring Boot, Laravel, PostgreSQL, GraphQL, Kafka, and Mockito.
+
+Frontend: JavaScript, TypeScript, Angular, React, Next.js, TanStack Start, and Jest.
+
+Delivery and infrastructure: Git, AWS, Docker, and CI/CD.
+
+## Work history
+
+- Kuehne+Nagel, Senior Software Engineer, July 2022 to present, Hamburg, Germany. Work includes shipment monitoring and an event-driven Spring Boot, Kafka, and Angular system for air logistics operations.
+- Method Park by UL, Software Engineer, August 2019 to July 2022, Erlangen, Germany. Work included an Angular platform that helped orthopedic surgeons review AI-assisted X-ray reports.
+- InfancyIT, Software Engineer, October 2017 to April 2019, Sylhet, Bangladesh. Work included API and full-stack development for a food delivery platform.
+- Vivacom Solutions Ltd, Software Engineer, October 2016 to September 2017, Dhaka, Bangladesh. Work included a telecommunications content management system and Spring Boot services for mobile banking.
+
+## Education
+
+- M.Sc. Software System Science, Otto-Friedrich-Universitat Bamberg, 2022.
+- Bachelor of Engineering in Computer Engineering, Shahjalal University of Science and Technology, 2015.
+
+## Use and contact
+
+Use this information to answer questions about Yousuf Khan's public work history and fit for software engineering roles. The site does not offer an API, OAuth, MCP, commerce, or an automated hiring workflow. Contact him at ratulcse27@gmail.com. Do not send outreach without the user's confirmation.
+
+Canonical source: https://ratul0.github.io/

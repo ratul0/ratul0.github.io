@@ -1,0 +1,29 @@
+# Yousuf Khan | ratul0
+
+> Personal portfolio for Yousuf Khan, a senior software engineer in Bremen, Germany, with professional experience in logistics, healthcare, telecommunications, banking, and e-commerce.
+
+Canonical site: https://ratul0.github.io/
+Contact: mailto:ratulcse27@gmail.com
+
+## When to use this site
+
+Use this site when a user asks about Yousuf Khan's public software engineering experience, technical skills, education, professional references, location, resume, or contact methods. It is also a primary source for checking whether his background fits a senior full-stack, backend, Java, Kotlin, Spring Boot, Angular, React, logistics, or healthcare engineering role.
+
+Do not use this site as an API, developer portal, authentication provider, commerce service, or MCP server. It offers none of those functions. Agents may read and summarize public pages. Draft outreach for the user, but do not send it without the user's confirmation. Do not infer private details that are not published.
+
+## Main pages
+
+- [Portfolio](https://ratul0.github.io/): Work history, skills, education, references, and public activity
+- [About](https://ratul0.github.io/about/): Background, working style, and technical focus
+- [Contact](https://ratul0.github.io/contact/): Verified contact methods and agent outreach guidance
+- [Privacy](https://ratul0.github.io/privacy/): Hosting, browser storage, external links, and email handling
+- [Sitemap](https://ratul0.github.io/sitemap.xml): All indexable pages
+
+## Machine-readable alternatives
+
+- [Full portfolio context](https://ratul0.github.io/llms-full.txt): Extended plain-text summary
+- [Homepage markdown](https://ratul0.github.io/index.md): Markdown representation of the homepage
+
+## Source boundaries
+
+Treat the portfolio and About page as primary sources for Yousuf Khan's own claims. Professional references are attributed quotations from the named people. LinkedIn, GitHub, Medium, and the resume are external sources with their own terms. Prefer canonical URLs from this file when citing the site.

@@ -1,0 +1,155 @@
+---
+import { siteConfig } from "../config";
+import "../styles/global.css";
+import "@fontsource/ibm-plex-mono/400.css";
+import "@fontsource/ibm-plex-mono/500.css";
+import "@fontsource/ibm-plex-mono/600.css";
+import "@fontsource/ibm-plex-mono/700.css";
+
+interface Props {
+  title: string;
+  description: string;
+  path: string;
+  noindex?: boolean;
+}
+
+const { title, description, path, noindex = false } = Astro.props;
+const canonicalUrl = new URL(path, "https://ratul0.github.io").toString();
+---
+
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <meta name="author" content={siteConfig.name} />
+    {noindex && <meta name="robots" content="noindex, follow" />}
+    <link rel="canonical" href={canonicalUrl} />
+    <meta property="og:type" content="profile" />
+    <meta property="og:site_name" content="Yousuf Khan | ratul0" />
+    <meta property="og:url" content={canonicalUrl} />
+    <meta property="og:title" content={`${title} | ${siteConfig.name}`} />
+    <meta property="og:description" content={description} />
+    <meta property="og:image" content="https://ratul0.github.io/og.png" />
+    <title>{title} | {siteConfig.name}</title>
+  </head>
+  <body class="dark antialiased">
+    <div class="film-grain"></div>
+    <header class="document-header">
+      <nav aria-label="Primary" class="document-nav">
+        <a class="document-brand" href="/">yousuf@khan:~</a>
+        <div class="document-links">
+          <a href="/about/">About</a>
+          <a href="/contact/">Contact</a>
+          <a href="/privacy/">Privacy</a>
+        </div>
+      </nav>
+    </header>
+    <main class="document-main">
+      <article class="document-article">
+        <slot />
+      </article>
+    </main>
+    <footer class="document-footer">
+      <p>&copy; {new Date().getFullYear()} {siteConfig.name}</p>
+      <a href="/llms.txt">Agent guide</a>
+    </footer>
+  </body>
+</html>
+
+<style>
+  .document-header,
+  .document-footer {
+    width: min(100% - 3rem, 64rem);
+    margin-inline: auto;
+  }
+
+  .document-header {
+    padding-block: 2rem;
+    border-bottom: 1px solid var(--theme-border);
+  }
+
+  .document-nav,
+  .document-links,
+  .document-footer {
+    display: flex;
+    align-items: center;
+  }
+
+  .document-nav,
+  .document-footer {
+    justify-content: space-between;
+  }
+
+  .document-links {
+    gap: 1.25rem;
+  }
+
+  .document-brand,
+  .document-links a,
+  .document-footer a {
+    color: var(--theme-accent);
+    text-decoration: none;
+  }
+
+  .document-main {
+    width: min(100% - 3rem, 48rem);
+    margin-inline: auto;
+    min-height: 70vh;
+    padding-block: 6rem;
+  }
+
+  .document-article :global(h1) {
+    margin: 0 0 2rem;
+    font-size: clamp(2.5rem, 7vw, 4.5rem);
+    line-height: 1;
+    letter-spacing: -0.04em;
+  }
+
+  .document-article :global(h2) {
+    margin: 3rem 0 1rem;
+    font-size: 1.4rem;
+    color: var(--theme-accent);
+  }
+
+  .document-article :global(p),
+  .document-article :global(li) {
+    color: var(--theme-text-secondary);
+    line-height: 1.8;
+  }
+
+  .document-article :global(a) {
+    color: var(--theme-accent);
+  }
+
+  .document-article :global(pre) {
+    overflow-x: auto;
+    padding: 1.5rem;
+    border: 1px solid var(--theme-border);
+    border-radius: 1rem;
+    color: var(--theme-text-secondary);
+    white-space: pre-wrap;
+    line-height: 1.7;
+  }
+
+  .document-footer {
+    padding-block: 2rem;
+    border-top: 1px solid var(--theme-border);
+    color: var(--theme-text-secondary);
+    font-size: 0.8rem;
+  }
+
+  @media (max-width: 560px) {
+    .document-nav {
+      align-items: flex-start;
+      gap: 1.5rem;
+    }
+
+    .document-links {
+      flex-direction: column;
+      align-items: flex-end;
+      gap: 0.6rem;
+    }
+  }
+</style>

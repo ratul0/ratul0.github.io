@@ -5,7 +5,7 @@ import sellEazyyImage from "./assets/projects/selleazyy.png";
 export const siteConfig = {
   name: "Yousuf Khan",
   title: "Senior Software Engineer",
-  description: "Full Stack Software Engineer with 9+ years of experience in logistics, healthcare, and e-commerce",
+  description: "Full Stack Software Engineer with 10+ years of experience in logistics, healthcare, and e-commerce",
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)
   // Example: "/profile.jpg" or "https://example.com/profile.jpg"
@@ -18,7 +18,7 @@ export const siteConfig = {
     github: "https://github.com/ratul0",
   },
   aboutMe:
-    "Nine years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
+    "Ten years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
   skills: [
     "Java",
     "Kotlin",

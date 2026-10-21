@@ -25,7 +25,8 @@ export const GET: APIRoute = async () => {
 
   const [firstName, ...lastParts] = siteConfig.name.split(" ");
   const lastName = lastParts.join(" ");
-  const skills = siteConfig.skills.slice(0, 7);
+  const [backend, frontend] = siteConfig.skillGroups;
+  const skills = [...backend.skills.slice(0, 3), ...frontend.skills.slice(0, 4)];
 
   // Design tokens
   const bg = "#060609";

@@ -1,24 +1,6 @@
 ---
 import { siteConfig } from "../config";
 
-const backendSkills = siteConfig.skills.filter((s) =>
-  ["Java", "Kotlin", "Spring Boot", "Laravel", "PostgreSQL", "GraphQL", "Kafka", "Mockito"].includes(s)
-);
-
-const frontendSkills = siteConfig.skills.filter((s) =>
-  ["JavaScript", "TypeScript", "Angular", "React", "NextJS", "Tanstack Start", "Jest"].includes(s)
-);
-
-const toolsSkills = siteConfig.skills.filter((s) =>
-  ["Docker", "AWS", "Git", "CI/CD"].includes(s)
-);
-
-const skillCategories = [
-  { label: "Backend", skills: backendSkills, span: "md:col-span-2" },
-  { label: "Frontend", skills: frontendSkills, span: "" },
-  { label: "Tools & Infra", skills: toolsSkills, span: "" },
-];
-
 const hasLanguages = siteConfig.languages && siteConfig.languages.length > 0;
 ---
 
@@ -47,12 +29,12 @@ const hasLanguages = siteConfig.languages && siteConfig.languages.length > 0;
 
         <!-- Skills in Bento Grid -->
         <div class="grid grid-cols-1 md:grid-cols-2 gap-4 pt-4">
-          {skillCategories.map((cat, i) => (
-            <div class={`bezel scroll-reveal ${cat.span}`} data-delay={String(i + 1)}>
-              <div class="bezel-inner p-5 md:p-6">
-                <p class="eyebrow mb-4">{cat.label}</p>
+          {siteConfig.skillGroups.map((group, i) => (
+            <div class:list={["bezel scroll-reveal", { "md:col-span-2": group.wide }]} data-delay={String(i + 1)}>
+              <div class="bezel-inner p-5 md:p-6 h-full">
+                <p class="eyebrow mb-4">{group.label}</p>
                 <div class="flex flex-wrap gap-2">
-                  {cat.skills.map((skill) => (
+                  {group.skills.map((skill) => (
                     <span class="skill-pill">{skill}</span>
                   ))}
                 </div>
@@ -62,7 +44,7 @@ const hasLanguages = siteConfig.languages && siteConfig.languages.length > 0;
 
           <!-- Languages -->
           {hasLanguages && (
-            <div class="bezel md:col-span-2 scroll-reveal" data-delay="4">
+            <div class="bezel md:col-span-2 scroll-reveal" data-delay="6">
               <div class="bezel-inner p-5 md:p-6">
                 <p class="eyebrow mb-4">Languages</p>
                 <div class="flex flex-wrap gap-6">

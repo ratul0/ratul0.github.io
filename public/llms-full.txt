@@ -4,15 +4,25 @@ Yousuf Khan is a senior software engineer based in Bremen, Germany. He has worke
 
 ## Technical focus
 
-Backend: Java, Kotlin, Spring Boot, Laravel, PostgreSQL, GraphQL, Kafka, and Mockito.
+Backend: Java, Kotlin, Spring Boot, Node.js, Laravel, PostgreSQL, Prisma, GraphQL, REST APIs, Kafka, Redis/BullMQ, microservices, and Mockito.
 
-Frontend: JavaScript, TypeScript, Angular, React, Next.js, TanStack Start, and Jest.
+Frontend: JavaScript, TypeScript, Angular, React, React Router, Next.js, TanStack Start, Astro, Tailwind CSS, and Jest.
 
-Delivery and infrastructure: Git, AWS, Docker, and CI/CD.
+Mobile: Swift, SwiftUI, and StoreKit.
+
+Delivery and infrastructure: Git, AWS, Docker, CI/CD, and Shopify app development.
+
+Product and delivery: product development, stakeholder management, and business process improvement.
+
+## Projects
+
+- Baby Phone, ABC & 123 Games for toddlers, iOS app, September 2026 to present, https://apps.apple.com/sa/app/baby-phone-abc-123-games/id6823124937. An educational iOS app for toddlers that he owns across product decisions, development, App Store delivery and maintenance. It offers English and Arabic activities for letters, numbers, animal sounds and pretend phone calls, works offline, and includes personalised family photos and voice greetings, parental controls and an in-app purchase. Reusable functionality lives in a shared Swift package with unit and UI test targets. Stack: Swift, SwiftUI, StoreKit.
+- B1 Atlas, German learning and relocation planning, web platform, August 2026 to present, https://b1atlas.com/. A platform that helps people prepare for German language exams and plan a move to Germany, which he owns across product direction, development, deployment and maintenance. The multilingual site combines practical guides with interactive tools for exam selection, Ausbildung applications and Opportunity Card planning, plus guided user journeys and a waitlist for a self-study course in development. Stack: Astro, TypeScript, Tailwind CSS.
+- SellEazyy, Shopify apps for merchant operations, Shopify apps, March 2026 to present, https://selleazyy.com/. StockPing and OrderPing, two Shopify apps that automate inventory monitoring and order notifications, owned across product decisions, development, deployment and maintenance. StockPing sends location-specific low-stock alerts, recovery notifications and daily summaries. OrderPing routes order notifications to the right staff through configurable rules. Work includes Shopify API and webhook integrations, background processing, multi-channel notifications and Shopify billing. Stack: TypeScript, React Router, Node.js, PostgreSQL, Prisma, Redis/BullMQ, Docker.
 
 ## Work history
 
-- Kuehne+Nagel, Senior Software Engineer, July 2022 to present, Hamburg, Germany. Work includes shipment monitoring and an event-driven Spring Boot, Kafka, and Angular system for air logistics operations.
+- Kuehne+Nagel, Senior Software Engineer, July 2022 to present, Hamburg, Germany. Work includes shipment monitoring and an event-driven Spring Boot, Kafka, and Angular system for air logistics operations. Employment certificate (PDF): https://files.selleazyy.com/employment_certificate_KN.pdf.
 - Method Park by UL, Software Engineer, August 2019 to July 2022, Erlangen, Germany. Work included an Angular platform that helped orthopedic surgeons review AI-assisted X-ray reports.
 - InfancyIT, Software Engineer, October 2017 to April 2019, Sylhet, Bangladesh. Work included API and full-stack development for a food delivery platform.
 - Vivacom Solutions Ltd, Software Engineer, October 2016 to September 2017, Dhaka, Bangladesh. Work included a telecommunications content management system and Spring Boot services for mobile banking.

@@ -1,7 +1,66 @@
+import babyPhoneImage from "./assets/projects/baby-phone.png";
+import b1AtlasImage from "./assets/projects/b1-atlas.png";
+import sellEazyyImage from "./assets/projects/selleazyy.png";
+
+// Grouped for the About section; `skills` flattens them for JSON-LD.
+// Wide groups span both columns of the skills grid.
+const skillGroups = [
+  {
+    label: "Backend",
+    wide: true,
+    skills: [
+      "Java",
+      "Kotlin",
+      "Spring Boot",
+      "Node.js",
+      "Laravel",
+      "PostgreSQL",
+      "Prisma",
+      "GraphQL",
+      "REST APIs",
+      "Kafka",
+      "Redis/BullMQ",
+      "Microservices",
+      "Mockito",
+    ],
+  },
+  {
+    label: "Frontend",
+    wide: true,
+    skills: [
+      "JavaScript",
+      "TypeScript",
+      "Angular",
+      "React",
+      "React Router",
+      "NextJS",
+      "Tanstack Start",
+      "Astro",
+      "Tailwind CSS",
+      "Jest",
+    ],
+  },
+  {
+    label: "Mobile",
+    wide: false,
+    skills: ["Swift", "SwiftUI", "StoreKit"],
+  },
+  {
+    label: "Tools & Platforms",
+    wide: false,
+    skills: ["Docker", "AWS", "Git", "CI/CD", "Shopify Apps"],
+  },
+  {
+    label: "Product & Delivery",
+    wide: true,
+    skills: ["Product Development", "Stakeholder Management", "Business Process Improvement"],
+  },
+];
+
 export const siteConfig = {
   name: "Yousuf Khan",
   title: "Senior Software Engineer",
-  description: "Full Stack Software Engineer with 9+ years of experience in logistics, healthcare, and e-commerce",
+  description: "Full Stack Software Engineer with 10+ years of experience in logistics, healthcare, and e-commerce",
   accentColor: "#0f4c5c",
   // Add your profile image URL here (relative to /public folder or absolute URL)
   // Example: "/profile.jpg" or "https://example.com/profile.jpg"
@@ -10,44 +69,85 @@ export const siteConfig = {
     email: "ratulcse27@gmail.com",
     linkedin: "https://www.linkedin.com/in/ratul20/",
     medium: "https://medium.com/@rats",
-    resume: "https://files.selleazyy.com/resume.pdf",
+    resume: "https://files.selleazyy.com/cv.pdf",
     github: "https://github.com/ratul0",
   },
   aboutMe:
-    "Nine years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
-  skills: [
-    "Java",
-    "Kotlin",
-    "Spring Boot",
-    "JavaScript",
-    "TypeScript",
-    "Angular",
-    "React",
-    "Tanstack Start",
-    "Laravel",
-    "PostgreSQL",
-    "GraphQL",
-    "Git",
-    "AWS",
-    "Docker",
-    "Kafka",
-    "Mockito",
-    "NextJS",
-    "Jest",
-    "CI/CD",
-  ],
+    "Ten years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
+  skillGroups,
+  skills: skillGroups.flatMap((group) => group.skills),
   languages: [
     { name: "English", level: 5 },
     { name: "Bangla", level: 5 },
     { name: "German", level: 3 },
   ],
-  projects: [],
+  projects: [
+    {
+      name: "Baby Phone",
+      tagline: "ABC & 123 Games for toddlers",
+      kind: "iOS app",
+      dateRange: "Sep 2026 - Present",
+      status: "Live",
+      link: "https://apps.apple.com/sa/app/baby-phone-abc-123-games/id6823124937",
+      linkLabel: "App Store",
+      image: babyPhoneImage,
+      imageAlt:
+        "Baby Phone showcase: offline learning for toddlers in English and Arabic, with three iPhone screens of the app",
+      description:
+        "An educational iOS app for toddlers. I own the product decisions, development, App Store delivery and ongoing maintenance.",
+      highlights: [
+        "English and Arabic activities covering letters, numbers, animal sounds and pretend phone calls.",
+        "Offline use, personalised family photos and voice greetings, parental controls and an in-app purchase.",
+        "Reusable functionality in a shared Swift package, with unit and UI test targets.",
+      ],
+      skills: ["Swift", "SwiftUI", "StoreKit"],
+    },
+    {
+      name: "B1 Atlas",
+      tagline: "German learning and relocation planning",
+      kind: "Web platform",
+      dateRange: "Aug 2026 - Present",
+      status: "Live",
+      link: "https://b1atlas.com/",
+      linkLabel: "b1atlas.com",
+      image: b1AtlasImage,
+      imageAlt:
+        "B1 Atlas showcase: German learning and relocation planning, with a screenshot of the guides and tools page",
+      description:
+        "A platform that helps people prepare for German language exams and plan a move to Germany. I own the product direction, development, deployment and maintenance.",
+      highlights: [
+        "Multilingual site combining practical guides with interactive tools for exam selection, Ausbildung applications and Opportunity Card planning.",
+        "Guided user journeys and a waitlist for a structured self-study course in development.",
+      ],
+      skills: ["Astro", "TypeScript", "Tailwind CSS"],
+    },
+    {
+      name: "SellEazyy",
+      tagline: "Shopify apps for merchant operations",
+      kind: "Shopify apps",
+      dateRange: "Mar 2026 - Present",
+      status: "Live",
+      link: "https://selleazyy.com/",
+      linkLabel: "selleazyy.com",
+      image: sellEazyyImage,
+      imageAlt: "SellEazyy logo on a blue background: Shopify apps, finally done right",
+      description:
+        "StockPing and OrderPing, two Shopify apps that automate inventory monitoring and order notifications. I own product decisions, development, deployment and maintenance.",
+      highlights: [
+        "StockPing: location-specific low-stock alerts, recovery notifications and daily summaries.",
+        "OrderPing: routes order notifications to the right staff through configurable rules.",
+        "Shopify API and webhook integrations, background processing, multi-channel notifications and Shopify billing.",
+      ],
+      skills: ["TypeScript", "React Router", "Node.js", "PostgreSQL", "Prisma", "Redis/BullMQ", "Docker"],
+    },
+  ],
   experience: [
     {
       company: "Kuehne+Nagel",
       title: "Senior Software Engineer",
       dateRange: "July 2022 - Present",
       location: "Hamburg, Germany",
+      certificate: "https://files.selleazyy.com/employment_certificate_KN.pdf",
       bullets: [
         "Spearheaded the end-to-end migration of a legacy pharmaceutical monitoring system to a unified web dashboard, replacing manual Excel workflows and significantly reducing monitoring gaps for high-value cargo.",
         'Engineered a full-stack, event-driven architecture using Spring Boot, Kafka, and Angular to process high-velocity shipment data, providing 24/7 real-time tracking and streamlined workflows for the "Air Logistics" module.',

@@ -34,7 +34,11 @@ test("homepage JSON-LD identifies the person, organization, and website", async 
   const data = JSON.parse(match[1]);
   const types = data["@graph"].map((entry) => entry["@type"]);
 
-  assert.deepEqual(types, ["Person", "Organization", "WebSite"]);
+  assert.deepEqual(types.slice(0, 3), ["Person", "Organization", "WebSite"]);
+  assert.ok(
+    types.slice(3).every((type) => type === "CreativeWork"),
+    "expected only project CreativeWork entries after the identity entries",
+  );
 
   const organization = data["@graph"].find(
     (entry) => entry["@type"] === "Organization",

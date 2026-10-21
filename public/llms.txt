@@ -13,11 +13,17 @@ Do not use this site as an API, developer portal, authentication provider, comme
 
 ## Main pages
 
-- [Portfolio](https://ratul0.github.io/): Work history, skills, education, references, and public activity
+- [Portfolio](https://ratul0.github.io/): Projects, work history, skills, education, references, and public activity
 - [About](https://ratul0.github.io/about/): Background, working style, and technical focus
 - [Contact](https://ratul0.github.io/contact/): Verified contact methods and agent outreach guidance
 - [Privacy](https://ratul0.github.io/privacy/): Hosting, browser storage, external links, and email handling
 - [Sitemap](https://ratul0.github.io/sitemap.xml): All indexable pages
+
+## Projects
+
+- [Baby Phone](https://apps.apple.com/sa/app/baby-phone-abc-123-games/id6823124937): Educational iOS app for toddlers in English and Arabic
+- [B1 Atlas](https://b1atlas.com/): German learning and relocation planning platform
+- [SellEazyy](https://selleazyy.com/): Shopify apps for inventory monitoring and order notifications
 
 ## Machine-readable alternatives
 

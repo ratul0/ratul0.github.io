@@ -1,3 +1,7 @@
+import babyPhoneImage from "./assets/projects/baby-phone.png";
+import b1AtlasImage from "./assets/projects/b1-atlas.png";
+import sellEazyyImage from "./assets/projects/selleazyy.png";
+
 export const siteConfig = {
   name: "Yousuf Khan",
   title: "Senior Software Engineer",
@@ -41,7 +45,66 @@ export const siteConfig = {
     { name: "Bangla", level: 5 },
     { name: "German", level: 3 },
   ],
-  projects: [],
+  projects: [
+    {
+      name: "Baby Phone",
+      tagline: "ABC & 123 Games for toddlers",
+      kind: "iOS app",
+      dateRange: "Sep 2026 - Present",
+      status: "Live",
+      link: "https://apps.apple.com/sa/app/baby-phone-abc-123-games/id6823124937",
+      linkLabel: "App Store",
+      image: babyPhoneImage,
+      imageAlt:
+        "Baby Phone showcase: offline learning for toddlers in English and Arabic, with three iPhone screens of the app",
+      description:
+        "An educational iOS app for toddlers. I own the product decisions, development, App Store delivery and ongoing maintenance.",
+      highlights: [
+        "English and Arabic activities covering letters, numbers, animal sounds and pretend phone calls.",
+        "Offline use, personalised family photos and voice greetings, parental controls and an in-app purchase.",
+        "Reusable functionality in a shared Swift package, with unit and UI test targets.",
+      ],
+      skills: ["Swift", "SwiftUI", "StoreKit"],
+    },
+    {
+      name: "B1 Atlas",
+      tagline: "German learning and relocation planning",
+      kind: "Web platform",
+      dateRange: "Aug 2026 - Present",
+      status: "Live",
+      link: "https://b1atlas.com/",
+      linkLabel: "b1atlas.com",
+      image: b1AtlasImage,
+      imageAlt:
+        "B1 Atlas showcase: German learning and relocation planning, with a screenshot of the guides and tools page",
+      description:
+        "A platform that helps people prepare for German language exams and plan a move to Germany. I own the product direction, development, deployment and maintenance.",
+      highlights: [
+        "Multilingual site combining practical guides with interactive tools for exam selection, Ausbildung applications and Opportunity Card planning.",
+        "Guided user journeys and a waitlist for a structured self-study course in development.",
+      ],
+      skills: ["Astro", "TypeScript", "Tailwind CSS"],
+    },
+    {
+      name: "SellEazyy",
+      tagline: "Shopify apps for merchant operations",
+      kind: "Shopify apps",
+      dateRange: "Mar 2026 - Present",
+      status: "Live",
+      link: "https://selleazyy.com/",
+      linkLabel: "selleazyy.com",
+      image: sellEazyyImage,
+      imageAlt: "SellEazyy logo on a blue background: Shopify apps, finally done right",
+      description:
+        "StockPing and OrderPing, two Shopify apps that automate inventory monitoring and order notifications. I own product decisions, development, deployment and maintenance.",
+      highlights: [
+        "StockPing: location-specific low-stock alerts, recovery notifications and daily summaries.",
+        "OrderPing: routes order notifications to the right staff through configurable rules.",
+        "Shopify API and webhook integrations, background processing, multi-channel notifications and Shopify billing.",
+      ],
+      skills: ["TypeScript", "React Router", "Node.js", "PostgreSQL", "Prisma", "Redis/BullMQ", "Docker"],
+    },
+  ],
   experience: [
     {
       company: "Kuehne+Nagel",

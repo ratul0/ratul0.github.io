@@ -21,6 +21,8 @@ import "@fontsource/ibm-plex-mono/700.css";
 import "@fontsource/ibm-plex-mono/700-italic.css";
 
 const canonicalUrl = "https://ratul0.github.io/";
+const slugify = (value: string) =>
+  value.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-|-$/g, "");
 const identityGraph = {
   "@context": "https://schema.org",
   "@graph": [
@@ -79,6 +81,15 @@ const identityGraph = {
       inLanguage: "en",
       about: { "@id": `${canonicalUrl}#yousuf-khan` },
     },
+    ...siteConfig.projects.map((project) => ({
+      "@type": "CreativeWork",
+      "@id": `${canonicalUrl}#project-${slugify(project.name)}`,
+      name: project.name,
+      description: project.description,
+      url: project.link,
+      creator: { "@id": `${canonicalUrl}#yousuf-khan` },
+      keywords: project.skills,
+    })),
   ],
 };
 ---

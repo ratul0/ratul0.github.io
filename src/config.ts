@@ -147,6 +147,7 @@ export const siteConfig = {
       title: "Senior Software Engineer",
       dateRange: "July 2022 - Present",
       location: "Hamburg, Germany",
+      certificate: "https://files.selleazyy.com/employment_certificate_KN.pdf",
       bullets: [
         "Spearheaded the end-to-end migration of a legacy pharmaceutical monitoring system to a unified web dashboard, replacing manual Excel workflows and significantly reducing monitoring gaps for high-value cargo.",
         'Engineered a full-stack, event-driven architecture using Spring Boot, Kafka, and Angular to process high-velocity shipment data, providing 24/7 real-time tracking and streamlined workflows for the "Air Logistics" module.',

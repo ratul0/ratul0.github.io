@@ -464,6 +464,41 @@ body.dark .profile-image-frame:hover {
 
 
 /* ═══════════════════════════════════════
+   DOC LINK (inline link to a supporting PDF)
+   ═══════════════════════════════════════ */
+
+.doc-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35em;
+  color: inherit;
+  text-decoration: underline dotted;
+  text-decoration-color: color-mix(in srgb, currentColor 45%, transparent);
+  text-underline-offset: 0.3em;
+  transition:
+    color 0.5s var(--ease-out-expo),
+    text-decoration-color 0.5s var(--ease-out-expo);
+}
+
+.doc-link:hover,
+.doc-link:focus-visible {
+  color: var(--theme-accent);
+  text-decoration-color: currentColor;
+}
+
+.doc-link-arrow {
+  width: 0.6em;
+  height: 0.6em;
+  flex-shrink: 0;
+  transition: transform 0.5s var(--ease-out-expo);
+}
+
+.doc-link:hover .doc-link-arrow {
+  transform: translate(2px, -2px);
+}
+
+
+/* ═══════════════════════════════════════
    THEME TOGGLE BUTTON
    ═══════════════════════════════════════ */
 

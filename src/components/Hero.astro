@@ -43,15 +43,35 @@ const lastName = nameParts.slice(1).join(" ");
         <!-- Current work indicator -->
         {currentRole && (
           <div class="scroll-reveal pt-4" data-delay="3">
-            <a
-              href="#experience"
-              class="group inline-flex items-center gap-3 text-xs md:text-sm font-light uppercase tracking-widest text-[var(--theme-text-secondary)] transition-colors duration-500 ease-expo"
-            >
-              <span class="group-hover:text-[var(--theme-accent)] transition-colors duration-500 ease-expo">
-                currently @ {currentRole.company}
-              </span>
-              <span class="block-cursor"></span>
-            </a>
+            {currentRole.certificate ? (
+              <p class="inline-flex items-center gap-3 text-xs md:text-sm font-light uppercase tracking-widest text-[var(--theme-text-secondary)]">
+                <span>
+                  currently @{" "}
+                  <a
+                    href={currentRole.certificate}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    class="doc-link"
+                    title="Employment certificate (PDF)"
+                    aria-label={`${currentRole.company} employment certificate (PDF, opens in a new tab)`}
+                  >
+                    {currentRole.company}
+                    <svg class="doc-link-arrow" width="9" height="9" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M1 7L7 1M7 1H3M7 1V5" /></svg>
+                  </a>
+                </span>
+                <span class="block-cursor"></span>
+              </p>
+            ) : (
+              <a
+                href="#experience"
+                class="group inline-flex items-center gap-3 text-xs md:text-sm font-light uppercase tracking-widest text-[var(--theme-text-secondary)] transition-colors duration-500 ease-expo"
+              >
+                <span class="group-hover:text-[var(--theme-accent)] transition-colors duration-500 ease-expo">
+                  currently @ {currentRole.company}
+                </span>
+                <span class="block-cursor"></span>
+              </a>
+            )}
           </div>
         )}
         <!-- Local time + availability -->

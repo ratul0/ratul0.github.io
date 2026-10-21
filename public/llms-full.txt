@@ -4,11 +4,15 @@ Yousuf Khan is a senior software engineer based in Bremen, Germany. He has worke
 
 ## Technical focus
 
-Backend: Java, Kotlin, Spring Boot, Laravel, PostgreSQL, GraphQL, Kafka, and Mockito.
+Backend: Java, Kotlin, Spring Boot, Node.js, Laravel, PostgreSQL, Prisma, GraphQL, REST APIs, Kafka, Redis/BullMQ, microservices, and Mockito.
 
-Frontend: JavaScript, TypeScript, Angular, React, Next.js, TanStack Start, and Jest.
+Frontend: JavaScript, TypeScript, Angular, React, React Router, Next.js, TanStack Start, Astro, Tailwind CSS, and Jest.
 
-Delivery and infrastructure: Git, AWS, Docker, and CI/CD.
+Mobile: Swift, SwiftUI, and StoreKit.
+
+Delivery and infrastructure: Git, AWS, Docker, CI/CD, and Shopify app development.
+
+Product and delivery: product development, stakeholder management, and business process improvement.
 
 ## Projects
 

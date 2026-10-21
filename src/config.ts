@@ -2,6 +2,61 @@ import babyPhoneImage from "./assets/projects/baby-phone.png";
 import b1AtlasImage from "./assets/projects/b1-atlas.png";
 import sellEazyyImage from "./assets/projects/selleazyy.png";
 
+// Grouped for the About section; `skills` flattens them for JSON-LD.
+// Wide groups span both columns of the skills grid.
+const skillGroups = [
+  {
+    label: "Backend",
+    wide: true,
+    skills: [
+      "Java",
+      "Kotlin",
+      "Spring Boot",
+      "Node.js",
+      "Laravel",
+      "PostgreSQL",
+      "Prisma",
+      "GraphQL",
+      "REST APIs",
+      "Kafka",
+      "Redis/BullMQ",
+      "Microservices",
+      "Mockito",
+    ],
+  },
+  {
+    label: "Frontend",
+    wide: true,
+    skills: [
+      "JavaScript",
+      "TypeScript",
+      "Angular",
+      "React",
+      "React Router",
+      "NextJS",
+      "Tanstack Start",
+      "Astro",
+      "Tailwind CSS",
+      "Jest",
+    ],
+  },
+  {
+    label: "Mobile",
+    wide: false,
+    skills: ["Swift", "SwiftUI", "StoreKit"],
+  },
+  {
+    label: "Tools & Platforms",
+    wide: false,
+    skills: ["Docker", "AWS", "Git", "CI/CD", "Shopify Apps"],
+  },
+  {
+    label: "Product & Delivery",
+    wide: true,
+    skills: ["Product Development", "Stakeholder Management", "Business Process Improvement"],
+  },
+];
+
 export const siteConfig = {
   name: "Yousuf Khan",
   title: "Senior Software Engineer",
@@ -19,27 +74,8 @@ export const siteConfig = {
   },
   aboutMe:
     "Ten years as a full-stack engineer have taught me to care just as much about the \"why\" as the \"how.\" At Kuehne+Nagel, this meant acting as a natural bridge between the business side and the developers. My strength lies in taking a product owner's big idea and turning it into a realistic plan that a team can actually ship. I’m at my best when balancing a strong technical vision with a solid delivery timeline to ensure the right problems are solved on schedule.",
-  skills: [
-    "Java",
-    "Kotlin",
-    "Spring Boot",
-    "JavaScript",
-    "TypeScript",
-    "Angular",
-    "React",
-    "Tanstack Start",
-    "Laravel",
-    "PostgreSQL",
-    "GraphQL",
-    "Git",
-    "AWS",
-    "Docker",
-    "Kafka",
-    "Mockito",
-    "NextJS",
-    "Jest",
-    "CI/CD",
-  ],
+  skillGroups,
+  skills: skillGroups.flatMap((group) => group.skills),
   languages: [
     { name: "English", level: 5 },
     { name: "Bangla", level: 5 },

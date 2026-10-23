@@ -1,11 +1,13 @@
 ---
 import { siteConfig } from "../config";
 import { Icon } from "astro-icon/components";
+import { getMediumPosts } from "../lib/medium";
 
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 const hasEducation = siteConfig.education && siteConfig.education.length > 0;
 const hasReferences = siteConfig.references && siteConfig.references.length > 0;
+const hasWriting = (await getMediumPosts()).length > 0;
 const hasGithub = !!siteConfig.social?.github;
 
 // Social links defined once, rendered in both desktop pill and mobile overlay
@@ -37,6 +39,7 @@ const socialLinks = [
         {hasExperience && <a href="#experience" data-nav="experience" class="pill-link">Experience</a>}
         {hasEducation && <a href="#education" data-nav="education" class="pill-link">Education</a>}
         {hasReferences && <a href="#references" data-nav="references" class="pill-link">References</a>}
+        {hasWriting && <a href="#writing" data-nav="writing" class="pill-link">Writing</a>}
         {hasGithub && <a href="#github" data-nav="github" class="pill-link">Activity</a>}
       </div>
 
@@ -85,7 +88,8 @@ const socialLinks = [
     {hasExperience && <a href="#experience" class="overlay-link" style="--i: 2">Experience</a>}
     {hasEducation && <a href="#education" class="overlay-link" style="--i: 3">Education</a>}
     {hasReferences && <a href="#references" class="overlay-link" style="--i: 4">References</a>}
-    {hasGithub && <a href="#github" class="overlay-link" style="--i: 5">Activity</a>}
+    {hasWriting && <a href="#writing" class="overlay-link" style="--i: 5">Writing</a>}
+    {hasGithub && <a href="#github" class="overlay-link" style="--i: 6">Activity</a>}
 
     <!-- Social icons in overlay -->
     <div class="overlay-socials" style="--i: 6">
@@ -582,7 +586,7 @@ const socialLinks = [
   }, { passive: true });
 
   // Active section observer
-  const sections = ['about', 'projects', 'experience', 'education', 'references', 'github'];
+  const sections = ['about', 'projects', 'experience', 'education', 'references', 'writing', 'github'];
   const navLinks = document.querySelectorAll('[data-nav]');
 
   const sectionObserver = new IntersectionObserver((entries) => {

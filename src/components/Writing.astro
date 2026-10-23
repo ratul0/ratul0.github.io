@@ -1,0 +1,120 @@
+---
+import { siteConfig } from "../config";
+import { getMediumPosts } from "../lib/medium";
+
+const posts = await getMediumPosts();
+const mediumUrl = siteConfig.social?.medium;
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+---
+
+{
+  posts.length > 0 && (
+    <section id="writing" class="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-16">
+          <!-- Left column - Sticky header -->
+          <div class="xl:col-span-4 xl:sticky xl:top-32 xl:self-start">
+            <div class="space-y-4 scroll-reveal">
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                Writing
+              </h2>
+              <div class="accent-line animate h-3"></div>
+              <p class="text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed max-w-sm pt-2">
+                Notes on tools, workflows and lessons from shipping software.
+              </p>
+              {mediumUrl && (
+                <a href={mediumUrl} target="_blank" rel="noopener noreferrer" class="section-link">
+                  All posts on Medium ↗
+                </a>
+              )}
+            </div>
+          </div>
+
+          <!-- Right column - Post list -->
+          <div class="xl:col-span-8">
+            <div class="scroll-reveal" data-delay="1">
+              <div class="bezel">
+                <ol class="bezel-inner writing-list">
+                  {posts.map((post) => (
+                    <li>
+                      <a
+                        href={post.url}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        class="writing-item group flex items-start gap-4 p-6 md:p-8"
+                      >
+                        <div class="min-w-0 flex-1 space-y-2">
+                          <p class="text-xs uppercase tracking-widest text-[var(--theme-text-secondary)]">
+                            <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time>
+                            {post.readingMinutes && (
+                              <>
+                                <span aria-hidden="true"> · </span>
+                                {post.readingMinutes} min read
+                              </>
+                            )}
+                          </p>
+                          <h3 class="writing-title text-lg md:text-xl font-semibold text-[var(--theme-text-primary)]">
+                            {post.title}
+                          </h3>
+                          <p class="writing-excerpt text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                            {post.excerpt}
+                          </p>
+                          {post.tags.length > 0 && (
+                            <div class="flex flex-wrap gap-2 pt-2">
+                              {post.tags.map((tag) => (
+                                <span class="skill-pill text-xs">{tag}</span>
+                              ))}
+                            </div>
+                          )}
+                        </div>
+                        <span class="arrow-badge w-7 h-7 flex-shrink-0 mt-1 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                          <svg width="10" height="10" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                            <path d="M1 7L7 1M7 1H3M7 1V5" />
+                          </svg>
+                        </span>
+                        <span class="sr-only">(opens Medium in a new tab)</span>
+                      </a>
+                    </li>
+                  ))}
+                </ol>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<style>
+  .writing-list > li + li {
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .writing-item {
+    transition: background-color 0.5s var(--ease-out-expo);
+  }
+
+  .writing-item:hover,
+  .writing-item:focus-visible {
+    background: color-mix(in srgb, var(--theme-text-primary) 3%, transparent);
+  }
+
+  .writing-title {
+    transition: color 0.5s var(--ease-out-expo);
+  }
+
+  .writing-item:hover .writing-title,
+  .writing-item:focus-visible .writing-title {
+    color: var(--theme-accent);
+  }
+
+  .writing-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

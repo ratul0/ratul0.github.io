@@ -1,0 +1,214 @@
+---
+import { siteConfig } from "../config";
+import { getMediumPosts } from "../lib/medium";
+
+const posts = await getMediumPosts();
+const mediumUrl = siteConfig.social?.medium;
+const formatDate = (date: Date) =>
+  date.toLocaleDateString("en-US", { month: "short", year: "numeric", timeZone: "UTC" });
+---
+
+{
+  posts.length > 0 && (
+    <section id="writing" class="relative py-32 md:py-40 px-6 md:px-12 lg:px-16">
+      <div class="max-w-6xl mx-auto">
+        <div class="grid grid-cols-1 xl:grid-cols-12 gap-12 xl:gap-16">
+          <!-- Left column - Sticky header -->
+          <div class="xl:col-span-4 xl:sticky xl:top-32 xl:self-start">
+            <div class="space-y-4 scroll-reveal">
+              <h2 class="text-4xl md:text-5xl lg:text-6xl font-bold tracking-tight">
+                Writing
+              </h2>
+              <div class="accent-line animate h-3"></div>
+              {mediumUrl && (
+                <a href={mediumUrl} target="_blank" rel="noopener noreferrer" class="section-link">
+                  All posts on Medium ↗
+                </a>
+              )}
+            </div>
+          </div>
+
+          <!-- Right column - Post list -->
+          <div class="xl:col-span-8">
+            <div class="scroll-reveal" data-delay="1">
+              <div class="bezel">
+                <div class="bezel-inner writing-scroll" role="region" aria-label="Medium posts" tabindex="0" data-writing-scroll>
+                  <ol class="writing-list">
+                    {posts.map((post) => (
+                      <li>
+                        <a
+                          href={post.url}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          class="writing-item group flex items-start gap-4 p-6 md:p-8"
+                        >
+                          <div class="min-w-0 flex-1 space-y-2">
+                            <p class="text-xs uppercase tracking-widest text-[var(--theme-text-secondary)]">
+                              <time datetime={post.date.toISOString()}>{formatDate(post.date)}</time>
+                              {post.readingMinutes && (
+                                <>
+                                  <span aria-hidden="true"> · </span>
+                                  {post.readingMinutes} min read
+                                </>
+                              )}
+                            </p>
+                            <h3 class="writing-title text-lg md:text-xl font-semibold text-[var(--theme-text-primary)]">
+                              {post.title}
+                            </h3>
+                            <p class="writing-excerpt text-sm text-[var(--theme-text-secondary)] leading-relaxed">
+                              {post.excerpt}
+                            </p>
+                            {post.tags.length > 0 && (
+                              <div class="writing-tags flex flex-wrap gap-2 mt-2">
+                                {post.tags.map((tag) => (
+                                  <span class="skill-pill text-xs">{tag}</span>
+                                ))}
+                              </div>
+                            )}
+                          </div>
+                          <span class="arrow-badge w-7 h-7 flex-shrink-0 mt-1 group-hover:translate-x-0.5 group-hover:-translate-y-px">
+                            <svg width="10" height="10" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+                              <path d="M1 7L7 1M7 1H3M7 1V5" />
+                            </svg>
+                          </span>
+                          <span class="sr-only">(opens Medium in a new tab)</span>
+                        </a>
+                      </li>
+                    ))}
+                  </ol>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </section>
+  )
+}
+
+<script>
+  // Toggle the bottom fade only while there is more content below.
+  document.querySelectorAll<HTMLElement>('[data-writing-scroll]').forEach((el) => {
+    const update = () => {
+      const overflows = el.scrollHeight - el.clientHeight > 1;
+      const atEnd = el.scrollTop + el.clientHeight >= el.scrollHeight - 1;
+      el.dataset.fade = overflows && !atEnd ? 'true' : 'false';
+    };
+
+    el.addEventListener('scroll', update, { passive: true });
+    new ResizeObserver(update).observe(el);
+    if (el.firstElementChild) new ResizeObserver(update).observe(el.firstElementChild);
+    update();
+  });
+</script>
+
+<style>
+  /* About three posts visible with the fourth peeking; posts are ~12.5rem tall on desktop, taller when narrow */
+  .writing-scroll {
+    max-height: 38rem;
+    overflow-y: auto;
+    overscroll-behavior: contain;
+    scrollbar-width: thin;
+    scrollbar-color: var(--theme-border) transparent;
+  }
+
+  @media (min-width: 40rem) {
+    .writing-scroll {
+      max-height: 42rem;
+    }
+  }
+
+  .writing-scroll:hover {
+    scrollbar-color: color-mix(in srgb, var(--theme-text-secondary) 50%, transparent) transparent;
+  }
+
+  .writing-scroll::-webkit-scrollbar {
+    width: 6px;
+  }
+
+  .writing-scroll::-webkit-scrollbar-track {
+    background: transparent;
+  }
+
+  .writing-scroll::-webkit-scrollbar-thumb {
+    background: var(--theme-border);
+    border-radius: 9999px;
+  }
+
+  .writing-scroll:hover::-webkit-scrollbar-thumb {
+    background: color-mix(in srgb, var(--theme-text-secondary) 50%, transparent);
+  }
+
+  .writing-scroll[data-fade="true"] {
+    -webkit-mask-image: linear-gradient(to bottom, #000 calc(100% - 4rem), transparent);
+    mask-image: linear-gradient(to bottom, #000 calc(100% - 4rem), transparent);
+  }
+
+  .writing-scroll:focus-visible {
+    outline: 2px solid var(--theme-accent);
+    outline-offset: 2px;
+  }
+
+  @media (prefers-reduced-motion: no-preference) {
+    .writing-scroll {
+      scroll-behavior: smooth;
+    }
+  }
+
+  /* Phones: keep a single row of tags; pills that would wrap are clipped */
+  .writing-tags {
+    --pill-line-height: 1rem; /* text-xs */
+  }
+
+  @media (width < 40rem) {
+    .writing-tags {
+      /* one pill: line-height + 2 * 6px padding + 2 * 1px border (see .skill-pill) */
+      max-height: calc(var(--pill-line-height) + 14px);
+      overflow: hidden;
+    }
+
+    .writing-tags .skill-pill {
+      max-width: 100%;
+      line-height: var(--pill-line-height);
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+
+    /* the hover lift would be clipped by the row */
+    .writing-tags .skill-pill:hover {
+      transform: none;
+      box-shadow: none;
+    }
+  }
+
+  .writing-list > li + li {
+    border-top: 1px solid var(--theme-border);
+  }
+
+  .writing-item {
+    transition: background-color 0.5s var(--ease-out-expo);
+  }
+
+  .writing-item:hover,
+  .writing-item:focus-visible {
+    background: color-mix(in srgb, var(--theme-text-primary) 3%, transparent);
+  }
+
+  .writing-title {
+    transition: color 0.5s var(--ease-out-expo);
+  }
+
+  .writing-item:hover .writing-title,
+  .writing-item:focus-visible .writing-title {
+    color: var(--theme-accent);
+  }
+
+  .writing-excerpt {
+    display: -webkit-box;
+    -webkit-line-clamp: 2;
+    line-clamp: 2;
+    -webkit-box-orient: vertical;
+    overflow: hidden;
+  }
+</style>

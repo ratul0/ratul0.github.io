@@ -262,4 +262,11 @@ export const siteConfig = {
         "Yousuf is an exceptionally clever and intelligent hard-working guy with a broad background in web technologies, He's thankful and non-demanding, He is a great plus for any development team. I am thankful for the time I could spend with him and I'd hire him again any time.",
     },
   ],
+  // Latest Medium posts, fetched from the RSS feed at build time.
+  // `limit: 0` hides the section; add a post ID (the hex suffix of its URL) to `exclude` to skip it.
+  writing: {
+    feed: "https://medium.com/feed/@rats",
+    limit: 10,
+    exclude: [] as string[],
+  },
 };

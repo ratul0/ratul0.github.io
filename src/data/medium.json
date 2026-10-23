@@ -1,0 +1,74 @@
+[
+  {
+    "id": "6ae94cf37896",
+    "title": "Moving to pnpm and Volta: Enhancing Your Frontend Development Workflow",
+    "url": "https://medium.com/@rats/moving-to-pnpm-and-volta-enhancing-your-frontend-development-workflow-6ae94cf37896",
+    "date": "2024-10-05T21:52:06.000Z",
+    "excerpt": "When it comes to JavaScript/TypeScript development, selecting the appropriate tools can greatly influence your productivity and project management. Are you using npm and nvm/fnm?…",
+    "readingMinutes": 6,
+    "tags": [
+      "devops",
+      "web development",
+      "software engineering"
+    ]
+  },
+  {
+    "id": "7922ffa8de48",
+    "title": "Learning how to learn and study effectively",
+    "url": "https://medium.com/infancyit/learning-how-to-learn-and-study-effectively-7922ffa8de48",
+    "date": "2020-05-08T01:41:29.000Z",
+    "excerpt": "I wish when I was a kid, someone would tell me that I can learn how to Learn and Study effectively.",
+    "tags": [
+      "study",
+      "learning",
+      "exam"
+    ]
+  },
+  {
+    "id": "57161a212b85",
+    "title": "Java Basics — How Java is understood by your machine",
+    "url": "https://medium.com/@rats/java-basics-how-java-is-understood-by-your-machine-57161a212b85",
+    "date": "2019-05-17T18:10:44.000Z",
+    "excerpt": "I think you all know by now that Java is a platform independent language. It’s one of the key benefits of Java. To understand how Java…",
+    "tags": [
+      "java",
+      "programming"
+    ]
+  },
+  {
+    "id": "f317916d7785",
+    "title": "Save time with Postman Environment Variable",
+    "url": "https://medium.com/infancyit/save-time-with-postman-environment-variable-f317916d7785",
+    "date": "2018-02-03T22:32:39.000Z",
+    "excerpt": "If you do any kind of API development or work in any front-end stack, you probably heard of postman already. It’s an HTTP client to test…",
+    "tags": [
+      "web development",
+      "programming",
+      "front end development"
+    ]
+  },
+  {
+    "id": "16a08d74b8b2",
+    "title": "Difference Between Var, Let and Const in ES6",
+    "url": "https://medium.com/infancyit/difference-between-var-let-and-const-in-es6-16a08d74b8b2",
+    "date": "2018-01-23T18:54:53.000Z",
+    "excerpt": "I will try to explain following JavaScripts Keywords:",
+    "tags": [
+      "javascript",
+      "es6",
+      "front end development"
+    ]
+  },
+  {
+    "id": "51fb92f3a199",
+    "title": "Understanding AdMob Network",
+    "url": "https://medium.com/infancyit/understanding-admob-network-51fb92f3a199",
+    "date": "2015-12-09T07:54:59.000Z",
+    "excerpt": "",
+    "tags": [
+      "mobile app development",
+      "admob",
+      "ios app development"
+    ]
+  }
+]

@@ -266,7 +266,7 @@ export const siteConfig = {
   // `limit: 0` hides the section; add a post ID (the hex suffix of its URL) to `exclude` to skip it.
   writing: {
     feed: "https://medium.com/feed/@rats",
-    limit: 3,
+    limit: 10,
     exclude: [] as string[],
   },
 };

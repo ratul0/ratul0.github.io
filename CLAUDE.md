@@ -24,7 +24,7 @@ No test runner or linter is configured.
 - **`src/pages/index.astro`** — the sole page, composes all section components and contains the dark/light theme toggle logic (JS using `body.dark` class + localStorage).
 - **`src/components/*.astro`** — one component per portfolio section (Hero, About, Projects, Experience, Education, References, Header, Footer). Each reads from `siteConfig`.
 - **`src/styles/global.css`** — Tailwind v4 `@theme` block defines CSS custom properties for light/dark palettes. Dark mode works by overriding `--theme-*` variables on `body.dark`. The accent color (`--color-deep-teal`) is set here, not via `siteConfig.accentColor`.
-- **Writing section** — `src/lib/medium.ts` fetches `siteConfig.writing.feed` (Medium RSS) at build time; `Writing.astro` renders the latest posts. If the fetch fails the build still succeeds and the section/nav link hide. `deploy.yml` rebuilds weekly to pick up new posts.
+- **Writing section** — `src/lib/medium.ts` fetches `siteConfig.writing.feed` (Medium RSS) at build time; `Writing.astro` renders the latest posts. Each successful fetch rewrites the committed snapshot `src/data/medium.json` (all parsed posts, only when content changed); if the fetch fails or returns no items (Medium sometimes blocks CI IPs) the build logs a `[medium]` warning and falls back to that snapshot, and only hides the section/nav link if the snapshot is missing too. Commit snapshot changes after a build. `deploy.yml` rebuilds weekly to pick up new posts.
 - **Icons** — uses `astro-icon` with `@iconify-json/simple-icons` for brand/social icons.
 - **Font** — IBM Plex Mono (monospace), imported via `@fontsource` in `index.astro`.
 

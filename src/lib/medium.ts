@@ -1,3 +1,5 @@
+import { mkdirSync, readFileSync, writeFileSync } from "node:fs";
+import { dirname, join } from "node:path";
 import { siteConfig } from "../config";
 
 export interface MediumPost {
@@ -74,24 +76,66 @@ const parseItem = (xml: string): MediumPost | null => {
   };
 };
 
+// cwd is the project root in Astro builds and dev; import.meta.url points into bundled output.
+const SNAPSHOT_PATH = join(process.cwd(), "src/data/medium.json");
+
+const errorMessage = (error: unknown) => (error instanceof Error ? error.message : String(error));
+
+const newestFirst = (posts: MediumPost[]) => [...posts].sort((a, b) => b.date.getTime() - a.date.getTime());
+
+// The snapshot keeps every parsed post, so exclude/limit changes still apply to it.
+const saveSnapshot = (posts: MediumPost[]) => {
+  try {
+    const next = `${JSON.stringify(newestFirst(posts), null, 2)}\n`;
+    let current: string | undefined;
+    try {
+      current = readFileSync(SNAPSHOT_PATH, "utf8");
+    } catch {}
+    // Skip identical writes so builds don't dirty git or trigger dev-server reloads.
+    if (current === next) return;
+    mkdirSync(dirname(SNAPSHOT_PATH), { recursive: true });
+    writeFileSync(SNAPSHOT_PATH, next);
+  } catch (error) {
+    console.warn(`[medium] Could not write snapshot: ${errorMessage(error)}`);
+  }
+};
+
+const loadSnapshot = (): MediumPost[] => {
+  try {
+    const posts = JSON.parse(readFileSync(SNAPSHOT_PATH, "utf8")) as (Omit<MediumPost, "date"> & { date: string })[];
+    return posts.map((post) => ({ ...post, date: new Date(post.date) }));
+  } catch (error) {
+    console.warn(`[medium] Could not read snapshot: ${errorMessage(error)}`);
+    return [];
+  }
+};
+
+const fetchFeed = async (feed: string) => {
+  const response = await fetch(feed, { signal: AbortSignal.timeout(10_000) });
+  if (!response.ok) throw new Error(`HTTP ${response.status}`);
+  const xml = await response.text();
+
+  // Cloudflare challenge pages can come back as 200 HTML, so an empty feed is a failure too.
+  const items = [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)];
+  if (!items.length) throw new Error("no <item> entries in response");
+  return items.map((match) => parseItem(match[1])).filter((post): post is MediumPost => !!post);
+};
+
 const fetchPosts = async (): Promise<MediumPost[]> => {
   const { feed, limit, exclude } = siteConfig.writing;
   if (!feed || limit <= 0) return [];
 
-  try {
-    const response = await fetch(feed, { signal: AbortSignal.timeout(10_000) });
-    if (!response.ok) throw new Error(`HTTP ${response.status}`);
-    const xml = await response.text();
+  const select = (posts: MediumPost[]) =>
+    newestFirst(posts.filter((post) => !exclude.includes(post.id))).slice(0, limit);
 
-    return [...xml.matchAll(/<item>([\s\S]*?)<\/item>/g)]
-      .map((match) => parseItem(match[1]))
-      .filter((post): post is MediumPost => !!post && !exclude.includes(post.id))
-      .sort((a, b) => b.date.getTime() - a.date.getTime())
-      .slice(0, limit);
+  try {
+    const posts = await fetchFeed(feed);
+    saveSnapshot(posts);
+    return select(posts);
   } catch (error) {
-    // A Medium outage should never fail the deploy; the section just hides.
-    console.warn(`[medium] Could not load ${feed}: ${error instanceof Error ? error.message : error}`);
-    return [];
+    // A Medium outage (or a blocked CI IP) should never fail the deploy or empty the section.
+    console.warn(`[medium] Could not load ${feed}: ${errorMessage(error)}; falling back to src/data/medium.json`);
+    return select(loadSnapshot());
   }
 };
 

@@ -3,9 +3,37 @@ import { Image } from "astro:assets";
 import { siteConfig } from "../config";
 import LensText from "./LensText.astro";
 import { lensMatch, lensOrderStyle, placeMarks } from "../lib/lens";
+import { BEAT_COUNT, getProjectProof, type Beat } from "../lib/proof";
 
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const count = String(siteConfig.projects.length).padStart(2, "0");
+
+const proofs = await getProjectProof();
+
+// App proof older than this is labelled "last checked"; the builds refresh it every 6 hours.
+const STALE_AFTER_MS = 7 * 24 * 60 * 60 * 1000;
+// A site whose newest heartbeat is older than this shows "no recent data" instead of a status.
+const IDLE_AFTER_MS = 10 * 60 * 1000;
+const RATING_MIN_COUNT = 5;
+
+const formatDate = (iso: string) => {
+  const parts = Object.fromEntries(
+    new Intl.DateTimeFormat("en-US", { day: "numeric", month: "short", year: "numeric", timeZone: "UTC" })
+      .formatToParts(new Date(iso))
+      .map((part) => [part.type, part.value]),
+  );
+  return `${parts.day} ${parts.month} ${parts.year}`;
+};
+
+const SITE_STATES = {
+  up: { label: "operational", dot: "available" },
+  down: { label: "down", dot: "down" },
+  idle: { label: "no recent data", dot: "idle" },
+} as const;
+
+// Build-time titles are UTC; the client script rewrites them in the visitor's local time.
+const beatTitle = (beat: Beat) =>
+  `${beat.time.slice(11, 16)} UTC · ${beat.status === 1 ? "up" : "down"}${beat.ping === null ? "" : ` · ${beat.ping}ms`}`;
 ---
 
 {
@@ -39,6 +67,18 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
                   project.lenses,
                   project.name,
                 );
+
+                const proof = proofs[project.name];
+                const stale = proof?.kind === "app" && Date.now() - new Date(proof.fetchedAt).getTime() > STALE_AFTER_MS;
+                const showRating =
+                  proof?.kind === "app" && proof.rating !== undefined && (proof.ratingCount ?? 0) >= RATING_MIN_COUNT;
+
+                // Newest on the right; missing slots on the left stay empty.
+                const beats = proof?.kind === "site" ? (proof.beats ?? []).slice(-BEAT_COUNT) : [];
+                const slots = Array.from({ length: BEAT_COUNT }, (_, i) => beats[i - (BEAT_COUNT - beats.length)]);
+                const newest = beats.at(-1);
+                const siteState =
+                  !newest || Date.now() - Date.parse(newest.time) > IDLE_AFTER_MS ? "idle" : newest.status === 1 ? "up" : "down";
 
                 return (
                 <div
@@ -129,9 +169,61 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
                               <p class="project-unfurl-title text-sm font-medium text-[var(--theme-text-primary)]">
                                 {project.name} — {project.tagline}
                               </p>
-                              <p class="text-xs text-[var(--theme-text-secondary)] truncate">
-                                {project.description}
-                              </p>
+                              {proof?.kind === "site" ? (
+                                <div
+                                  class="proof-site pt-1 space-y-2"
+                                  data-newest={newest?.time}
+                                  data-newest-status={newest?.status}
+                                >
+                                  <div
+                                    class="proof-strip"
+                                    aria-hidden="true"
+                                    title="Live from Uptime Kuma, checked every minute"
+                                    data-kuma-heartbeat={`${siteConfig.proof.kuma}/api/status-page/heartbeat/${siteConfig.proof.statusPage}`}
+                                    data-monitor={(project.proof as { kumaMonitor?: number } | undefined)?.kumaMonitor}
+                                    data-slots={BEAT_COUNT}
+                                  >
+                                    {slots.map((beat) =>
+                                      beat ? (
+                                        <span
+                                          class:list={["proof-bar", beat.status === 1 ? "up" : "down"]}
+                                          title={beatTitle(beat)}
+                                          data-time={beat.time}
+                                        ></span>
+                                      ) : (
+                                        <span class="proof-bar empty"></span>
+                                      ),
+                                    )}
+                                  </div>
+                                  <p class="flex flex-wrap items-center gap-x-3 gap-y-1 text-xs text-[var(--theme-text-secondary)]">
+                                    <span class="inline-flex items-center gap-2">
+                                      <span class:list={["status-dot", SITE_STATES[siteState].dot]} data-proof-dot></span>
+                                      <span data-proof-label>{SITE_STATES[siteState].label}</span>
+                                    </span>
+                                    {proof.uptime30d !== undefined && <span>{proof.uptime30d}% 30d</span>}
+                                    {proof.avgResponseMs !== undefined && <span>{proof.avgResponseMs}ms avg</span>}
+                                    <span data-proof-checked hidden={!newest}>
+                                      {newest && `checked ${newest.time.slice(11, 16)} UTC`}
+                                    </span>
+                                  </p>
+                                </div>
+                              ) : proof?.kind === "app" ? (
+                                <p class="flex flex-wrap items-center gap-x-3 gap-y-1.5 text-xs text-[var(--theme-text-secondary)] pt-0.5">
+                                  <span class="proof-pill">v{proof.version}</span>
+                                  <span class="inline-flex items-center gap-2">
+                                    <span class="status-dot available"></span>
+                                    <span>
+                                      shipped <time datetime={proof.releasedAt} data-shipped>{formatDate(proof.releasedAt)}</time>
+                                    </span>
+                                  </span>
+                                  {showRating && <span>★ {proof.rating!.toFixed(1)} ({proof.ratingCount})</span>}
+                                  {stale && <span>last checked {formatDate(proof.fetchedAt)}</span>}
+                                </p>
+                              ) : (
+                                <p class="text-xs text-[var(--theme-text-secondary)] truncate">
+                                  {project.description}
+                                </p>
+                              )}
                             </div>
                             <span class="arrow-badge w-7 h-7 flex-shrink-0 group-hover:translate-x-0.5 group-hover:-translate-y-px">
                               <svg width="10" height="10" viewBox="0 0 8 8" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
@@ -238,3 +330,156 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
     }
   }
 </style>
+
+<script>
+  // The strips and the release time are fully rendered at build time; this keeps them live.
+  const IDLE_AFTER_MS = 10 * 60 * 1000;
+  const POLL_MS = 60 * 1000;
+  const DAY_MS = 24 * 60 * 60 * 1000;
+
+  const SITE_STATES = {
+    up: { label: "operational", dot: "available" },
+    down: { label: "down", dot: "down" },
+    idle: { label: "no recent data", dot: "idle" },
+  } as const;
+
+  interface Beat {
+    status: number;
+    time: string;
+    ping?: number | null;
+  }
+
+  const pad = (n: number) => String(n).padStart(2, "0");
+  const rtf = new Intl.RelativeTimeFormat("en", { numeric: "auto" });
+
+  // Kuma sends UTC times without a zone: "2026-10-24 19:35:07.363".
+  const parseBeatTime = (time: string) => new Date(`${time.replace(" ", "T")}Z`);
+
+  const ago = (ms: number) => {
+    const seconds = Math.max(0, Math.floor(ms / 1000));
+    if (seconds < 60) return `${seconds}s ago`;
+    const minutes = Math.floor(seconds / 60);
+    if (minutes < 60) return `${minutes}m ago`;
+    const hours = Math.floor(minutes / 60);
+    return hours < 24 ? `${hours}h ago` : `${Math.floor(hours / 24)}d ago`;
+  };
+
+  const localTime = (date: Date) =>
+    date.toLocaleTimeString([], { hour: "2-digit", minute: "2-digit", hourCycle: "h23" });
+
+  // --- Heartbeat strips ---
+
+  const sites = [...document.querySelectorAll<HTMLElement>(".proof-site")].flatMap((site) => {
+    const strip = site.querySelector<HTMLElement>(".proof-strip[data-kuma-heartbeat]");
+    const dot = site.querySelector<HTMLElement>("[data-proof-dot]");
+    const label = site.querySelector<HTMLElement>("[data-proof-label]");
+    const checked = site.querySelector<HTMLElement>("[data-proof-checked]");
+    if (!strip || !dot || !label || !checked) return [];
+    return [{ site, strip, dot, label, checked, url: strip.dataset.kumaHeartbeat!, monitor: strip.dataset.monitor!, slots: Number(strip.dataset.slots) }];
+  });
+
+  // Dot, label and "checked … ago" all derive from the newest beat, so they also go stale honestly if polling fails.
+  const renderMeta = ({ site, dot, label, checked }: (typeof sites)[number]) => {
+    const newest = site.dataset.newest ? new Date(site.dataset.newest).getTime() : NaN;
+    if (Number.isNaN(newest)) return;
+    const age = Date.now() - newest;
+    const state = age > IDLE_AFTER_MS ? "idle" : site.dataset.newestStatus === "1" ? "up" : "down";
+    dot.className = `status-dot ${SITE_STATES[state].dot}`;
+    label.textContent = SITE_STATES[state].label;
+    checked.hidden = false;
+    checked.textContent = `checked ${ago(age)}`;
+  };
+
+  const renderStrip = (entry: (typeof sites)[number], list: Beat[]) => {
+    const beats = list.slice(-entry.slots).flatMap((beat) => {
+      const date = parseBeatTime(beat.time);
+      return Number.isNaN(date.getTime()) ? [] : [{ beat, date }];
+    });
+    if (beats.length === 0) return;
+
+    // Bars already on the page (from the build or an earlier poll) don't animate again.
+    const known = new Set(Array.from(entry.strip.children, (bar) => (bar as HTMLElement).dataset.time));
+    const bars: HTMLElement[] = [];
+    for (let i = 0; i < entry.slots - beats.length; i++) {
+      const bar = document.createElement("span");
+      bar.className = "proof-bar empty";
+      bars.push(bar);
+    }
+    for (const { beat, date } of beats) {
+      const iso = date.toISOString();
+      const bar = document.createElement("span");
+      bar.className = `proof-bar ${beat.status === 1 ? "up" : "down"}${known.has(iso) ? "" : " new"}`;
+      bar.dataset.time = iso;
+      bar.title = `${localTime(date)} · ${beat.status === 1 ? "up" : "down"}${typeof beat.ping === "number" ? ` · ${beat.ping}ms` : ""}`;
+      bars.push(bar);
+    }
+    entry.strip.replaceChildren(...bars);
+
+    const newest = beats[beats.length - 1];
+    entry.site.dataset.newest = newest.date.toISOString();
+    entry.site.dataset.newestStatus = newest.beat.status === 1 ? "1" : "0";
+    renderMeta(entry);
+  };
+
+  // Strips on the same status page share one request.
+  const poll = async () => {
+    for (const url of new Set(sites.map((entry) => entry.url))) {
+      try {
+        const response = await fetch(url, { cache: "no-store", signal: AbortSignal.timeout(8000) });
+        if (!response.ok) throw new Error(`HTTP ${response.status}`);
+        const { heartbeatList } = await response.json();
+        for (const entry of sites) {
+          if (entry.url === url && Array.isArray(heartbeatList?.[entry.monitor])) renderStrip(entry, heartbeatList[entry.monitor]);
+        }
+      } catch {
+        // Keep what's rendered; the ticking counter keeps showing the true age.
+      }
+    }
+  };
+
+  // --- Release pulse ---
+
+  const shipped = [...document.querySelectorAll<HTMLTimeElement>("time[data-shipped]")].flatMap((el) => {
+    const then = new Date(el.dateTime).getTime();
+    return Number.isNaN(then) ? [] : [{ el, then }];
+  });
+
+  const renderShipped = ({ el, then }: (typeof shipped)[number]) => {
+    const age = Math.max(0, Date.now() - then);
+    const days = Math.floor(age / DAY_MS);
+    if (days >= 30) {
+      el.textContent = days < 365 ? rtf.format(-Math.floor(days / 30), "month") : rtf.format(-Math.floor(days / 365), "year");
+      return;
+    }
+    const hours = Math.floor((age % DAY_MS) / 3_600_000);
+    const minutes = Math.floor((age % 3_600_000) / 60_000);
+    const parts = `${hours}h ${pad(minutes)}m`;
+    el.textContent = `${days > 0 ? `${days}d ` : ""}${parts} ago`;
+  };
+
+  // --- Wiring ---
+
+  const tick = () => {
+    sites.forEach(renderMeta);
+    shipped.forEach(renderShipped);
+  };
+
+  if (sites.length > 0) {
+    let timer: number | undefined;
+    const start = () => {
+      if (timer !== undefined) return;
+      poll();
+      timer = window.setInterval(poll, POLL_MS);
+    };
+    const stop = () => {
+      window.clearInterval(timer);
+      timer = undefined;
+    };
+    // No polling in background tabs; catch up immediately on return.
+    document.addEventListener("visibilitychange", () => (document.hidden ? stop() : start()));
+    if (!document.hidden) start();
+  }
+
+  tick();
+  setInterval(tick, 1000);
+</script>

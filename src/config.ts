@@ -185,6 +185,8 @@ export const siteConfig = {
         "Reusable functionality in a shared Swift package, with unit and UI test targets.",
       ],
       skills: ["Swift", "SwiftUI", "StoreKit"],
+      // Release pulse in the card's link preview; see `proof` at the bottom of this file.
+      proof: { appStore: { id: "6823124937", country: "sa" } },
       lenses: lensTags({
         "product-engineer": {
           order: 1,
@@ -212,6 +214,7 @@ export const siteConfig = {
         "Guided user journeys and a waitlist for a structured self-study course in development.",
       ],
       skills: ["Astro", "TypeScript", "Tailwind CSS"],
+      proof: { kumaMonitor: 3 },
       lenses: lensTags({
         "product-engineer": {
           order: 2,
@@ -239,6 +242,7 @@ export const siteConfig = {
         "Shopify API and webhook integrations, background processing, multi-channel notifications and Shopify billing.",
       ],
       skills: ["TypeScript", "React Router", "Node.js", "PostgreSQL", "Prisma", "Redis/BullMQ", "Docker"],
+      proof: { kumaMonitor: 4 },
       lenses: lensTags({
         "product-engineer": {
           order: 0,
@@ -476,5 +480,12 @@ export const siteConfig = {
     feed: "https://medium.com/feed/@rats",
     limit: 10,
     exclude: [] as string[],
+  },
+  // Live proof on project cards, fetched at build time. A project opts in with its own `proof`:
+  // `appStore` (iTunes lookup: version, release date, rating) for apps, `kumaMonitor` (monitor id on
+  // the Uptime Kuma status page below: heartbeat strip, uptime, response time) for websites.
+  proof: {
+    kuma: "https://status.shopwiselane.com",
+    statusPage: "products",
   },
 };

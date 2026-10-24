@@ -1,11 +1,14 @@
 ---
 import { siteConfig } from "../config";
+import LensSwitcher from "./LensSwitcher.astro";
+import { lensVariants } from "../lib/lens";
 
 const currentRole = siteConfig.experience?.[0];
 const { localPresence } = siteConfig;
 const nameParts = siteConfig.name.split(" ");
 const firstName = nameParts[0];
 const lastName = nameParts.slice(1).join(" ");
+const subtitleVariants = lensVariants(siteConfig.heroSubtitle, (lens) => lens.subtitle);
 ---
 
 <div id="hero" class="relative min-h-[100dvh] flex items-center overflow-hidden">
@@ -36,9 +39,16 @@ const lastName = nameParts.slice(1).join(" ");
         </h1>
 
         <!-- Description -->
-        <p class="scroll-reveal max-w-xl text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-normal" data-delay="2">
-          Building systems that solve real problems in logistics, healthcare, and e-commerce.
+        <p class="scroll-reveal max-w-xl text-base md:text-lg lg:text-xl leading-relaxed text-[var(--theme-text-secondary)] font-normal" data-delay="2" data-lens-subtitle>
+          {subtitleVariants.map((variant) => (
+            <span data-lens-show={variant.keys}>{variant.text}</span>
+          ))}
         </p>
+
+        <!-- Lens switcher -->
+        <div class="scroll-reveal" data-delay="2">
+          <LensSwitcher />
+        </div>
 
         <!-- Current work indicator -->
         {currentRole && (

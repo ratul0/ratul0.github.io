@@ -1,6 +1,8 @@
 ---
 import { Image } from "astro:assets";
 import { siteConfig } from "../config";
+import LensText from "./LensText.astro";
+import { lensMatch, lensOrderStyle, placeMarks } from "../lib/lens";
 
 const hasProjects = siteConfig.projects && siteConfig.projects.length > 0;
 const count = String(siteConfig.projects.length).padStart(2, "0");
@@ -29,12 +31,22 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
 
           <!-- Right column - Ledger cards -->
           <div class="xl:col-span-8">
-            <div class="space-y-6">
-              {siteConfig.projects.map((project, index) => (
+            <div class="flex flex-col gap-6">
+              {siteConfig.projects.map((project, index) => {
+                // Lens highlights can land in the description or any bullet.
+                const [descriptionMarks, ...highlightMarks] = placeMarks(
+                  [project.description, ...project.highlights],
+                  project.lenses,
+                  project.name,
+                );
+
+                return (
                 <div
                   class="project-card-wrapper scroll-reveal"
                   data-delay={String(Math.min(index + 1, 4))}
-                  style={`--rotation: ${index % 2 === 0 ? "-0.4deg" : "0.3deg"}`}
+                  data-lens-sort
+                  data-lens-match={lensMatch(project.lenses, project.name)}
+                  style={`--rotation: ${index % 2 === 0 ? "-0.4deg" : "0.3deg"};${lensOrderStyle(project.lenses) ?? ""}`}
                 >
                   <a
                     href={project.link}
@@ -81,15 +93,15 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
 
                         <!-- Description -->
                         <p class="text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed mb-5">
-                          {project.description}
+                          <LensText text={project.description} marks={descriptionMarks} />
                         </p>
 
                         <!-- Highlights -->
                         <ul class="space-y-3">
-                          {project.highlights.map((item) => (
+                          {project.highlights.map((item, i) => (
                             <li class="flex items-start gap-3 text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed">
                               <span class="text-[var(--theme-accent)] font-light mt-0.5 flex-shrink-0">&gt;</span>
-                              <span>{item}</span>
+                              <span><LensText text={item} marks={highlightMarks[i]} /></span>
                             </li>
                           ))}
                         </ul>
@@ -141,7 +153,8 @@ const count = String(siteConfig.projects.length).padStart(2, "0");
                     </div>
                   </a>
                 </div>
-              ))}
+                );
+              })}
             </div>
           </div>
         </div>

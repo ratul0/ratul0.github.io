@@ -1,22 +1,9 @@
 ---
 import { siteConfig } from "../config";
+import LensText from "./LensText.astro";
+import { lensMatch, lensOrderStyle, placeMarks } from "../lib/lens";
 
 const hasReferences = siteConfig.references && siteConfig.references.length > 0;
-
-const escapeRegExp = (value: string) => value.replace(/[.*+?^${}()|[\]\\]/g, "\\$&");
-
-const getQuoteParts = (quote: string, highlights: string[]) => {
-  const highlightSet = new Set(highlights.map((highlight) => highlight.toLowerCase()));
-  const pattern = new RegExp(`(${highlights.map(escapeRegExp).join("|")})`, "gi");
-
-  return quote
-    .split(pattern)
-    .filter(Boolean)
-    .map((text) => ({
-      text,
-      highlighted: highlightSet.has(text.toLowerCase()),
-    }));
-};
 ---
 
 {
@@ -37,14 +24,19 @@ const getQuoteParts = (quote: string, highlights: string[]) => {
 
           <!-- Right column - Pull quote cards -->
           <div class="xl:col-span-8">
-            <div class="space-y-10 md:space-y-12">
+            <div class="flex flex-col gap-10 md:gap-12">
               {siteConfig.references.map((ref, index) => {
                 const isCollapsible = ref.quote.length > 420;
                 const quoteId = `reference-quote-${index}`;
-                const quoteParts = getQuoteParts(ref.quote, ref.highlights);
 
                 return (
-                <div class="scroll-reveal" data-delay={String(Math.min(index + 1, 3))}>
+                <div
+                  class="scroll-reveal"
+                  data-delay={String(Math.min(index + 1, 3))}
+                  data-lens-sort
+                  data-lens-match={lensMatch(ref.lenses, ref.name)}
+                  style={lensOrderStyle(ref.lenses)}
+                >
                   <div class="bezel">
                     <article class="bezel-inner p-6 md:p-8 relative overflow-visible">
                       <!-- Giant quotation mark -->
@@ -67,9 +59,11 @@ const getQuoteParts = (quote: string, highlights: string[]) => {
                         data-expanded="false"
                       >
                         <blockquote class="text-base md:text-lg text-[var(--theme-text-secondary)] leading-[1.85] italic pl-1">
-                          {quoteParts.map((part) => part.highlighted ? (
-                            <mark>{part.text}</mark>
-                          ) : part.text)}
+                          <LensText
+                            text={ref.quote}
+                            highlights={ref.highlights}
+                            marks={placeMarks([ref.quote], ref.lenses, ref.name)[0]}
+                          />
                         </blockquote>
                         {isCollapsible && <div class="reference-fade" aria-hidden="true"></div>}
                       </div>
@@ -182,7 +176,8 @@ const getQuoteParts = (quote: string, highlights: string[]) => {
     overflow: hidden;
   }
 
-  .reference-copy mark {
+  /* <mark>s come from LensText, so they carry no scope attribute */
+  .reference-copy :global(mark:where(:not(.lens-only))) {
     padding: 0.08em 0.12em;
     border-bottom: 1px solid var(--theme-accent);
     background: color-mix(in srgb, var(--theme-accent) 14%, transparent);

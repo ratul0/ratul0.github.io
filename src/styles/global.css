@@ -149,9 +149,10 @@ body.dark .bezel-inner {
 }
 
 .scroll-reveal.visible {
-  opacity: 1;
+  /* --lens-* are only set by lens.css when a lens softens this item */
+  opacity: var(--lens-opacity, 1);
   transform: translateY(0);
-  filter: blur(0);
+  filter: blur(var(--lens-blur, 0px));
 }
 
 /* Staggered delays via data attribute */

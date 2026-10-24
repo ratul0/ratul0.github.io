@@ -1,0 +1,23 @@
+---
+import { splitText, type LensMark } from "../lib/lens";
+
+interface Props {
+  text: string;
+  /** Static highlights, matched case-insensitively (References). */
+  highlights?: string[];
+  /** Lens marker phrases for this text. */
+  marks?: LensMark[];
+}
+
+const { text, highlights = [], marks = [] } = Astro.props;
+const parts = splitText(text, highlights, marks);
+---
+{parts.map((part) =>
+  part.lenses.length ? (
+    <mark class:list={["lens-mark", { "lens-only": !part.highlighted }]} data-lens-mark={part.lenses.join(" ")}>{part.text}</mark>
+  ) : part.highlighted ? (
+    <mark>{part.text}</mark>
+  ) : (
+    part.text
+  )
+)}

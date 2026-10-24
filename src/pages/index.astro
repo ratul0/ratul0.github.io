@@ -10,7 +10,9 @@ import Writing from "../components/Writing.astro";
 import GitHubActivity from "../components/GitHubActivity.astro";
 import Footer from "../components/Footer.astro";
 import { siteConfig } from "../config";
+import { lensCss, lensIds } from "../lib/lens";
 import "../styles/global.css";
+import "../styles/lens.css";
 // Supports weights 100-700
 import "@fontsource/ibm-plex-mono/400.css";
 import "@fontsource/ibm-plex-mono/400-italic.css";
@@ -138,6 +140,17 @@ const identityGraph = {
       content="https://ratul0.github.io/og.png"
     />
     <script type="application/ld+json" set:html={JSON.stringify(identityGraph)}></script>
+
+    <!-- Lens: pick the variant before first paint (?lens=ID); anything unknown keeps the default page -->
+    <script is:inline define:vars={{ lensIds }}>
+      const root = document.documentElement;
+      root.classList.add("lens-js");
+      try {
+        const lens = new URLSearchParams(location.search).get("lens");
+        if (lens && lensIds.includes(lens)) root.dataset.lens = lens;
+      } catch {}
+    </script>
+    <style is:inline set:html={lensCss()}></style>
   </head>
   <body class="antialiased">
     <!-- Film grain overlay (global) -->
@@ -238,4 +251,8 @@ const identityGraph = {
   document.querySelectorAll(".scroll-reveal:not(.visible)").forEach((el) => {
     revealObserver.observe(el);
   });
+</script>
+
+<script>
+  import "../scripts/lens";
 </script>

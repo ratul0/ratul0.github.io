@@ -1,5 +1,7 @@
 ---
 import { siteConfig } from "../config";
+import LensText from "./LensText.astro";
+import { lensMatch, lensOrderStyle, placeMarks } from "../lib/lens";
 
 const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
 ---
@@ -73,11 +75,16 @@ const hasExperience = siteConfig.experience && siteConfig.experience.length > 0;
                       </div>
 
                       <!-- Bullets -->
-                      <ul class="space-y-3">
+                      <ul class="flex flex-col gap-3">
                         {exp.bullets.map((bullet) => (
-                          <li class="flex items-start gap-3 text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed">
+                          <li
+                            class="flex items-start gap-3 text-sm md:text-base text-[var(--theme-text-secondary)] leading-relaxed"
+                            data-lens-sort
+                            data-lens-match={lensMatch(bullet.lenses, exp.company)}
+                            style={lensOrderStyle(bullet.lenses)}
+                          >
                             <span class="text-[var(--theme-accent)] font-light mt-0.5 flex-shrink-0">&gt;</span>
-                            <span>{bullet}</span>
+                            <span><LensText text={bullet.text} marks={placeMarks([bullet.text], bullet.lenses, exp.company)[0]} /></span>
                           </li>
                         ))}
                       </ul>
